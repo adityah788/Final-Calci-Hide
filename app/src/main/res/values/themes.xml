@@ -5,5 +5,28 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
+    <style name="Theme.status_bar_clr" parent="Base.Theme.FinalCalciHide">
+
+
+        <!--        <item name="android:windowTranslucentStatus">true</item>-->
+        <item name="android:windowFullscreen">false</item>
+
+        <item name="android:fitsSystemWindows">false</item>
+        <item name="android:windowBackground">@color/status_bar</item>
+        <item name="android:statusBarColor">@color/status_bar</item>
+        <item name="android:windowLightStatusBar">false</item> <!-- For light icons -->
+
+
+        <!--        <item name="android:colorPrimary">@color/status_bar</item>-->
+        <item name="colorPrimaryDark">@color/status_bar</item>
+
+
+    </style>
+
+<style name="Theme.FullScreen" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+
+</style>
+
     <style name="Theme.FinalCalciHide" parent="Base.Theme.FinalCalciHide" />
 </resources>

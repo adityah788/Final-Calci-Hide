@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:theme="@style/Theme.status_bar_clr"
+    android:background="@drawable/background_supprt_2"
+    tools:context=".Activity.SelectImagesorVideos">
+
+    <LinearLayout
+        android:id="@+id/select_img_custom_toolbar_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!--Here custom toolbar changes i.e either contextual_toolbar or main_toolbar  -->
+
+    </LinearLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/select_image_gallery_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/select_img_custom_toolbar_container"
+        android:clipToPadding="false"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:paddingBottom="70dp"
+        />
+
+
+    <include layout="@layout/custom_btm_hide"
+        android:id="@+id/custom_btm_appbar_hide"
+        android:layout_width="match_parent"
+        android:visibility="invisible"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        />
+
+
+
+
+    <include
+        layout="@layout/animation"
+        android:visibility="gone"
+        android:id="@+id/laoutflksdf"/>
+
+
+</RelativeLayout>

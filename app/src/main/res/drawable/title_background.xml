@@ -1,0 +1,30 @@
+<!-- res/drawable/title_background.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- Gradient background -->
+
+    <gradient
+        android:startColor="#282830"
+        android:endColor="#111112"
+        android:angle="315"/>
+
+<!--    <gradient-->
+<!--        android:startColor="#282830"-->
+<!--        android:centerColor="#24242B"-->
+<!--        android:endColor="#111112"-->
+<!--        android:angle="315"/>-->
+
+
+    <!-- Angle of the gradient -->
+    <!-- Rounded corners -->
+<!--    <corners android:radius="8dp"/> &lt;!&ndash; Adjust the radius for desired corner roundness &ndash;&gt;-->
+
+    <!-- Optionally add stroke (border) -->
+    <!--
+    <stroke
+        android:width="2dp"
+        android:color="#FFFFFF"/>
+    -->
+
+</shape>

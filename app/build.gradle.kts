@@ -36,7 +36,20 @@ dependencies {
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
+    implementation("com.airbnb.android:lottie:6.4.1")
+
+    implementation ("com.github.chrisbanes:PhotoView:2.3.0")
+    implementation("com.balysv:material-ripple:1.0.2")
+
+
+    implementation ("androidx.media3:media3-exoplayer:1.3.1")
+    implementation ("androidx.media3:media3-ui:1.3.1")
+
+
+
     implementation(libs.constraintlayout)
+    implementation(libs.coordinatorlayout)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

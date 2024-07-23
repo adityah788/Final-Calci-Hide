@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
+
+
+    <com.github.chrisbanes.photoview.PhotoView
+        android:id="@+id/pager_image_ImageView_thoda_dikkat"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:scaleType="fitCenter"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/viewPage_image_play_icon"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_play_circle_outline_24dp"
+        android:visibility="gone"
+        />
+
+
+    <FrameLayout
+        android:id="@+id/viewPage_image_video_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        >
+
+        <androidx.media3.ui.PlayerView
+            android:id="@+id/viewPage_image_viewPagevideo_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:use_controller="true" />
+
+
+    </FrameLayout>
+
+
+
+</FrameLayout>

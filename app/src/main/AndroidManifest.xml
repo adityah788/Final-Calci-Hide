@@ -2,16 +2,54 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
+
+    <queries>
+
+        <!-- Query for media player apps that can handle audio files -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+
+            <data android:mimeType="audio/*" />
+        </intent>
+    </queries>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FinalCalciHide"
         tools:targetApi="31">
+        <activity
+            android:name=".Activity.SelectVideos"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.SelectImagesorVideos"
+            android:exported="false"
+            android:theme="@style/Theme.status_bar_clr"/>
+        <activity
+            android:name=".Activity.ImageVideoBucket"
+            android:exported="false"
+            android:theme="@style/Theme.status_bar_clr" />
+        <activity
+            android:name=".ViewPager.ImageandVideoViewPager"
+            android:exported="false"
+            android:theme="@style/Theme.FullScreen"/>
+        <activity
+            android:name=".Activity.ImagesHidden"
+            android:exported="false"
+            android:theme="@style/Theme.status_bar_clr"/>
         <activity
             android:name=".MainActivity"
             android:exported="true">

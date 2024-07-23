@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">Final Calci Hide</string>
+
+    <string name="item_count">%1$d / %2$d </string>
+    <dimen name="recycler_item_spacing">5dp</dimen>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="camera">Camera</string>
+    <string name="select">selectall</string>
+    <string name="action_settings">Settings</string>
+    <string name="image">image</string>
+    <string name="videos">Videos</string>
+    <string name="image1">image1</string>
+    <string name="image2">image2</string>
+
+
 </resources>

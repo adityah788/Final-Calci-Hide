@@ -1,5 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+
+    <color name="Black">#FF000000</color>
+    <color name="White">#FFFFFFFF</color>
+    <color name="colorPrimaryDark">#273443</color>
+    <color name="colorPrimary">#273443</color>
+
+
+    <color name="grey">#223333</color>
+    <color name="light_grey">#344</color>
+
+    <color name="material_blue_grey_800">#ff37474f</color>
+    <color name="blue_grey_900">#ff263238</color>
+    <color name="blue_grey_950">#ff21272b</color>
+
+    <color name="browser_divider_color">#1e000000</color>
+    <color name="browser_text_color">#de000000</color>
+    <color name="browser_title_color">#646464</color>
+
+    <color name="overlayColor">#8000BFFF</color>
+
+
+    <color name="light_dark">#74000000</color>
+
+    <color name="status_bar">#282830</color>
+    <color name="navigation_bar_color">#000000</color>
+
+
+
+
+
+    <color name="purple_500">#FF6200EE</color>
+
+
 </resources>
