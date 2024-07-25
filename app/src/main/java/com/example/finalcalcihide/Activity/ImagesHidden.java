@@ -140,7 +140,7 @@ public class ImagesHidden extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                startActivity(new Intent(ImagesHidden.this,ImageVideoBucket.class));
+                startActivity(new Intent(ImagesHidden.this, ImageVideoBucket.class));
 
             }
         });
@@ -284,16 +284,44 @@ public class ImagesHidden extends AppCompatActivity {
         popupMenu.inflate(R.menu.toolbar_menu);
         popupMenu.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.dateadded) {
-                Toast.makeText(ImagesHidden.this, "Date Added clicked", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ImagesHidden.this, "Date Added clicked", Toast.LENGTH_SHORT).show();     // Sort by date
+
+                // Sort by date
+                sortImagePathsByDate();
+
+                // Notify the adapter
+                imageVideoHideAdapter.notifyDataSetChanged();
+
                 return true;
             } else if (item.getItemId() == R.id.namee) {
                 Toast.makeText(ImagesHidden.this, "Name clicked", Toast.LENGTH_SHORT).show();
+                sortImagePathsByName(); // Sort the imagePaths list
+                imageVideoHideAdapter.notifyDataSetChanged(); // Notify adapter about the change
                 return true;
             } else {
                 return false;
             }
         });
         popupMenu.show();
+    }
+
+    private void sortImagePathsByName() {
+        Collections.sort(imagePaths, (path1, path2) -> {
+            File file1 = new File(path1);
+            File file2 = new File(path2);
+            return file1.getName().compareToIgnoreCase(file2.getName());
+        });
+    }
+
+
+    private void sortImagePathsByDate() {
+        Collections.sort(imagePaths, (path1, path2) -> {
+            File file1 = new File(path1);
+            File file2 = new File(path2);
+            long date1 = file1.lastModified(); // Get last modified time
+            long date2 = file2.lastModified();
+            return Long.compare(date2, date1); // Sort in descending order
+        });
     }
 
 

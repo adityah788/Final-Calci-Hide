@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.media3.common.util.Log;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -78,7 +79,6 @@ public class SelectImagesorVideos extends AppCompatActivity {
         setToolbarMenu(false);
 
 
-
         customBottomAppBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,14 +114,14 @@ public class SelectImagesorVideos extends AppCompatActivity {
     }
 
     private void handleItemClick(int position) {
-        if (selectImagesorVideosAdapter.isSelectedAny()) {
+//        if (selectImagesorVideosAdapter.isSelectedAny()) {
             selectImagesorVideosAdapter.toggleSelection(position);
-        } else {
-            Intent intent = new Intent(this, ImageandVideoViewPager.class);
-            intent.putStringArrayListExtra("imagePaths", mediaList);
-            intent.putExtra("position", position);
-            startActivity(intent);
-        }
+//        } else {
+//            Intent intent = new Intent(this, ImageandVideoViewPager.class);
+//            intent.putStringArrayListExtra("imagePaths", mediaList);
+//            intent.putExtra("position", position);
+//            startActivity(intent);
+//        }
     }
 
     private void onSelectandDeselect_All(boolean isAnySelected) {
@@ -142,21 +142,36 @@ public class SelectImagesorVideos extends AppCompatActivity {
 
         if (isAnySelected) {
             ImageView selectDeselectAll = customToolbar.findViewById(R.id.contextual_toolbar_select_and_deselect_all);
-            selectDeselectAll.setOnClickListener(v -> toggleSelectDeselectAll());
+            if (selectDeselectAll != null) {
+                selectDeselectAll.setOnClickListener(v -> toggleSelectDeselectAll());
+            }
 
             ImageView cutIcon = customToolbar.findViewById(R.id.contextual_toolbar_cutt);
-            cutIcon.setOnClickListener(v -> {
-                selectImagesorVideosAdapter.clearSelection();
-                onSelectandDeselect_All(false);
-            });
+            if (cutIcon != null) {
+                cutIcon.setOnClickListener(v -> {
+                    selectImagesorVideosAdapter.clearSelection();
+                    onSelectandDeselect_All(false);
+                });
+            }
 
             TextView itemCountText = customToolbar.findViewById(R.id.item_count_text);
-            itemCountText.setOnClickListener(v -> updateItemCountText());
-            updateItemCountText();
+            if (itemCountText != null) {
+                itemCountText.setOnClickListener(v -> updateItemCountText());
+                updateItemCountText();
+            }
         } else {
             ImageView menuIcon = customToolbar.findViewById(R.id.main_toobar_menu_icon);
-            if (menuIcon != null) {
-                menuIcon.setOnClickListener(v -> showPopupMenu(menuIcon));
+                menuIcon.setVisibility(View.GONE);
+
+
+            ImageView backArrow = customToolbar.findViewById(R.id.main_toolbar_back_arrow);
+            if (backArrow != null) {
+                backArrow.setOnClickListener(v -> finish());
+            }
+
+            TextView titleTextView = customToolbar.findViewById(R.id.main_toolbar_title);
+            if (titleTextView != null) {
+                titleTextView.setText("Select Images");
             }
         }
     }
@@ -206,23 +221,6 @@ public class SelectImagesorVideos extends AppCompatActivity {
                 itemCountText.setText(getString(R.string.item_count, selectedCount, totalCount));
             }
         }
-    }
-
-    private void showPopupMenu(View view) {
-        PopupMenu popupMenu = new PopupMenu(this, view);
-        popupMenu.inflate(R.menu.toolbar_menu);
-        popupMenu.setOnMenuItemClickListener(item -> {
-            if (item.getItemId() == R.id.dateadded) {
-                Toast.makeText(SelectImagesorVideos.this, "Date Added clicked", Toast.LENGTH_SHORT).show();
-                return true;
-            } else if (item.getItemId() == R.id.namee) {
-                Toast.makeText(SelectImagesorVideos.this, "Name clicked", Toast.LENGTH_SHORT).show();
-                return true;
-            } else {
-                return false;
-            }
-        });
-        popupMenu.show();
     }
 
 
