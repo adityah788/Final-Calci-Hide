@@ -7,7 +7,6 @@
     <dimen name="recycler_item_spacing_Bucket">10dp</dimen>
 
 
-
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="camera">Camera</string>

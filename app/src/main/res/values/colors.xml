@@ -3,6 +3,7 @@
 
     <color name="Black">#FF000000</color>
     <color name="White">#FFFFFFFF</color>
+    <color name="white">#FFFFFFFF</color>
     <color name="colorPrimaryDark">#273443</color>
     <color name="colorPrimary">#273443</color>
 
@@ -25,6 +26,12 @@
 
     <color name="status_bar">#282830</color>
     <color name="navigation_bar_color">#000000</color>
+
+
+
+    <color name="limeclr">#DAD8D8</color>
+    <color name="btnbackground2">#FF9800</color>
+
 
 
 

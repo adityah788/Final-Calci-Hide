@@ -15,7 +15,7 @@ import com.example.finalcalcihide.Activity.ImagesHidden;
 
 public class MainActivity extends AppCompatActivity {
 
-    RelativeLayout relativeLayoutImage;
+    RelativeLayout relativeLayoutImage,relativeLayoutNote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +23,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         relativeLayoutImage= findViewById(R.id.main_Images);
+        relativeLayoutNote = findViewById(R.id.new_main_file);
+
+
+        relativeLayoutNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+
+            }
+        });
+
 
 
         relativeLayoutImage.setOnClickListener(new View.OnClickListener() {

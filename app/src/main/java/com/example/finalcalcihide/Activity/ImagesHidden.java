@@ -2,12 +2,12 @@ package com.example.finalcalcihide.Activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.finalcalcihide.Adapter.ImageVideoHideAdapter;
+
 import com.example.finalcalcihide.R;
 
 import android.content.Intent;
@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -46,11 +47,10 @@ public class ImagesHidden extends AppCompatActivity {
     private LinearLayout customToolbarContainer;
     private LinearLayout customBottomAppBar;
     private LinearLayout customBottomAppBarVisible;
-    private FrameLayout fab_container;
+    private FrameLayout fab_container,calc_container;
 
     private LottieAnimationView lottieHideUnhideAnimation;
     private LottieAnimationView lottieDeleteAnimation;
-//    View view;
 
 
     @Override
@@ -76,13 +76,15 @@ public class ImagesHidden extends AppCompatActivity {
 
 
         imageRecyclerView = findViewById(R.id.image_gallery_recycler);
-//        fab_container = findViewById(R.id.fab_add);
+
         fab_container = findViewById(R.id.image_gallary_fab_container);
         customToolbarContainer = findViewById(R.id.custom_toolbar_container);
         customBottomAppBar = findViewById(R.id.custom_bottom_appbar);
         customBottomAppBarVisible = findViewById(R.id.custom_btm_appbar_Visible);
         customBottomAppBarDelete = findViewById(R.id.custom_btm_appbar_delete);
         imagePaths = loadImagePaths();
+        calc_container= findViewById(R.id.llllllll);
+
 
 
         imageVideoHideAdapter = new ImageVideoHideAdapter(this, imagePaths, new ImageVideoHideAdapter.OnItemSelectedListener() {
