@@ -27,10 +27,9 @@ import java.util.ArrayList;
 public class ImageandVideoViewPagerAdapter extends RecyclerView.Adapter<ImageandVideoViewPagerAdapter.PagerViewHolder> {
 
     private final Context context;
-    private final ArrayList<String> imagePaths;
+    private ArrayList<String> imagePaths;
     private ExoPlayer exoPlayer;
     private int currentlyPlayingPosition = -1;
-    private ImageandVideoViewPager parentActivity;
 
 
     public ImageandVideoViewPagerAdapter(Context context, ArrayList<String> imagePaths) {
@@ -197,4 +196,12 @@ public class ImageandVideoViewPagerAdapter extends RecyclerView.Adapter<Imageand
 
         }
     }
+
+
+    // Update the adapter's image paths
+    public void updateImagePaths(ArrayList<String> newImagePaths) {
+            this.imagePaths = newImagePaths;
+        notifyDataSetChanged();  // Refresh the adapter when data changes
+    }
+
 }

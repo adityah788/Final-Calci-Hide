@@ -30,6 +30,8 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.example.finalcalcihide.GridSpacingItemDecoration;
 import com.example.finalcalcihide.PermissionHandler;
 import com.example.finalcalcihide.FileUtils.ImgVidFHandle;
+import com.example.finalcalcihide.Utils.FileUtils;
+import com.example.finalcalcihide.Utils.ToolbarManager;
 import com.example.finalcalcihide.ViewPager.ImageandVideoViewPager;
 
 import java.io.File;
@@ -41,16 +43,17 @@ public class ImagesHidden extends AppCompatActivity {
     private ArrayList<String> imagePaths = new ArrayList<>();
     private ImageVideoHideAdapter imageVideoHideAdapter;
     private RecyclerView imageRecyclerView;
-
     private LinearLayout customBottomAppBarDelete;
-
     private LinearLayout customToolbarContainer;
     private LinearLayout customBottomAppBar;
     private LinearLayout customBottomAppBarVisible;
-    private FrameLayout fab_container,calc_container;
+    private FrameLayout fab_container;
 
     private LottieAnimationView lottieHideUnhideAnimation;
     private LottieAnimationView lottieDeleteAnimation;
+
+    private ToolbarManager toolbarManager;
+
 
 
     @Override
@@ -71,7 +74,6 @@ public class ImagesHidden extends AppCompatActivity {
         lottieHideUnhideAnimation = customLayout.findViewById(R.id.ani_hide_unhide);
         lottieDeleteAnimation = customLayout.findViewById(R.id.ani_delete);
 
-
         PermissionHandler.requestPermissions(ImagesHidden.this);
 
 
@@ -82,8 +84,7 @@ public class ImagesHidden extends AppCompatActivity {
         customBottomAppBar = findViewById(R.id.custom_bottom_appbar);
         customBottomAppBarVisible = findViewById(R.id.custom_btm_appbar_Visible);
         customBottomAppBarDelete = findViewById(R.id.custom_btm_appbar_delete);
-        imagePaths = loadImagePaths();
-        calc_container= findViewById(R.id.llllllll);
+        imagePaths = FileUtils.getImagePaths(this);
 
 
 
@@ -100,6 +101,9 @@ public class ImagesHidden extends AppCompatActivity {
         });
 
 
+        toolbarManager = new ToolbarManager(this, customToolbarContainer, imageVideoHideAdapter,imagePaths);
+
+
         imageRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         int spacing = getResources().getDimensionPixelSize(R.dimen.recycler_item_spacing);
         imageRecyclerView.addItemDecoration(new GridSpacingItemDecoration(3, spacing));
@@ -107,54 +111,35 @@ public class ImagesHidden extends AppCompatActivity {
 
         imageRecyclerView.setAdapter(imageVideoHideAdapter);
 
-        setToolbarMenu(false);
+        toolbarManager.setToolbarMenu(false);
         handleOnBackPressed();
 
-        customBottomAppBarVisible.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        customBottomAppBarVisible.setOnClickListener(v -> {
 
-                List<String> selectedPaths = imageVideoHideAdapter.getSelectedImagePaths();
+            List<String> selectedPaths = imageVideoHideAdapter.getSelectedImagePaths();
 
-
-                if (ImgVidFHandle.moveImagesBackToOriginalLocationsWrapper(ImagesHidden.this, selectedPaths)) {
-                    // Remove the moved paths from imagePaths
+            if (ImgVidFHandle.moveImagesBackToOriginalLocationsWrapper(ImagesHidden.this, selectedPaths)) {
+                // Remove the moved paths from imagePaths
 
 //                    view.setVisibility(View.VISIBLE);
 //                    lottieDeleteAnimation.setVisibility(View.VISIBLE);
 //                    lottieDeleteAnimation.playAnimation();
 
-                    // neche wala on krna hai
+                // neche wala on krna hai
 
-                    imagePaths.removeAll(selectedPaths);
-                    imageVideoHideAdapter.notifyDataSetChanged();
-                    imageVideoHideAdapter.clearSelection();
+                imagePaths.removeAll(selectedPaths);
+                imageVideoHideAdapter.notifyDataSetChanged();
+                imageVideoHideAdapter.clearSelection();
 
-                    Toast.makeText(ImagesHidden.this, "Images moved back to original locations and deleted from app", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(ImagesHidden.this, "Error moving images back", Toast.LENGTH_SHORT).show();
-                }
+                Toast.makeText(ImagesHidden.this, "Images moved back to original locations and deleted from app", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(ImagesHidden.this, "Error moving images back", Toast.LENGTH_SHORT).show();
             }
         });
 
+        fab_container.setOnClickListener(v -> startActivity(new Intent(ImagesHidden.this, ImageVideoBucket.class)));
 
-        fab_container.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                startActivity(new Intent(ImagesHidden.this, ImageVideoBucket.class));
-
-            }
-        });
-
-
-        customBottomAppBarDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(ImagesHidden.this, "Delete ho gya", Toast.LENGTH_SHORT).show();
-
-            }
-        });
+        customBottomAppBarDelete.setOnClickListener(v -> Toast.makeText(ImagesHidden.this, "Delete ho gya", Toast.LENGTH_SHORT).show());
 
     }
 
@@ -170,61 +155,12 @@ public class ImagesHidden extends AppCompatActivity {
         }
     }
 
-    private ArrayList<String> loadImagePaths() {
-        ArrayList<String> arrayList = new ArrayList<>();
-        File storageDir = new File(getFilesDir(), ".dont_delete_me_by_hides/images");
-        if (storageDir.exists()) {
-            File[] files = storageDir.listFiles();
-            if (files != null) {
-                for (File file : files) {
-                    if (file.isFile()) {
-                        arrayList.add(file.getAbsolutePath());
-                    }
-                }
-            }
-        }
-        Collections.sort(arrayList, Collections.reverseOrder());
-        return arrayList;
-    }
-
-
     private void onSelectandDeselect_All(boolean isAnyselected) {
-        setToolbarMenu(isAnyselected);
+        toolbarManager.setToolbarMenu(isAnyselected);
         setCustomBottomAppBarVisibility(isAnyselected);
     }
 
 
-    private void setToolbarMenu(boolean isAnyselected) {
-        customToolbarContainer.removeAllViews();
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View customToolbar = inflater.inflate(
-                isAnyselected ? R.layout.contextual_toolbar : R.layout.main_toolbar,
-                customToolbarContainer,
-                false
-        );
-
-        customToolbarContainer.addView(customToolbar);
-
-        if (isAnyselected) {
-            ImageView selectDeselectAll = customToolbar.findViewById(R.id.contextual_toolbar_select_and_deselect_all);
-            selectDeselectAll.setOnClickListener(v -> toggleSelectDeselectAll());
-
-            ImageView cutIcon = customToolbar.findViewById(R.id.contextual_toolbar_cutt);
-            cutIcon.setOnClickListener(v -> {
-                imageVideoHideAdapter.clearSelection();
-                onSelectandDeselect_All(false);
-            });
-
-            TextView itemCountText = customToolbar.findViewById(R.id.item_count_text);
-            itemCountText.setOnClickListener(v -> updateItemCountText());
-            updateItemCountText();
-        } else {
-            ImageView menuIcon = customToolbar.findViewById(R.id.main_toobar_menu_icon);
-            if (menuIcon != null) {
-                menuIcon.setOnClickListener(v -> showPopupMenu(menuIcon));
-            }
-        }
-    }
 
     private void setCustomBottomAppBarVisibility(boolean visible) {
         if (visible && customBottomAppBar.getVisibility() != View.VISIBLE) {
@@ -248,84 +184,6 @@ public class ImagesHidden extends AppCompatActivity {
     }
 
 
-    private void toggleSelectDeselectAll() {
-        boolean selectAll = imageVideoHideAdapter.getSelectedItemCount() < imageVideoHideAdapter.getItemCount();
-        imageVideoHideAdapter.selectAll(selectAll);
-        updateSelectDeselectAllIcon(selectAll);
-        updateItemCountText();
-    }
-
-    private void updateSelectDeselectAllIcon(boolean selectAll) {
-        View customToolbar = customToolbarContainer.getChildAt(0);
-        if (customToolbar != null) {
-            ImageView selectDeselectAll = customToolbar.findViewById(R.id.contextual_toolbar_select_and_deselect_all);
-            if (selectDeselectAll != null) {
-                selectDeselectAll.setImageResource(selectAll ? R.drawable.baseline_library_add_check_24 : R.drawable.baseline_check_box_outline_blank_24);
-            }
-        }
-    }
-
-
-    private void updateItemCountText() {
-        View customToolbar = customToolbarContainer.getChildAt(0);
-        if (customToolbar != null) {
-            TextView itemCountText = customToolbar.findViewById(R.id.item_count_text);
-            if (itemCountText != null) {
-                int selectedCount = imageVideoHideAdapter.getSelectedItemCount();
-                int totalCount = imageVideoHideAdapter.getItemCount();
-                if (selectedCount == totalCount) {
-                    updateSelectDeselectAllIcon(true);
-                }
-                itemCountText.setText(getString(R.string.item_count, selectedCount, totalCount));
-            }
-        }
-    }
-
-    private void showPopupMenu(View view) {
-        PopupMenu popupMenu = new PopupMenu(this, view);
-        popupMenu.inflate(R.menu.toolbar_menu);
-        popupMenu.setOnMenuItemClickListener(item -> {
-            if (item.getItemId() == R.id.dateadded) {
-                Toast.makeText(ImagesHidden.this, "Date Added clicked", Toast.LENGTH_SHORT).show();     // Sort by date
-
-                // Sort by date
-                sortImagePathsByDate();
-
-                // Notify the adapter
-                imageVideoHideAdapter.notifyDataSetChanged();
-
-                return true;
-            } else if (item.getItemId() == R.id.namee) {
-                Toast.makeText(ImagesHidden.this, "Name clicked", Toast.LENGTH_SHORT).show();
-                sortImagePathsByName(); // Sort the imagePaths list
-                imageVideoHideAdapter.notifyDataSetChanged(); // Notify adapter about the change
-                return true;
-            } else {
-                return false;
-            }
-        });
-        popupMenu.show();
-    }
-
-    private void sortImagePathsByName() {
-        Collections.sort(imagePaths, (path1, path2) -> {
-            File file1 = new File(path1);
-            File file2 = new File(path2);
-            return file1.getName().compareToIgnoreCase(file2.getName());
-        });
-    }
-
-
-    private void sortImagePathsByDate() {
-        Collections.sort(imagePaths, (path1, path2) -> {
-            File file1 = new File(path1);
-            File file2 = new File(path2);
-            long date1 = file1.lastModified(); // Get last modified time
-            long date2 = file2.lastModified();
-            return Long.compare(date2, date1); // Sort in descending order
-        });
-    }
-
 
     private void handleOnBackPressed() {
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
@@ -343,3 +201,5 @@ public class ImagesHidden extends AppCompatActivity {
     }
 
 }
+
+///  350

@@ -206,13 +206,14 @@ public class ImgVidFHandle {
                              FileOutputStream outputStream = new FileOutputStream(originalFile);
                              BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream)) {
 
+                            // Move the file contents back to the original location
                             byte[] buffer = new byte[1024];
                             int bytesRead;
                             while ((bytesRead = bufferedInputStream.read(buffer)) != -1) {
                                 bufferedOutputStream.write(buffer, 0, bytesRead);
                             }
 
-                            // Scan the copied file to make it visible in the gallery
+                            // Scan the file to update the media gallery
                             MediaScannerConnection.scanFile(context, new String[]{originalFile.getAbsolutePath()}, null,
                                     (path, uri) -> {
                                         if (uri != null) {
@@ -220,6 +221,13 @@ public class ImgVidFHandle {
                                             // Optionally, update shared preferences or perform additional actions
                                             editor.apply();
                                             Log.d(TAGG, "Successfully moved media back to original location: " + originalPath);
+
+                                            // Delete the copied file after successful move
+                                            if (copiedFile.delete()) {
+                                                Log.d(TAGG, "Copied file deleted successfully: " + copiedPath);
+                                            } else {
+                                                Log.e(TAGG, "Failed to delete copied file: " + copiedPath);
+                                            }
                                         } else {
                                             Log.e(TAGG, "Failed to scan media into gallery: " + path);
                                         }

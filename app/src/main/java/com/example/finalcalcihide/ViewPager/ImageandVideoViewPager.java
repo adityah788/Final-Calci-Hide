@@ -11,9 +11,11 @@ import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.finalcalcihide.Adapter.ImageandVideoViewPagerAdapter;
+import com.example.finalcalcihide.ImageGalleryViewModel;
 import com.example.finalcalcihide.R;
 
 import java.util.ArrayList;
@@ -25,6 +27,7 @@ public class ImageandVideoViewPager extends AppCompatActivity {
     private ArrayList<String> imagePaths;
     private boolean isSystemUIVisible = true; // Initially visible
     private View toolbar;
+    private ImageGalleryViewModel viewModel;
 
 
     @Override
@@ -37,8 +40,16 @@ public class ImageandVideoViewPager extends AppCompatActivity {
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
 
+
+        int semiTransparentBlack = Color.argb(128, 0, 0, 0); // alpha=128 (50% transparency), RGB=0,0,0 (black)
+
         // Set status bar color to transparent
-        getWindow().setStatusBarColor(Color.TRANSPARENT);
+//        getWindow().setStatusBarColor(semiTransparentBlack);
+        // Semi-transparent black color for navigation bar
+        getWindow().setNavigationBarColor(semiTransparentBlack);
+
+        // Initialize ViewModel
+        viewModel = new ViewModelProvider(this).get(ImageGalleryViewModel.class);
 
 
         toolbar = findViewById(R.id.image_view_pager_toolbar);
@@ -55,6 +66,12 @@ public class ImageandVideoViewPager extends AppCompatActivity {
         adapter = new ImageandVideoViewPagerAdapter(this, imagePaths);
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(position, false);
+
+        // Observe LiveData in ViewModel
+        viewModel.getImagePaths().observe(this, paths -> {
+            adapter.updateImagePaths(paths);  // Update adapter with new data
+            viewPager.setCurrentItem(position, false);  // Set the current position
+        });
 
         // Back button functionality
         ImageView backArrow = findViewById(R.id.img_viewpager_toolbar_back_arrow);

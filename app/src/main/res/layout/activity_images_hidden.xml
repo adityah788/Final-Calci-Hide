@@ -65,18 +65,7 @@
 
     </FrameLayout>
 
-<FrameLayout
-    android:id="@+id/llllllll"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/Black"
-    android:visibility="gone"
-    android:layout_alignParentTop="true"
-    android:layout_alignParentBottom="true"
-    android:layout_alignParentStart="true"
-    android:layout_alignParentEnd="true">
 
-</FrameLayout>
 
     <include
         layout="@layout/animation"
