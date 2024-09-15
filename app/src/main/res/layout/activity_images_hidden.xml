@@ -66,11 +66,14 @@
     </FrameLayout>
 
 
-
-    <include
-        layout="@layout/animation"
-        android:visibility="gone"
-        android:id="@+id/laoutflksdf"/>
-
+    <!-- Include Lottie Animations Layout -->
+    <FrameLayout
+        android:id="@+id/animation_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+        <include
+            layout="@layout/animation"/>
+    </FrameLayout>
 
 </RelativeLayout>

@@ -20,6 +20,7 @@
             app:lottie_loop="false"
             app:lottie_rawRes="@raw/animation2"
             app:lottie_autoPlay="true"
+            android:visibility="gone"
             />
         
         <com.airbnb.lottie.LottieAnimationView

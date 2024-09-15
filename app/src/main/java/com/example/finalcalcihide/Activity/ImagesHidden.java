@@ -26,6 +26,8 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieDrawable; // Add this import for LottieDrawable
+
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.finalcalcihide.GridSpacingItemDecoration;
 import com.example.finalcalcihide.PermissionHandler;
@@ -51,8 +53,9 @@ public class ImagesHidden extends AppCompatActivity {
 
     private LottieAnimationView lottieHideUnhideAnimation;
     private LottieAnimationView lottieDeleteAnimation;
-
     private ToolbarManager toolbarManager;
+    private FrameLayout animationContainer; // Added to manage animation visibility
+
 
 
 
@@ -73,6 +76,11 @@ public class ImagesHidden extends AppCompatActivity {
         // Initialize the LottieAnimationView from the inflated layout
         lottieHideUnhideAnimation = customLayout.findViewById(R.id.ani_hide_unhide);
         lottieDeleteAnimation = customLayout.findViewById(R.id.ani_delete);
+        animationContainer = findViewById(R.id.animation_container);
+
+
+        // Add the inflated custom layout to the animation container
+        animationContainer.addView(customLayout);
 
         PermissionHandler.requestPermissions(ImagesHidden.this);
 
@@ -114,32 +122,84 @@ public class ImagesHidden extends AppCompatActivity {
         toolbarManager.setToolbarMenu(false);
         handleOnBackPressed();
 
+
         customBottomAppBarVisible.setOnClickListener(v -> {
 
             List<String> selectedPaths = imageVideoHideAdapter.getSelectedImagePaths();
 
-            if (ImgVidFHandle.moveImagesBackToOriginalLocationsWrapper(ImagesHidden.this, selectedPaths)) {
-                // Remove the moved paths from imagePaths
+            // Define minimum display time (e.g., 2 seconds)
+            final long MINIMUM_DISPLAY_TIME = 2500; // in milliseconds
+            final long animationStartTime = System.currentTimeMillis();
 
-//                    view.setVisibility(View.VISIBLE);
-//                    lottieDeleteAnimation.setVisibility(View.VISIBLE);
-//                    lottieDeleteAnimation.playAnimation();
+            // Show the animation when the button is clicked
+            animationContainer.setVisibility(View.VISIBLE);
+            lottieHideUnhideAnimation.setVisibility(View.VISIBLE);
 
-                // neche wala on krna hai
+            // Set the animation to loop infinitely
+            lottieHideUnhideAnimation.setRepeatCount(LottieDrawable.INFINITE);
+            lottieHideUnhideAnimation.playAnimation();
 
-                imagePaths.removeAll(selectedPaths);
-                imageVideoHideAdapter.notifyDataSetChanged();
-                imageVideoHideAdapter.clearSelection();
+            // Run the process in a background thread (like using AsyncTask or Kotlin Coroutines)
+            new Thread(() -> {
+                boolean processSuccess = ImgVidFHandle.moveImagesBackToOriginalLocationsWrapper(ImagesHidden.this, selectedPaths);
 
-                Toast.makeText(ImagesHidden.this, "Images moved back to original locations and deleted from app", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(ImagesHidden.this, "Error moving images back", Toast.LENGTH_SHORT).show();
-            }
+                // Now update the UI on the main thread when the process is done
+                runOnUiThread(() -> {
+                    long elapsedTime = System.currentTimeMillis() - animationStartTime;
+
+                    if (elapsedTime < MINIMUM_DISPLAY_TIME) {
+                        // If the process finished too fast, wait for the remaining time
+                        long remainingTime = MINIMUM_DISPLAY_TIME - elapsedTime;
+                        imageRecyclerView.postDelayed(() -> stopAnimationAndUpdateUI(processSuccess, selectedPaths), remainingTime);
+                    } else {
+                        // Process took enough time, stop the animation and update the UI immediately
+                        stopAnimationAndUpdateUI(processSuccess, selectedPaths);
+                    }
+                });
+            }).start();
         });
 
-        fab_container.setOnClickListener(v -> startActivity(new Intent(ImagesHidden.this, ImageVideoBucket.class)));
 
-        customBottomAppBarDelete.setOnClickListener(v -> Toast.makeText(ImagesHidden.this, "Delete ho gya", Toast.LENGTH_SHORT).show());
+
+     customBottomAppBarDelete.setOnClickListener(new View.OnClickListener() {
+         @Override
+         public void onClick(View v) {
+             List<String> selectedPaths = imageVideoHideAdapter.getSelectedImagePaths();
+
+             // Define minimum display time (e.g., 2 seconds)
+             final long MINIMUM_DISPLAY_TIME = 2100; // in milliseconds
+             final long animationStartTime = System.currentTimeMillis();
+
+             // Show the animation when the button is clicked
+             animationContainer.setVisibility(View.VISIBLE);
+             lottieDeleteAnimation.setVisibility(View.VISIBLE);
+
+             // Set the animation to loop infinitely
+             lottieDeleteAnimation.setRepeatCount(LottieDrawable.INFINITE);
+             lottieDeleteAnimation.playAnimation();
+
+             // Run the process in a background thread (like using AsyncTask or Kotlin Coroutines)
+             new Thread(() -> {
+                 boolean processSuccess = ImgVidFHandle.moveImagesBackToRecycleLocationsWrapper(ImagesHidden.this, selectedPaths);
+
+                 // Now update the UI on the main thread when the process is done
+                 runOnUiThread(() -> {
+                     long elapsedTime = System.currentTimeMillis() - animationStartTime;
+
+                     if (elapsedTime < MINIMUM_DISPLAY_TIME) {
+                         // If the process finished too fast, wait for the remaining time
+                         long remainingTime = MINIMUM_DISPLAY_TIME - elapsedTime;
+                         imageRecyclerView.postDelayed(() -> stopAnimationAndUpdateUI(processSuccess, selectedPaths), remainingTime);
+                     } else {
+                         // Process took enough time, stop the animation and update the UI immediately
+                         stopAnimationAndUpdateUI(processSuccess, selectedPaths);
+                     }
+                 });
+             }).start();
+         }
+     });
+
+        fab_container.setOnClickListener(v -> startActivity(new Intent(ImagesHidden.this, ImageVideoBucket.class)));
 
     }
 
@@ -199,6 +259,27 @@ public class ImagesHidden extends AppCompatActivity {
         };
         getOnBackPressedDispatcher().addCallback(this, callback);
     }
+
+
+    // Helper method to stop the animation and update the UI
+    private void stopAnimationAndUpdateUI(boolean processSuccess, List<String> selectedPaths) {
+        if (processSuccess) {
+            // Remove the moved paths from imagePaths
+            imagePaths.removeAll(selectedPaths);
+            imageVideoHideAdapter.notifyDataSetChanged();
+            imageVideoHideAdapter.clearSelection();
+
+            Toast.makeText(ImagesHidden.this, "Images moved back to original locations and deleted from app", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(ImagesHidden.this, "Error moving images back", Toast.LENGTH_SHORT).show();
+        }
+
+        // Stop and hide the animation after the process completes
+        lottieHideUnhideAnimation.cancelAnimation();
+        lottieHideUnhideAnimation.setVisibility(View.GONE);
+        animationContainer.setVisibility(View.GONE);
+    }
+
 
 }
 

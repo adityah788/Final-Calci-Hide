@@ -255,6 +255,63 @@ public class ImgVidFHandle {
     }
 
 
+
+    protected static boolean moveMediaToNewLocation(Context context, List<String> selectedPaths) {
+        File imageRootDir = new File(context.getFilesDir(), ".dont_delete_me_by_hides/recycle");
+
+        // Ensure the target directory exists
+        if (!imageRootDir.exists()) {
+            if (!imageRootDir.mkdirs()) {
+                Log.e(TAGG, "Failed to create directory: " + imageRootDir.getAbsolutePath());
+                return false;
+            }
+        }
+
+        try {
+            for (String sourcePath : selectedPaths) {
+                File sourceFile = new File(sourcePath);
+                if (sourceFile.exists() && sourceFile.canRead()) {
+                    // Define the target path in the new location
+                    File targetFile = new File(imageRootDir, sourceFile.getName());
+
+                    try (FileInputStream inputStream = new FileInputStream(sourceFile);
+                         BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+                         FileOutputStream outputStream = new FileOutputStream(targetFile);
+                         BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream)) {
+
+                        // Copy the file contents to the new location
+                        byte[] buffer = new byte[1024];
+                        int bytesRead;
+                        while ((bytesRead = bufferedInputStream.read(buffer)) != -1) {
+                            bufferedOutputStream.write(buffer, 0, bytesRead);
+                        }
+
+                        // Delete the source file after copying successfully
+                        if (sourceFile.delete()) {
+                            Log.d(TAGG, "Source file deleted successfully: " + sourcePath);
+                        } else {
+                            Log.e(TAGG, "Failed to delete source file: " + sourcePath);
+                            return false;
+                        }
+
+                    } catch (IOException e) {
+                        Log.e(TAGG, "Error copying file: " + sourcePath, e);
+                        return false;
+                    }
+                } else {
+                    Log.e(TAGG, "Source media file not found or not readable: " + sourcePath);
+                    return false;
+                }
+            }
+
+            return true;
+        } catch (Exception e) {
+            Log.e(TAGG, "Unexpected error moving media", e);
+            return false;
+        }
+    }
+
+
     public   static boolean copyfilesToPrivateStorage(Context context, ArrayList<String> files) {
         try {
             File filesRootDir = new File(context.getFilesDir(), ".dont_delete_me_by_hides/files");
@@ -345,5 +402,8 @@ public class ImgVidFHandle {
     }
 
 
+    public static boolean moveImagesBackToRecycleLocationsWrapper(Context context, List<String> selectedImagePaths) {
+        return moveMediaToNewLocation(context, selectedImagePaths);
+    }
 
 }
