@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
@@ -19,6 +20,8 @@ import androidx.media3.common.util.Log;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.airbnb.lottie.LottieDrawable;
 import com.example.finalcalcihide.Adapter.SelectImageVideosAdapter;
 import com.example.finalcalcihide.FileUtils.ImgVidFHandle;
 import com.example.finalcalcihide.GridSpacingItemDecoration;
@@ -39,6 +42,10 @@ public class SelectImagesorVideos extends AppCompatActivity {
     public static List<Boolean> selected = new ArrayList<>();
     //    public static ArrayList<String> imagesSelected = new ArrayList<>();
     public static String parent;
+    private LottieAnimationView lottieHideUnhideAnimation;
+    private FrameLayout animationContainer; // Added to manage animation visibility
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +56,19 @@ public class SelectImagesorVideos extends AppCompatActivity {
 
         // Set navigation bar color to black
         getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.navigation_bar_color));
+
+
+        // Inflate the custom layout containing the Lottie animations
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View customLayout = inflater.inflate(R.layout.animation, null);
+
+        // Initialize the LottieAnimationView from the inflated layout
+        lottieHideUnhideAnimation = customLayout.findViewById(R.id.ani_hide_unhide);
+        animationContainer = findViewById(R.id.animation_container);
+
+
+        // Add the inflated custom layout to the animation container
+        animationContainer.addView(customLayout);
 
 
         customToolbarContainer = findViewById(R.id.select_img_custom_toolbar_container);
@@ -84,11 +104,40 @@ public class SelectImagesorVideos extends AppCompatActivity {
             public void onClick(View v) {
 
                 List<String> selectedPaths = getSelectedImagePaths();
-                boolean result = ImgVidFHandle.copyImagesToPrivateStorageWrapper(SelectImagesorVideos.this, new ArrayList<>(selectedPaths));
-                if (result) {
-                    Toast.makeText(SelectImagesorVideos.this, "Images copied to private storage successfully!", Toast.LENGTH_SHORT).show();
+
+                if (!selectedPaths.isEmpty()) {
+                    // Show the animation container and start the Lottie animation
+                    animationContainer.setVisibility(View.VISIBLE);
+                    lottieHideUnhideAnimation.setVisibility(View.VISIBLE);
+
+                    // Start the animation and set it to loop
+                    lottieHideUnhideAnimation.setRepeatCount(LottieDrawable.INFINITE);
+                    lottieHideUnhideAnimation.playAnimation();
+
+                    // Minimum display time for the animation
+                    final long MINIMUM_DISPLAY_TIME = 2000; // 2.5 seconds
+                    final long animationStartTime = System.currentTimeMillis();
+
+                    // Perform the hide operation in a background thread
+                    new Thread(() -> {
+                        boolean result = ImgVidFHandle.copyImagesToPrivateStorageWrapper(SelectImagesorVideos.this, new ArrayList<>(selectedPaths));
+
+                        // Now update the UI on the main thread after the process completes
+                        runOnUiThread(() -> {
+                            long elapsedTime = System.currentTimeMillis() - animationStartTime;
+
+                            if (elapsedTime < MINIMUM_DISPLAY_TIME) {
+                                // Ensure the animation runs for at least the minimum time
+                                long remainingTime = MINIMUM_DISPLAY_TIME - elapsedTime;
+                                recyclerView.postDelayed(() -> stopAnimationAndComplete(result), remainingTime);
+                            } else {
+                                // Stop animation immediately if the process took longer than minimum time
+                                stopAnimationAndComplete(result);
+                            }
+                        });
+                    }).start();
                 } else {
-                    Toast.makeText(SelectImagesorVideos.this, "Failed to copy images to private storage.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SelectImagesorVideos.this, "No images selected to hide.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -223,5 +272,26 @@ public class SelectImagesorVideos extends AppCompatActivity {
         }
     }
 
+    private void stopAnimationAndComplete(boolean result) {
+
+        // Handle success or failure of the process
+        if (result) {
+            Toast.makeText(SelectImagesorVideos.this, "Images hidden successfully!", Toast.LENGTH_SHORT).show();
+
+            // Redirect to ImageHidden class and finish the current activity
+            Intent intent = new Intent(SelectImagesorVideos.this, ImagesHidden.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK );
+            finish(); // Close the SelectImagesorVideos activity
+
+            startActivity(intent);
+        } else {
+            Toast.makeText(SelectImagesorVideos.this, "Failed to hide images.", Toast.LENGTH_SHORT).show();
+        }
+
+        // Stop the animation
+        lottieHideUnhideAnimation.cancelAnimation();
+        lottieHideUnhideAnimation.setVisibility(View.GONE);
+        animationContainer.setVisibility(View.GONE);
+    }
 
 }

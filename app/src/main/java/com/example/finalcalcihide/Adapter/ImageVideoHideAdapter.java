@@ -162,4 +162,15 @@ public class ImageVideoHideAdapter extends RecyclerView.Adapter<ImageVideoHideAd
             videoDuration = itemView.findViewById(R.id.image_item_duration);
         }
     }
+
+
+
+    public void updateImagePaths(ArrayList<String> newImagePaths) {
+        imagePaths.clear();
+        imagePaths.addAll(newImagePaths);
+        // Clear selections as the data has changed
+        hashSetselectedItems.clear();
+        notifyDataSetChanged();
+        listener.onSelectionChanged(false);
+    }
 }

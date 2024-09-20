@@ -2,43 +2,34 @@ package com.example.finalcalcihide.Activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.finalcalcihide.Adapter.ImageVideoHideAdapter;
-
-import com.example.finalcalcihide.R;
-
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.view.LayoutInflater;
+import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
-import androidx.appcompat.widget.PopupMenu;
-import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.airbnb.lottie.LottieDrawable; // Add this import for LottieDrawable
-
-import com.airbnb.lottie.LottieAnimationView;
-import com.example.finalcalcihide.GridSpacingItemDecoration;
-import com.example.finalcalcihide.PermissionHandler;
+import com.example.finalcalcihide.Adapter.ImageVideoHideAdapter;
 import com.example.finalcalcihide.FileUtils.ImgVidFHandle;
-import com.example.finalcalcihide.Utils.FileUtils;
+import com.example.finalcalcihide.GridSpacingItemDecoration;
+import com.example.finalcalcihide.R;
 import com.example.finalcalcihide.Utils.ToolbarManager;
 import com.example.finalcalcihide.ViewPager.ImageandVideoViewPager;
+import com.example.finalcalcihide.Utils.AnimationManager;
+import com.example.finalcalcihide.Utils.FileUtils;
+import com.example.finalcalcihide.PermissionHandler;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class ImagesHidden extends AppCompatActivity {
@@ -51,42 +42,34 @@ public class ImagesHidden extends AppCompatActivity {
     private LinearLayout customBottomAppBarVisible;
     private FrameLayout fab_container;
 
-    private LottieAnimationView lottieHideUnhideAnimation;
-    private LottieAnimationView lottieDeleteAnimation;
+    private AnimationManager animationManager;
+    private FrameLayout animationContainer;
+
     private ToolbarManager toolbarManager;
-    private FrameLayout animationContainer; // Added to manage animation visibility
 
-
+    // SharedPreferences constants
+    private static final String PREFS_NAME = "IntruderSelfiePrefs";
+    private static final String KEY_NEW_SELFIE = "new_selfie_added";
+    private static final String KEY_SELFIE_PATH = "selfie_path";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_images_hidden);
 
         // Set navigation bar color to black
         getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.navigation_bar_color));
 
-
-        // Inflate the custom layout containing the Lottie animations
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View customLayout = inflater.inflate(R.layout.animation, null);
-
-        // Initialize the LottieAnimationView from the inflated layout
-        lottieHideUnhideAnimation = customLayout.findViewById(R.id.ani_hide_unhide);
-        lottieDeleteAnimation = customLayout.findViewById(R.id.ani_delete);
+        // Initialize animation container
         animationContainer = findViewById(R.id.animation_container);
+        animationManager = new AnimationManager(this, animationContainer);
 
-
-        // Add the inflated custom layout to the animation container
-        animationContainer.addView(customLayout);
-
+        // Request necessary permissions
         PermissionHandler.requestPermissions(ImagesHidden.this);
 
-
+        // Initialize UI components
         imageRecyclerView = findViewById(R.id.image_gallery_recycler);
-
         fab_container = findViewById(R.id.image_gallary_fab_container);
         customToolbarContainer = findViewById(R.id.custom_toolbar_container);
         customBottomAppBar = findViewById(R.id.custom_bottom_appbar);
@@ -94,8 +77,7 @@ public class ImagesHidden extends AppCompatActivity {
         customBottomAppBarDelete = findViewById(R.id.custom_btm_appbar_delete);
         imagePaths = FileUtils.getImagePaths(this);
 
-
-
+        // Initialize Adapter
         imageVideoHideAdapter = new ImageVideoHideAdapter(this, imagePaths, new ImageVideoHideAdapter.OnItemSelectedListener() {
             @Override
             public void onItemSelected(int position) {
@@ -108,101 +90,62 @@ public class ImagesHidden extends AppCompatActivity {
             }
         });
 
+        // Initialize ToolbarManager (assuming it's a custom class)
+        toolbarManager = new ToolbarManager(this, customToolbarContainer, imageVideoHideAdapter, imagePaths, this);
 
-        toolbarManager = new ToolbarManager(this, customToolbarContainer, imageVideoHideAdapter,imagePaths);
-
-
+        // Setup RecyclerView
         imageRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         int spacing = getResources().getDimensionPixelSize(R.dimen.recycler_item_spacing);
         imageRecyclerView.addItemDecoration(new GridSpacingItemDecoration(3, spacing));
-
-
         imageRecyclerView.setAdapter(imageVideoHideAdapter);
 
+        // Initialize Toolbar and Back Press Handling
         toolbarManager.setToolbarMenu(false);
         handleOnBackPressed();
 
+        // Check if the dialog has been shown before
 
+
+        // Handle Show/Hide Button Click
         customBottomAppBarVisible.setOnClickListener(v -> {
-
             List<String> selectedPaths = imageVideoHideAdapter.getSelectedImagePaths();
-
-            // Define minimum display time (e.g., 2 seconds)
             final long MINIMUM_DISPLAY_TIME = 2500; // in milliseconds
-            final long animationStartTime = System.currentTimeMillis();
 
-            // Show the animation when the button is clicked
-            animationContainer.setVisibility(View.VISIBLE);
-            lottieHideUnhideAnimation.setVisibility(View.VISIBLE);
-
-            // Set the animation to loop infinitely
-            lottieHideUnhideAnimation.setRepeatCount(LottieDrawable.INFINITE);
-            lottieHideUnhideAnimation.playAnimation();
-
-            // Run the process in a background thread (like using AsyncTask or Kotlin Coroutines)
-            new Thread(() -> {
-                boolean processSuccess = ImgVidFHandle.moveImagesBackToOriginalLocationsWrapper(ImagesHidden.this, selectedPaths);
-
-                // Now update the UI on the main thread when the process is done
-                runOnUiThread(() -> {
-                    long elapsedTime = System.currentTimeMillis() - animationStartTime;
-
-                    if (elapsedTime < MINIMUM_DISPLAY_TIME) {
-                        // If the process finished too fast, wait for the remaining time
-                        long remainingTime = MINIMUM_DISPLAY_TIME - elapsedTime;
-                        imageRecyclerView.postDelayed(() -> stopAnimationAndUpdateUI(processSuccess, selectedPaths), remainingTime);
-                    } else {
-                        // Process took enough time, stop the animation and update the UI immediately
-                        stopAnimationAndUpdateUI(processSuccess, selectedPaths);
-                    }
-                });
-            }).start();
+            animationManager.handleAnimationProcess(
+                    AnimationManager.AnimationType.HIDE_UNHIDE,
+                    selectedPaths,
+                    MINIMUM_DISPLAY_TIME,
+                    () -> {
+                        // Background task: Move images back to original locations
+                        ImgVidFHandle.moveImagesBackToOriginalLocationsWrapper(ImagesHidden.this, selectedPaths);
+                        // Update processSuccess based on actual task outcome
+                        // For example, set to true if task succeeds, false otherwise
+                    },
+                    (processSuccess, paths) -> stopAnimationAndUpdateUI(processSuccess, paths)
+            );
         });
 
+        // Handle Delete Button Click
+        customBottomAppBarDelete.setOnClickListener(v -> {
+            List<String> selectedPaths = imageVideoHideAdapter.getSelectedImagePaths();
+            final long MINIMUM_DISPLAY_TIME = 2100; // in milliseconds
 
+            animationManager.handleAnimationProcess(
+                    AnimationManager.AnimationType.DELETE,
+                    selectedPaths,
+                    MINIMUM_DISPLAY_TIME,
+                    () -> {
+                        // Background task: Move images back to recycle locations
+                        ImgVidFHandle.moveImagesBackToRecycleLocationsWrapper(ImagesHidden.this, selectedPaths);
+                        // Update processSuccess based on actual task outcome
+                    },
+                    (processSuccess, paths) -> stopAnimationAndUpdateUI(processSuccess, paths)
+            );
+        });
 
-     customBottomAppBarDelete.setOnClickListener(new View.OnClickListener() {
-         @Override
-         public void onClick(View v) {
-             List<String> selectedPaths = imageVideoHideAdapter.getSelectedImagePaths();
-
-             // Define minimum display time (e.g., 2 seconds)
-             final long MINIMUM_DISPLAY_TIME = 2100; // in milliseconds
-             final long animationStartTime = System.currentTimeMillis();
-
-             // Show the animation when the button is clicked
-             animationContainer.setVisibility(View.VISIBLE);
-             lottieDeleteAnimation.setVisibility(View.VISIBLE);
-
-             // Set the animation to loop infinitely
-             lottieDeleteAnimation.setRepeatCount(LottieDrawable.INFINITE);
-             lottieDeleteAnimation.playAnimation();
-
-             // Run the process in a background thread (like using AsyncTask or Kotlin Coroutines)
-             new Thread(() -> {
-                 boolean processSuccess = ImgVidFHandle.moveImagesBackToRecycleLocationsWrapper(ImagesHidden.this, selectedPaths);
-
-                 // Now update the UI on the main thread when the process is done
-                 runOnUiThread(() -> {
-                     long elapsedTime = System.currentTimeMillis() - animationStartTime;
-
-                     if (elapsedTime < MINIMUM_DISPLAY_TIME) {
-                         // If the process finished too fast, wait for the remaining time
-                         long remainingTime = MINIMUM_DISPLAY_TIME - elapsedTime;
-                         imageRecyclerView.postDelayed(() -> stopAnimationAndUpdateUI(processSuccess, selectedPaths), remainingTime);
-                     } else {
-                         // Process took enough time, stop the animation and update the UI immediately
-                         stopAnimationAndUpdateUI(processSuccess, selectedPaths);
-                     }
-                 });
-             }).start();
-         }
-     });
-
+        // Handle FAB Click
         fab_container.setOnClickListener(v -> startActivity(new Intent(ImagesHidden.this, ImageVideoBucket.class)));
-
     }
-
 
     private void handleItemClick(int position) {
         if (imageVideoHideAdapter.isSelectedAny()) {
@@ -215,12 +158,10 @@ public class ImagesHidden extends AppCompatActivity {
         }
     }
 
-    private void onSelectandDeselect_All(boolean isAnyselected) {
-        toolbarManager.setToolbarMenu(isAnyselected);
-        setCustomBottomAppBarVisibility(isAnyselected);
+    private void onSelectandDeselect_All(boolean isAnySelected) {
+        toolbarManager.setToolbarMenu(isAnySelected);
+        setCustomBottomAppBarVisibility(isAnySelected);
     }
-
-
 
     private void setCustomBottomAppBarVisibility(boolean visible) {
         if (visible && customBottomAppBar.getVisibility() != View.VISIBLE) {
@@ -239,11 +180,8 @@ public class ImagesHidden extends AppCompatActivity {
                         }
                     });
             fab_container.setVisibility(View.VISIBLE);
-
         }
     }
-
-
 
     private void handleOnBackPressed() {
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
@@ -260,7 +198,6 @@ public class ImagesHidden extends AppCompatActivity {
         getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
-
     // Helper method to stop the animation and update the UI
     private void stopAnimationAndUpdateUI(boolean processSuccess, List<String> selectedPaths) {
         if (processSuccess) {
@@ -273,14 +210,25 @@ public class ImagesHidden extends AppCompatActivity {
         } else {
             Toast.makeText(ImagesHidden.this, "Error moving images back", Toast.LENGTH_SHORT).show();
         }
+    }
 
-        // Stop and hide the animation after the process completes
-        lottieHideUnhideAnimation.cancelAnimation();
-        lottieHideUnhideAnimation.setVisibility(View.GONE);
-        animationContainer.setVisibility(View.GONE);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshImageList();
+
+        Toast.makeText(this, "onResume called", Toast.LENGTH_SHORT).show();
+    }
+
+    private void refreshImageList() {
+        // Reload image paths
+        ArrayList<String> updatedImagePaths = FileUtils.getImagePaths(this);
+
+        // Update the adapter's data
+        imageVideoHideAdapter.updateImagePaths(updatedImagePaths);
+
+        // Optionally, handle selection states if needed
     }
 
 
 }
-
-///  350

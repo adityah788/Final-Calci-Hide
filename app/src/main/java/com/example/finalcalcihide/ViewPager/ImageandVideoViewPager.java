@@ -5,20 +5,25 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.ViewCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.finalcalcihide.Adapter.ImageandVideoViewPagerAdapter;
+import com.example.finalcalcihide.FileUtils.ImgVidFHandle;
 import com.example.finalcalcihide.ImageGalleryViewModel;
 import com.example.finalcalcihide.R;
+import com.example.finalcalcihide.Utils.AnimationManager;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ImageandVideoViewPager extends AppCompatActivity {
 
@@ -29,28 +34,77 @@ public class ImageandVideoViewPager extends AppCompatActivity {
     private View toolbar;
     private ImageGalleryViewModel viewModel;
 
+    ImageView delete, visible;
+    private FrameLayout animationContainer;
+
+    private AnimationManager animationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
+
         setContentView(R.layout.activity_image_view_pager);
+
+        // Initialize animation container
+        animationContainer = findViewById(R.id.viewpager_animation_container);
+        animationManager = new AnimationManager(this, animationContainer);
+
+        // Initialize UI components
+        delete = findViewById(R.id.img_viewpager_toobar_deleter_icon);
+        visible = findViewById(R.id.img_viewpager_main_toobar_unlock);
+
+        // Handle Delete Button Click
+        delete.setOnClickListener(v -> {
+            List<String> selectedPaths = new ArrayList<>();
+            selectedPaths.add(imagePaths.get(viewPager.getCurrentItem())); // Get the current image path
+
+            final long MINIMUM_DISPLAY_TIME = 2100; // in milliseconds
+
+            animationManager.handleAnimationProcess(
+                    AnimationManager.AnimationType.DELETE,
+                    selectedPaths,
+                    MINIMUM_DISPLAY_TIME,
+                    () -> {
+                        // Background task: Move images back to recycle locations
+                        ImgVidFHandle.moveImagesBackToRecycleLocationsWrapper(ImageandVideoViewPager.this, selectedPaths);
+                        // Update processSuccess based on actual task outcome
+                    },
+                    (processSuccess, paths) -> stopAnimationAndUpdateUI(processSuccess, paths)
+            );
+        });
+
+        // Handle Visible Button Click
+        visible.setOnClickListener(v -> {
+            List<String> selectedPaths = new ArrayList<>();
+            selectedPaths.add(imagePaths.get(viewPager.getCurrentItem())); // Get the current image path
+
+            final long MINIMUM_DISPLAY_TIME = 2500; // in milliseconds
+
+            animationManager.handleAnimationProcess(
+                    AnimationManager.AnimationType.HIDE_UNHIDE,
+                    selectedPaths,
+                    MINIMUM_DISPLAY_TIME,
+                    () -> {
+                        // Background task: Move images back to original locations
+                        ImgVidFHandle.moveImagesBackToOriginalLocationsWrapper(ImageandVideoViewPager.this, selectedPaths);
+                        // Update processSuccess based on actual task outcome
+                    },
+                    (processSuccess, paths) -> stopAnimationAndUpdateUI(processSuccess, paths)
+            );
+        });
 
         // Set system UI visibility flags
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
 
-
         int semiTransparentBlack = Color.argb(128, 0, 0, 0); // alpha=128 (50% transparency), RGB=0,0,0 (black)
 
-        // Set status bar color to transparent
-//        getWindow().setStatusBarColor(semiTransparentBlack);
         // Semi-transparent black color for navigation bar
         getWindow().setNavigationBarColor(semiTransparentBlack);
 
         // Initialize ViewModel
         viewModel = new ViewModelProvider(this).get(ImageGalleryViewModel.class);
-
 
         toolbar = findViewById(R.id.image_view_pager_toolbar);
 
@@ -124,8 +178,24 @@ public class ImageandVideoViewPager extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
             toolbar.setVisibility(View.VISIBLE);
-
         }
         isSystemUIVisible = !isSystemUIVisible;
     }
+
+    // Helper method to stop the animation and update the UI
+    private void stopAnimationAndUpdateUI(boolean processSuccess, List<String> selectedPaths) {
+        if (processSuccess) {
+            // Remove the moved paths from imagePaths
+            imagePaths.removeAll(selectedPaths);
+            adapter.notifyDataSetChanged();
+
+            Toast.makeText(ImageandVideoViewPager.this, "Image moved successfully", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(ImageandVideoViewPager.this, "Error moving image", Toast.LENGTH_SHORT).show();
+        }
+    }
 }
+
+
+
+//265

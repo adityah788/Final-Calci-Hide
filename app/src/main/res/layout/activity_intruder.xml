@@ -1,0 +1,181 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainl"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.Intruder">
+
+    <LinearLayout
+        android:id="@+id/intruder_custom_toolbar_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp">
+
+                <!-- Back Arrow -->
+                <ImageView
+                    android:id="@+id/main_toolbar_back_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:padding="5dp"
+                    android:src="@drawable/baseline_arrow_back_24" />
+
+                <!-- Title -->
+                <TextView
+                    android:id="@+id/main_toolbar_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Intruder Photos"
+                    android:layout_toEndOf="@+id/main_toolbar_back_arrow"
+                    android:textColor="#fff"
+                    android:padding="5dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="14dp"
+                    android:textSize="20sp" />
+
+                <!-- Menu Icon -->
+                <ImageView
+                    android:id="@+id/intruder_main_toobar_menu_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="5dp"
+                    android:padding="5dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/baseline_delete_24" />
+
+                <ImageView
+                    android:id="@+id/_intruder_contextual_toolbar_select_and_deselect_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="5dp"
+                    android:padding="5dp"
+                    android:visibility="gone"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/baseline_check_box_outline_blank_24" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <!-- Wrap CardView and RecyclerView inside NestedScrollView -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/intruder_custom_toolbar_container"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp">
+
+            <!-- CardView that should scroll with the RecyclerView -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/activity_intruder_cardview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="5dp"
+                android:layout_margin="10dp"
+                >
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="5dp">
+
+                    <ImageView
+                        android:id="@+id/activity_intruder_intruder_image"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/paparazzi_7219768" />
+
+                    <TextView
+                        android:id="@+id/activity_intruder_txt_Intdruder_Selfie"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Intruder Selfie"
+                        android:layout_toStartOf="@id/activity_intruder_radiobtn"
+                        android:textSize="22sp"
+                        android:layout_toEndOf="@id/activity_intruder_intruder_image"
+                        android:layout_marginStart="8dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Take picture of intruders when wrong password"
+                        android:textSize="16sp"
+                        android:layout_toStartOf="@id/activity_intruder_radiobtn"
+                        android:layout_below="@id/activity_intruder_txt_Intdruder_Selfie"
+                        android:layout_toEndOf="@id/activity_intruder_intruder_image"
+                        android:layout_marginStart="8dp" />
+
+                    <RadioButton
+                        android:id="@+id/activity_intruder_radiobtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="10dp" />
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- RecyclerView inside NestedScrollView -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/intruder_selfie_gallery_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:paddingBottom="70dp"
+                android:nestedScrollingEnabled="false" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <include layout="@layout/custom_bottom_appbar_delete"
+        android:id="@+id/container_custom_bottom_appbar_delete"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+
+
+    <!-- Include Lottie Animations Layout -->
+    <FrameLayout
+        android:id="@+id/intruder_animation_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+        <include
+            layout="@layout/animation"/>
+    </FrameLayout>
+
+
+</RelativeLayout>
