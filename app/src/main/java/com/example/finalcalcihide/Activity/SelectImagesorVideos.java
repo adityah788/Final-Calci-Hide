@@ -1,5 +1,7 @@
 package com.example.finalcalcihide.Activity;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
@@ -14,9 +16,11 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.OptIn;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.media3.common.util.Log;
+import androidx.media3.common.util.UnstableApi;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -46,7 +50,7 @@ public class SelectImagesorVideos extends AppCompatActivity {
     private FrameLayout animationContainer; // Added to manage animation visibility
 
 
-
+    @OptIn(markerClass = UnstableApi.class)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,9 +94,15 @@ public class SelectImagesorVideos extends AppCompatActivity {
         parent = Objects.requireNonNull(getIntent().getExtras()).getString("FROM");
         mediaList.clear();
         selected.clear();
-        if (parent.equals("Images")) {
-            mediaList.addAll(ImageVideoBucket.imagesList);
+
+        if ("Images".equals(parent)) {
+            mediaList.addAll(ImageVideoBucket.mediaList);
+        } else if ("Videos".equals(parent)) {
+            mediaList.addAll(ImageVideoBucket.mediaList);
+        } else {
+            Log.w(TAG, "Unknown 'FROM' value: " + parent);
         }
+
 
         setupRecyclerView();
 

@@ -183,11 +183,6 @@ public class ImgVidFHandle {
         return contentUri;
     }
 
-
-
-
-
-
     protected static boolean moveMediaBackToOriginalLocations(Context context, List<String> selectedPaths) {
         try {
             SharedPreferences sharedPreferences = context.getSharedPreferences("media_paths", Context.MODE_PRIVATE);

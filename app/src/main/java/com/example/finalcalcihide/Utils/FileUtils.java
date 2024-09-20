@@ -55,6 +55,10 @@ public class FileUtils {
         return loadFilePaths(context, ".dont_delete_me_by_hides/images");
     }
 
+    public static ArrayList<String> getVideoPaths(Context context) {
+        return loadFilePaths(context, ".dont_delete_me_by_hides/videos");
+    }
+
     public static ArrayList<String> getIntruderPaths(Context context) {
         return loadFilePaths(context, ".dont_delete_me_by_hides/intruderSelfie");
     }

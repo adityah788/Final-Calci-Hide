@@ -2,10 +2,7 @@ package com.example.finalcalcihide.Activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -13,7 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -32,8 +28,8 @@ import com.example.finalcalcihide.PermissionHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImagesHidden extends AppCompatActivity {
-    private ArrayList<String> imagePaths = new ArrayList<>();
+public class VideoHidden extends AppCompatActivity {
+    private ArrayList<String> videoPaths = new ArrayList<>();
     private ImageVideoHideAdapter imageVideoHideAdapter;
     private RecyclerView imageRecyclerView;
     private LinearLayout customBottomAppBarDelete;
@@ -47,38 +43,33 @@ public class ImagesHidden extends AppCompatActivity {
 
     private ToolbarManager toolbarManager;
 
-    // SharedPreferences constants
-    private static final String PREFS_NAME = "IntruderSelfiePrefs";
-    private static final String KEY_NEW_SELFIE = "new_selfie_added";
-    private static final String KEY_SELFIE_PATH = "selfie_path";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_images_hidden);
+        setContentView(R.layout.activity_video_hidden);
 
         // Set navigation bar color to black
         getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.navigation_bar_color));
 
         // Initialize animation container
-        animationContainer = findViewById(R.id.animation_container);
+        animationContainer = findViewById(R.id.video_animation_container);
         animationManager = new AnimationManager(this, animationContainer);
 
         // Request necessary permissions
-        PermissionHandler.requestPermissions(ImagesHidden.this);
+        PermissionHandler.requestPermissions(VideoHidden.this);
 
         // Initialize UI components
-        imageRecyclerView = findViewById(R.id.image_gallery_recycler);
-        fab_container = findViewById(R.id.image_gallary_fab_container);
-        customToolbarContainer = findViewById(R.id.custom_toolbar_container);
-        customBottomAppBar = findViewById(R.id.custom_bottom_appbar);
+        imageRecyclerView = findViewById(R.id.video_image_gallery_recycler);
+        fab_container = findViewById(R.id.video_image_gallary_fab_container);
+        customToolbarContainer = findViewById(R.id.video_custom_toolbar_container);
+        customBottomAppBar = findViewById(R.id.video_custom_bottom_appbar);
         customBottomAppBarVisible = findViewById(R.id.custom_btm_appbar_Visible);
         customBottomAppBarDelete = findViewById(R.id.custom_btm_appbar_delete);
-        imagePaths = FileUtils.getImagePaths(this);
+        videoPaths = FileUtils.getVideoPaths(this);
 
         // Initialize Adapter
-        imageVideoHideAdapter = new ImageVideoHideAdapter(this, imagePaths, new ImageVideoHideAdapter.OnItemSelectedListener() {
+        imageVideoHideAdapter = new ImageVideoHideAdapter(this, videoPaths, new ImageVideoHideAdapter.OnItemSelectedListener() {
             @Override
             public void onItemSelected(int position) {
                 handleItemClick(position);
@@ -91,7 +82,7 @@ public class ImagesHidden extends AppCompatActivity {
         });
 
         // Initialize ToolbarManager (assuming it's a custom class)
-        toolbarManager = new ToolbarManager(this, customToolbarContainer, imageVideoHideAdapter, imagePaths, this);
+        toolbarManager = new ToolbarManager(this, customToolbarContainer, imageVideoHideAdapter, videoPaths, this);
 
         // Setup RecyclerView
         imageRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
@@ -117,7 +108,7 @@ public class ImagesHidden extends AppCompatActivity {
                     MINIMUM_DISPLAY_TIME,
                     () -> {
                         // Background task: Move images back to original locations
-                        ImgVidFHandle.moveImagesBackToOriginalLocationsWrapper(ImagesHidden.this, selectedPaths);
+                        ImgVidFHandle.moveImagesBackToOriginalLocationsWrapper(VideoHidden.this, selectedPaths);
                         // Update processSuccess based on actual task outcome
                         // For example, set to true if task succeeds, false otherwise
                     },
@@ -136,7 +127,7 @@ public class ImagesHidden extends AppCompatActivity {
                     MINIMUM_DISPLAY_TIME,
                     () -> {
                         // Background task: Move images back to recycle locations
-                        ImgVidFHandle.moveImagesBackToRecycleLocationsWrapper(ImagesHidden.this, selectedPaths);
+                        ImgVidFHandle.moveImagesBackToRecycleLocationsWrapper(VideoHidden.this, selectedPaths);
                         // Update processSuccess based on actual task outcome
                     },
                     (processSuccess, paths) -> stopAnimationAndUpdateUI(processSuccess, paths)
@@ -145,8 +136,8 @@ public class ImagesHidden extends AppCompatActivity {
 
         // Handle FAB Click
         fab_container.setOnClickListener(v -> {
-            Intent intent = new Intent(ImagesHidden.this, ImageVideoBucket.class);
-            intent.putExtra("FROM", "Images"); // Specify that we're handling images
+            Intent intent = new Intent(VideoHidden.this, ImageVideoBucket.class);
+            intent.putExtra("FROM", "Videos"); // Specify that we're handling images
             startActivity(intent);
         });
 
@@ -157,7 +148,7 @@ public class ImagesHidden extends AppCompatActivity {
             imageVideoHideAdapter.toggleSelection(position);
         } else {
             Intent intent = new Intent(this, ImageandVideoViewPager.class);
-            intent.putStringArrayListExtra("imagePaths", imagePaths);
+            intent.putStringArrayListExtra("imagePaths", videoPaths);
             intent.putExtra("position", position);
             startActivity(intent);
         }
@@ -207,13 +198,13 @@ public class ImagesHidden extends AppCompatActivity {
     private void stopAnimationAndUpdateUI(boolean processSuccess, List<String> selectedPaths) {
         if (processSuccess) {
             // Remove the moved paths from imagePaths
-            imagePaths.removeAll(selectedPaths);
+            videoPaths.removeAll(selectedPaths);
             imageVideoHideAdapter.notifyDataSetChanged();
             imageVideoHideAdapter.clearSelection();
 
-            Toast.makeText(ImagesHidden.this, "Images moved back to original locations and deleted from app", Toast.LENGTH_SHORT).show();
+            Toast.makeText(VideoHidden.this, "Images moved back to original locations and deleted from app", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(ImagesHidden.this, "Error moving images back", Toast.LENGTH_SHORT).show();
+            Toast.makeText(VideoHidden.this, "Error moving images back", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -226,11 +217,11 @@ public class ImagesHidden extends AppCompatActivity {
     }
 
     private void refreshImageList() {
-        // Reload image paths
-        ArrayList<String> updatedImagePaths = FileUtils.getImagePaths(this);
+        // Reload video paths
+        ArrayList<String> updatedVideoPaths = FileUtils.getVideoPaths(this);
 
         // Update the adapter's data
-        imageVideoHideAdapter.updateImagePaths(updatedImagePaths);
+        imageVideoHideAdapter.updateImagePaths(updatedVideoPaths);
 
         // Optionally, handle selection states if needed
     }

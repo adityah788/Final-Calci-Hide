@@ -19,6 +19,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.finalcalcihide.Activity.ImagesHidden;
 import com.example.finalcalcihide.Activity.Intruder;
+import com.example.finalcalcihide.Activity.VideoHidden;
 import com.example.finalcalcihide.Utils.FileUtils;
 
 import java.io.File;
@@ -26,7 +27,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    RelativeLayout relativeLayoutImage,relativeLayoutNote,relativeLayoutIntruder;
+    RelativeLayout relativeLayoutImage,relativeLayoutNote,relativeLayoutIntruder,relativeLayoutVideos;
 
     // SharedPreferences constants
     private static final String PREFS_NAME = "IntruderSelfiePrefs";
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         relativeLayoutImage= findViewById(R.id.main_Images);
         relativeLayoutNote = findViewById(R.id.new_main_file);
         relativeLayoutIntruder = findViewById(R.id.r_intruder);
+        relativeLayoutVideos = findViewById(R.id.new_main_vidoes);
 
         // Check if a new selfie has been added
         SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
@@ -73,6 +75,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 startActivity(new Intent(MainActivity.this, ImagesHidden.class));
+
+            }
+        });
+
+        relativeLayoutVideos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, VideoHidden.class));
 
             }
         });
