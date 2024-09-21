@@ -17,6 +17,7 @@ public class FileUtils {
     private static ArrayList<String> loadFilePaths(Context context, String directoryName) {
         ArrayList<String> arrayList = new ArrayList<>();
         File storageDir = new File(context.getFilesDir(), directoryName);
+
         if (storageDir.exists()) {
             File[] files = storageDir.listFiles();
             if (files != null) {
@@ -27,9 +28,17 @@ public class FileUtils {
                 }
             }
         }
-        arrayList.sort(Collections.reverseOrder());
+
+        // Sort the file paths based on last modified date (newest first)
+        arrayList.sort((path1, path2) -> {
+            File file1 = new File(path1);
+            File file2 = new File(path2);
+            return Long.compare(file2.lastModified(), file1.lastModified());
+        });
+
         return arrayList;
     }
+
 
     /**
      * Deletes the files specified by the given list of paths.
@@ -59,8 +68,16 @@ public class FileUtils {
         return loadFilePaths(context, ".dont_delete_me_by_hides/videos");
     }
 
+    public static ArrayList<String> getRecyclePaths(Context context) {
+        return loadFilePaths(context, ".dont_delete_me_by_hides/recycle");
+    }
+
     public static ArrayList<String> getIntruderPaths(Context context) {
         return loadFilePaths(context, ".dont_delete_me_by_hides/intruderSelfie");
+    }
+
+    public static ArrayList<String> getFilePaths(Context context) {
+        return loadFilePaths(context, ".dont_delete_me_by_hides/files");
     }
 
 }

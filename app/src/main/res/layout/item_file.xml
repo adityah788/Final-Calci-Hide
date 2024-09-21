@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="70dp">
+
+    <FrameLayout
+        android:id="@+id/item_file_frame"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/item_file_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+
+    </FrameLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/item_file_details"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/container_file_tick"
+        app:layout_constraintStart_toEndOf="@id/item_file_frame"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/item_file_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="smatphone-22343.png" />
+
+        <TextView
+            android:id="@+id/item_file_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/item_file_txt"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="10dp"
+            android:gravity="bottom"
+            android:text="12/04/2024" />
+
+        <TextView
+            android:id="@+id/item_file_size"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@id/item_file_time"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="100dp"
+            android:gravity="bottom"
+            android:text="442 Kb" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/container_file_tick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/item_file_details"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/item_file_details"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/item_file_tick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/baseline_check_box_24" />
+
+        <ImageView
+            android:id="@+id/item_file_tick_blank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/baseline_check_box_outline_blank_24" />
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

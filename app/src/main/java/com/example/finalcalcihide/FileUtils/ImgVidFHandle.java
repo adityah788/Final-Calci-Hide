@@ -19,6 +19,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ImgVidFHandle {
@@ -384,6 +385,128 @@ public class ImgVidFHandle {
     }
 
 
+    protected static boolean moveDataToImagesorVideos(Context context, List<String> selectedPaths) {
+        File imagesDir = new File(context.getFilesDir(), ".dont_delete_me_by_hides/images");
+        File videosDir = new File(context.getFilesDir(), ".dont_delete_me_by_hides/videos");
+
+        // Ensure the target directories exist
+        if (!imagesDir.exists() && !imagesDir.mkdirs()) {
+            Log.e(TAGG, "Failed to create images directory: " + imagesDir.getAbsolutePath());
+            return false;
+        }
+        if (!videosDir.exists() && !videosDir.mkdirs()) {
+            Log.e(TAGG, "Failed to create videos directory: " + videosDir.getAbsolutePath());
+            return false;
+        }
+
+        try {
+            for (String sourcePath : selectedPaths) {
+                File sourceFile = new File(sourcePath);
+                if (sourceFile.exists() && sourceFile.canRead()) {
+                    // Determine if it's an image or video by file extension
+                    String extension = getFileExtension(sourceFile.getName()).toLowerCase();
+                    File targetDir;
+
+                    if (isImage(extension)) {
+                        targetDir = imagesDir;
+                    } else if (isVideo(extension)) {
+                        targetDir = videosDir;
+                    } else {
+                        Log.e(TAGG, "Unsupported file type: " + sourcePath);
+                        return false;
+                    }
+
+                    // Define the target file in the new location
+                    File targetFile = new File(targetDir, sourceFile.getName());
+
+                    try (FileInputStream inputStream = new FileInputStream(sourceFile);
+                         BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+                         FileOutputStream outputStream = new FileOutputStream(targetFile);
+                         BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream)) {
+
+                        // Copy the file contents to the new location
+                        byte[] buffer = new byte[1024];
+                        int bytesRead;
+                        while ((bytesRead = bufferedInputStream.read(buffer)) != -1) {
+                            bufferedOutputStream.write(buffer, 0, bytesRead);
+                        }
+
+                        // Delete the source file after copying successfully
+                        if (sourceFile.delete()) {
+                            Log.d(TAGG, "Source file deleted successfully: " + sourcePath);
+                        } else {
+                            Log.e(TAGG, "Failed to delete source file: " + sourcePath);
+                            return false;
+                        }
+
+                    } catch (IOException e) {
+                        Log.e(TAGG, "Error copying file: " + sourcePath, e);
+                        return false;
+                    }
+                } else {
+                    Log.e(TAGG, "Source media file not found or not readable: " + sourcePath);
+                    return false;
+                }
+            }
+
+            return true;
+        } catch (Exception e) {
+            Log.e(TAGG, "Unexpected error moving media", e);
+            return false;
+        }
+    }
+
+    // Helper method to extract file extension
+    private static String getFileExtension(String fileName) {
+        int dotIndex = fileName.lastIndexOf('.');
+        if (dotIndex > 0 && dotIndex < fileName.length() - 1) {
+            return fileName.substring(dotIndex + 1);
+        } else {
+            return ""; // No extension found
+        }
+    }
+
+    // Helper method to check if a file is an image
+      private static boolean isImage(String extension) {
+        String[] imageExtensions = {"jpg", "jpeg", "png", "gif", "bmp", "webp"};
+        return Arrays.asList(imageExtensions).contains(extension);
+    }
+
+    // Helper method to check if a file is a video
+    private static boolean isVideo(String extension) {
+        String[] videoExtensions = {"mp4", "avi", "mov", "mkv", "flv", "wmv", "webm"};
+        return Arrays.asList(videoExtensions).contains(extension);
+    }
+
+
+    protected static boolean deleteDataPermanent(Context context, List<String> selectedPaths) {
+        try {
+            for (String path : selectedPaths) {
+                File fileToDelete = new File(path);
+
+                if (fileToDelete.exists()) {
+                    // Attempt to delete the file
+                    if (fileToDelete.delete()) {
+                        Log.d(TAGG, "File deleted successfully: " + path);
+                    } else {
+                        Log.e(TAGG, "Failed to delete file: " + path);
+                        return false;
+                    }
+                } else {
+                    Log.e(TAGG, "File not found: " + path);
+                    return false;
+                }
+            }
+
+            return true;
+        } catch (Exception e) {
+            Log.e(TAGG, "Error deleting files permanently", e);
+            return false;
+        }
+    }
+
+
+
 
     public static boolean copyImagesToPrivateStorageWrapper(Context context, ArrayList<String> mediaPaths) {
         // Directly call the protected method with the ArrayList<String>
@@ -401,4 +524,12 @@ public class ImgVidFHandle {
         return moveMediaToNewLocation(context, selectedImagePaths);
     }
 
+
+    public static boolean restoredatatoImageorVideo(Context context, List<String> selectedImagePaths) {
+        return moveDataToImagesorVideos(context, selectedImagePaths);
+    }
+
+    public static boolean deteleDataPermanentWrapper(Context context, List<String> selectedImagePaths) {
+        return deleteDataPermanent(context, selectedImagePaths);
+    }
 }

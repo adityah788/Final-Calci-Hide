@@ -17,8 +17,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.finalcalcihide.Activity.FileShow;
 import com.example.finalcalcihide.Activity.ImagesHidden;
 import com.example.finalcalcihide.Activity.Intruder;
+import com.example.finalcalcihide.Activity.RecycleBin;
 import com.example.finalcalcihide.Activity.VideoHidden;
 import com.example.finalcalcihide.Utils.FileUtils;
 
@@ -27,7 +29,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    RelativeLayout relativeLayoutImage,relativeLayoutNote,relativeLayoutIntruder,relativeLayoutVideos;
+    RelativeLayout relativeLayoutImage,relativeLayoutIntruder,relativeLayoutVideos,relativeLayoutRecycleBin,relativeLayoutFile;
 
     // SharedPreferences constants
     private static final String PREFS_NAME = "IntruderSelfiePrefs";
@@ -41,9 +43,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         relativeLayoutImage= findViewById(R.id.main_Images);
-        relativeLayoutNote = findViewById(R.id.new_main_file);
         relativeLayoutIntruder = findViewById(R.id.r_intruder);
         relativeLayoutVideos = findViewById(R.id.new_main_vidoes);
+        relativeLayoutRecycleBin = findViewById(R.id.new_main_recycle_bin);
+        relativeLayoutFile = findViewById(R.id.new_main_file);
 
         // Check if a new selfie has been added
         SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
@@ -59,14 +62,6 @@ public class MainActivity extends AppCompatActivity {
             editor.remove(KEY_SELFIE_PATH);
             editor.apply();
         }
-        relativeLayoutNote.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-
-            }
-        });
 
 
 
@@ -92,6 +87,22 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, Intruder.class));
+            }
+        });
+
+
+        relativeLayoutRecycleBin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, RecycleBin.class));
+            }
+        });
+
+        relativeLayoutFile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, FileShow.class));
+
             }
         });
 

@@ -21,51 +21,26 @@
             android:gravity="center"
             android:orientation="horizontal">
 
+
             <LinearLayout
-                android:id="@+id/custom_btm_appbar_Visible"
+                android:id="@+id/linear_custom_btm_appbar_restore"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="?attr/selectableItemBackground"
                 android:gravity="center"
-                android:onClick="onVisibilityClick"
+                android:background="?attr/selectableItemBackground"
                 android:orientation="vertical"
                 android:padding="15dp">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/baseline_disabled_visible_24" />
-
-                <TextView
-                    android:id="@+id/custom_btm_appbar_ori_txtV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Visibility"
-                    android:textColor="@android:color/white" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/custom_btm_appbar_delete"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:background="?attr/selectableItemBackground"
-                android:onClick="onDeleteClick"
-                android:orientation="vertical"
-                android:padding="15dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/baseline_delete_24" />
+                    android:src="@drawable/baseline_backspace_24" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Delete"
+                    android:text="Restore"
                     android:textColor="@android:color/white" />
             </LinearLayout>
         </LinearLayout>

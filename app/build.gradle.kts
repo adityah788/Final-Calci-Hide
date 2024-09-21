@@ -60,6 +60,10 @@ dependencies {
     implementation ("androidx.camera:camera-view:1.3.4")
 
 
+    implementation("com.github.abhishekti7:UnicornFilePicker:1.0.2")
+
+
+
 
 
     implementation(libs.constraintlayout)
