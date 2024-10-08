@@ -14,11 +14,13 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.finalcalcihide.FileUtils.ImgVidFHandle;
 import com.example.finalcalcihide.Listner.OnItemSelectedListener;
 import com.example.finalcalcihide.R;
 import com.example.finalcalcihide.Utils.SelectionManager;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -63,7 +65,11 @@ public class ImageVideoHideAdapter extends RecyclerView.Adapter<ImageVideoHideAd
             holder.videoIcon.setVisibility(View.VISIBLE);
             holder.videoDuration.setVisibility(View.VISIBLE);
             // Here you can set the actual video duration if available
-            holder.videoDuration.setText(getVideoDuration(file));
+            try {
+                holder.videoDuration.setText(ImgVidFHandle.getVideoDuration(file));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         } else {
             holder.videoIcon.setVisibility(View.GONE);
             holder.videoDuration.setVisibility(View.GONE);
@@ -100,11 +106,6 @@ public class ImageVideoHideAdapter extends RecyclerView.Adapter<ImageVideoHideAd
         return false;
     }
 
-    private String getVideoDuration(File file) {
-        // Placeholder method to get video duration
-        // Replace this with actual implementation to get video duration
-        return "00:00"; // Default placeholder duration
-    }
 
     public void toggleSelection(int position) {
         if (hashSetselectedItems.contains(position)) {

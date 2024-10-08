@@ -3,6 +3,7 @@ package com.example.finalcalcihide.Activity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,6 +40,12 @@ public class Intruder extends AppCompatActivity {
 
     private AnimationManager animationManager;
     private FrameLayout animationContainer;
+    private SwitchCompat switchCompattoggle;
+
+    // Define a constant for your preference name
+    private static final String PREFS_NAME = "MyIntruder";
+    private static final String KEY_TAKE_SELFIE = "take_selfie";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +58,7 @@ public class Intruder extends AppCompatActivity {
         selectandDeselectAll = findViewById(R.id._intruder_contextual_toolbar_select_and_deselect_all);
         deleteIcon = findViewById(R.id.intruder_main_toobar_menu_icon);
         animationContainer = findViewById(R.id.intruder_animation_container);
+        switchCompattoggle = findViewById(R.id.activity_intruder_switch);
 
         intruderPaths = FileUtils.getIntruderPaths(this);
 
@@ -139,6 +148,14 @@ public class Intruder extends AppCompatActivity {
             }
         });
 
+        SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        switchCompattoggle = findViewById(R.id.activity_intruder_switch);
+
+        // Load the initial state from SharedPreferences
+        boolean isTakeSelfieEnabled = sharedPreferences.getBoolean(KEY_TAKE_SELFIE, false);
+        switchCompattoggle.setChecked(isTakeSelfieEnabled);
+
+
         containerCustomBottomAppBar.setOnClickListener(v -> {
 
             List<String> selectedPaths = intruderAdap.getSelectedImagePaths();
@@ -157,6 +174,19 @@ public class Intruder extends AppCompatActivity {
                     (processSuccess, paths) -> stopAnimationAndUpdateUI(processSuccess, paths)
             );
         });
+
+
+        switchCompattoggle.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            // Update the SharedPreferences when the switch is toggled
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean(KEY_TAKE_SELFIE, isChecked);
+            editor.apply(); // Save the changes
+
+            String message = isChecked ? "Selfie will be taken" : "Selfie will not be taken";
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        });
+
+
     }
 
     private void onSelectandDeselect_All(boolean isAnySelected) {

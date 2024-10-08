@@ -100,6 +100,8 @@ public class FileShow extends AppCompatActivity {
 
         // Initialize ToolbarManager (assuming it's a custom class)
         toolbarManager = new ToolbarManager(this, customToolbarContainer, fileAdapter, filePaths, this);
+        toolbarManager.setToolbarMenu(false);
+        toolbarManager.setTitle("Files");    // Set toolbar title
 
         // Setup RecyclerView
 //        imageRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
@@ -111,7 +113,6 @@ public class FileShow extends AppCompatActivity {
         imageRecyclerView.setAdapter(fileAdapter);
 
         // Initialize Toolbar and Back Press Handling
-        toolbarManager.setToolbarMenu(false);
         handleOnBackPressed();
 
         // Handle Show/Hide Button Click
@@ -221,6 +222,8 @@ public class FileShow extends AppCompatActivity {
     private void onSelectandDeselect_All(boolean isAnySelected) {
         toolbarManager.setToolbarMenu(isAnySelected);
         setCustomBottomAppBarVisibility(isAnySelected);
+        toolbarManager.setTitle("Files");
+
     }
 
     private void setCustomBottomAppBarVisibility(boolean visible) {

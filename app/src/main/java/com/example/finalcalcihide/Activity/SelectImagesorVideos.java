@@ -174,7 +174,7 @@ public class SelectImagesorVideos extends AppCompatActivity {
 
     private void handleItemClick(int position) {
 //        if (selectImagesorVideosAdapter.isSelectedAny()) {
-            selectImagesorVideosAdapter.toggleSelection(position);
+        selectImagesorVideosAdapter.toggleSelection(position);
 //        } else {
 //            Intent intent = new Intent(this, ImageandVideoViewPager.class);
 //            intent.putStringArrayListExtra("imagePaths", mediaList);
@@ -220,7 +220,7 @@ public class SelectImagesorVideos extends AppCompatActivity {
             }
         } else {
             ImageView menuIcon = customToolbar.findViewById(R.id.main_toobar_menu_icon);
-                menuIcon.setVisibility(View.GONE);
+            menuIcon.setVisibility(View.GONE);
 
 
             ImageView backArrow = customToolbar.findViewById(R.id.main_toolbar_back_arrow);
@@ -229,9 +229,14 @@ public class SelectImagesorVideos extends AppCompatActivity {
             }
 
             TextView titleTextView = customToolbar.findViewById(R.id.main_toolbar_title);
-            if (titleTextView != null) {
+
+            if ("Videos".equals(parent)) {
+                mediaList.addAll(ImageVideoBucket.mediaList);
+                titleTextView.setText("Select Videos");
+            } else {
                 titleTextView.setText("Select Images");
             }
+
         }
     }
 
@@ -282,20 +287,32 @@ public class SelectImagesorVideos extends AppCompatActivity {
         }
     }
 
+    @OptIn(markerClass = UnstableApi.class)
     private void stopAnimationAndComplete(boolean result) {
 
         // Handle success or failure of the process
         if (result) {
-            Toast.makeText(SelectImagesorVideos.this, "Images hidden successfully!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SelectImagesorVideos.this,
+                    parent.equals("Images") ? "Images hidden successfully!" : "Videos hidden successfully!",
+                    Toast.LENGTH_SHORT).show();
 
-            // Redirect to ImageHidden class and finish the current activity
-            Intent intent = new Intent(SelectImagesorVideos.this, ImagesHidden.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK );
+            // Redirect based on whether it's Images or Videos
+            Intent intent;
+            if ("Images".equals(parent)) {
+                intent = new Intent(SelectImagesorVideos.this, ImagesHidden.class);
+            } else if ("Videos".equals(parent)) {
+                intent = new Intent(SelectImagesorVideos.this, VideoHidden.class);
+            } else {
+                // Fallback case, could log or handle unknown types
+                Log.w(TAG, "Unknown 'FROM' value in stopAnimationAndComplete: " + parent);
+                return;
+            }
+
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             finish(); // Close the SelectImagesorVideos activity
-
             startActivity(intent);
         } else {
-            Toast.makeText(SelectImagesorVideos.this, "Failed to hide images.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SelectImagesorVideos.this, "Failed to hide " + (parent.equals("Images") ? "images." : "videos."), Toast.LENGTH_SHORT).show();
         }
 
         // Stop the animation

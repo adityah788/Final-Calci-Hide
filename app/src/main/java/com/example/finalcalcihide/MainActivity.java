@@ -21,6 +21,7 @@ import com.example.finalcalcihide.Activity.FileShow;
 import com.example.finalcalcihide.Activity.ImagesHidden;
 import com.example.finalcalcihide.Activity.Intruder;
 import com.example.finalcalcihide.Activity.RecycleBin;
+import com.example.finalcalcihide.Activity.Setting;
 import com.example.finalcalcihide.Activity.VideoHidden;
 import com.example.finalcalcihide.Utils.FileUtils;
 
@@ -30,6 +31,8 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     RelativeLayout relativeLayoutImage,relativeLayoutIntruder,relativeLayoutVideos,relativeLayoutRecycleBin,relativeLayoutFile;
+
+    ImageView btnSetting ;
 
     // SharedPreferences constants
     private static final String PREFS_NAME = "IntruderSelfiePrefs";
@@ -47,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         relativeLayoutVideos = findViewById(R.id.new_main_vidoes);
         relativeLayoutRecycleBin = findViewById(R.id.new_main_recycle_bin);
         relativeLayoutFile = findViewById(R.id.new_main_file);
+        btnSetting = findViewById(R.id.new_main_setting);
 
         // Check if a new selfie has been added
         SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
@@ -105,6 +109,14 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        btnSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, Setting.class));
+            }
+        });
+
 
     }
 

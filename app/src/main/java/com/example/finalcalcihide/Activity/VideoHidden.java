@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -42,7 +43,6 @@ public class VideoHidden extends AppCompatActivity {
     private FrameLayout animationContainer;
 
     private ToolbarManager toolbarManager;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +84,10 @@ public class VideoHidden extends AppCompatActivity {
         // Initialize ToolbarManager (assuming it's a custom class)
         toolbarManager = new ToolbarManager(this, customToolbarContainer, imageVideoHideAdapter, videoPaths, this);
 
+        // Setup Toolbar
+        toolbarManager.setToolbarMenu(false); // Inflate main_toolbar
+        toolbarManager.setTitle("Videos");    // Set toolbar title
+
         // Setup RecyclerView
         imageRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         int spacing = getResources().getDimensionPixelSize(R.dimen.recycler_item_spacing);
@@ -91,11 +95,9 @@ public class VideoHidden extends AppCompatActivity {
         imageRecyclerView.setAdapter(imageVideoHideAdapter);
 
         // Initialize Toolbar and Back Press Handling
-        toolbarManager.setToolbarMenu(false);
+        // toolbarManager.setToolbarMenu(false); // Already called above
+
         handleOnBackPressed();
-
-        // Check if the dialog has been shown before
-
 
         // Handle Show/Hide Button Click
         customBottomAppBarVisible.setOnClickListener(v -> {
@@ -157,6 +159,9 @@ public class VideoHidden extends AppCompatActivity {
     private void onSelectandDeselect_All(boolean isAnySelected) {
         toolbarManager.setToolbarMenu(isAnySelected);
         setCustomBottomAppBarVisibility(isAnySelected);
+
+            toolbarManager.setTitle("Videos");
+
     }
 
     private void setCustomBottomAppBarVisibility(boolean visible) {
@@ -201,6 +206,7 @@ public class VideoHidden extends AppCompatActivity {
             videoPaths.removeAll(selectedPaths);
             imageVideoHideAdapter.notifyDataSetChanged();
             imageVideoHideAdapter.clearSelection();
+            toolbarManager.setTitle("Videos"); // Reset toolbar title
 
             Toast.makeText(VideoHidden.this, "Images moved back to original locations and deleted from app", Toast.LENGTH_SHORT).show();
         } else {
@@ -225,6 +231,4 @@ public class VideoHidden extends AppCompatActivity {
 
         // Optionally, handle selection states if needed
     }
-
-
 }

@@ -4,6 +4,7 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.media.MediaMetadataRetriever;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -21,6 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class ImgVidFHandle {
 
@@ -123,6 +125,27 @@ public class ImgVidFHandle {
             return name.substring(name.lastIndexOf("."));
         } catch (Exception e) {
             return ""; // No extension.
+        }
+    }
+
+
+    public static String getVideoDuration(File file) throws IOException {
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        try {
+            retriever.setDataSource(file.getAbsolutePath());
+            String time = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+            long timeInMillis = Long.parseLong(time);
+
+            return String.format("%02d:%02d",
+                    TimeUnit.MILLISECONDS.toMinutes(timeInMillis),
+                    TimeUnit.MILLISECONDS.toSeconds(timeInMillis) -
+                            TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(timeInMillis))
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "00:00"; // Default duration if there is an error
+        } finally {
+            retriever.release();
         }
     }
 
@@ -308,29 +331,28 @@ public class ImgVidFHandle {
     }
 
 
-    public   static boolean copyfilesToPrivateStorage(Context context, ArrayList<String> files) {
+    public static boolean copyfilesToPrivateStorage(Context context, ArrayList<String> files) {
         try {
             File filesRootDir = new File(context.getFilesDir(), ".dont_delete_me_by_hides/files");
 
-            // Ensure image directory exists
+            // Ensure the files directory exists
             if (!filesRootDir.exists()) {
                 if (!filesRootDir.mkdirs()) {
-                    Log.e(TAGG, "Failed to create image root directory");
+                    Log.e(TAGG, "Failed to create files root directory");
                     return false;
                 }
             }
 
-
             SharedPreferences sharedPreferences = context.getSharedPreferences("file_media_paths", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
 
-            for ( String file : files) {
-//                String mediaPath = mediaModel.getMediaPath();
+            for (String file : files) {
                 File mediaFile = new File(file);
 
                 if (mediaFile.exists() && mediaFile.canRead()) {
-                    File rootDir = filesRootDir;
-                    String copiedMediaPath = new File(rootDir, "copied_media_" + System.currentTimeMillis() + getFileExtension(mediaFile)).getAbsolutePath();
+                    // Retain the original file name
+                    File copiedFile = new File(filesRootDir, mediaFile.getName());
+                    String copiedMediaPath = copiedFile.getAbsolutePath();
 
                     try (FileInputStream inputStream = new FileInputStream(mediaFile);
                          BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
@@ -347,7 +369,6 @@ public class ImgVidFHandle {
                         editor.apply();
 
                         // Verify that the file was copied successfully
-                        File copiedFile = new File(copiedMediaPath);
                         if (copiedFile.exists()) {
                             Log.d(TAGG, "Successfully copied file to: " + copiedMediaPath);
 

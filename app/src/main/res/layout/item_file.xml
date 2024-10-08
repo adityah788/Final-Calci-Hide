@@ -34,9 +34,10 @@
         <TextView
             android:id="@+id/item_file_txt"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="25dp"
             android:layout_marginStart="10dp"
-            android:text="smatphone-22343.png" />
+            android:text="smatphone-22343.png"
+            android:textSize="20sp"/>
 
         <TextView
             android:id="@+id/item_file_time"

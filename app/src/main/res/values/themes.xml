@@ -59,6 +59,21 @@
 
 
 
+    <style name="settingItem" parent="MaterialAlertDialog.Material3.Body.Text" >
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/Black</item>
+        <item name="android:layout_marginStart">30dp</item>
+        <item name="android:padding">10dp</item>
+    </style>
+
+
+
+    <style name="RatingBarStyle" parent="Widget.AppCompat.RatingBar">
+        <item name="android:progressDrawable">@drawable/custom_ratingbar</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:maxHeight">48dp</item>
+    </style>
+
 
 
 </resources>

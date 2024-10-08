@@ -2,6 +2,7 @@ package com.example.finalcalcihide.Utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,7 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.widget.PopupMenu;
 
 import com.example.finalcalcihide.Adapter.ImageVideoHideAdapter;
@@ -81,15 +81,24 @@ public class ToolbarManager {
         if (menuIcon != null) {
             menuIcon.setOnClickListener(v -> showPopupMenu(menuIcon));
         }
-        backArrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        if (backArrow != null) {
+            backArrow.setOnClickListener(v -> activity.finish()); // Close the activity
+        }
+    }
 
-                activity.finish(); // Close the activity
-
+    // New method to set the toolbar title
+    public void setTitle(String title) {
+        View customToolbar = customToolbarContainer.getChildAt(0);
+        if (customToolbar != null) {
+            TextView titleTextView = customToolbar.findViewById(R.id.main_toolbar_title);
+            if (titleTextView != null) {
+                titleTextView.setText(title);
+            } else {
+                Log.e("ToolbarManager", "TextView with ID 'main_toolbar_title' not found in layout.");
             }
-        });
-
+        } else {
+            Log.e("ToolbarManager", "No child found in customToolbarContainer.");
+        }
     }
 
     public void updateItemCountText() {

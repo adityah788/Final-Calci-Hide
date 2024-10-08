@@ -33,6 +33,12 @@
         android:theme="@style/Theme.FinalCalciHide"
         tools:targetApi="31">
         <activity
+            android:name=".Activity.SecutityQues"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.Setting"
+            android:exported="false" />
+        <activity
             android:name=".Activity.FileShow"
             android:exported="false" />
         <activity

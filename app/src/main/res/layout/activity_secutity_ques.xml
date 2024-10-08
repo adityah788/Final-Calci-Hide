@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center"
+    android:background="@drawable/background_supprt_2"> <!-- Light background color -->
+
+    <TextView
+        android:id="@+id/security_question_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select a security question:"
+        android:textSize="20sp"
+        android:textColor="#fff"
+        android:layout_marginBottom="16dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/spinner_background"
+        android:layout_marginTop="16dp">
+
+        <Spinner
+            android:id="@+id/security_question_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:background="@color/transparent"
+            android:spinnerMode="dropdown"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+
+            android:src="@drawable/dropdown_icon"/>
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/security_answer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Your answer"
+        android:padding="10dp"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/spinner_background" />
+
+    <Button
+        android:id="@+id/submit_answer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:layout_marginTop="16dp"
+        android:padding="10dp"
+        android:background="@drawable/button_background"
+        android:textColor="#ffffff"
+        android:drawablePadding="8dp"
+        android:paddingHorizontal="20dp"/>
+</LinearLayout>

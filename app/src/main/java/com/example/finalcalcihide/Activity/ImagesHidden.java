@@ -41,16 +41,10 @@ public class ImagesHidden extends AppCompatActivity {
     private LinearLayout customBottomAppBar;
     private LinearLayout customBottomAppBarVisible;
     private FrameLayout fab_container;
-
     private AnimationManager animationManager;
     private FrameLayout animationContainer;
 
     private ToolbarManager toolbarManager;
-
-    // SharedPreferences constants
-    private static final String PREFS_NAME = "IntruderSelfiePrefs";
-    private static final String KEY_NEW_SELFIE = "new_selfie_added";
-    private static final String KEY_SELFIE_PATH = "selfie_path";
 
 
     @Override
