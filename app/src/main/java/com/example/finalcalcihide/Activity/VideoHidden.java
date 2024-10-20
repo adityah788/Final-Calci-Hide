@@ -51,6 +51,8 @@ public class VideoHidden extends AppCompatActivity {
 
         // Set navigation bar color to black
         getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.navigation_bar_color));
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.FinalPrimaryColor));
+
 
         // Initialize animation container
         animationContainer = findViewById(R.id.video_animation_container);

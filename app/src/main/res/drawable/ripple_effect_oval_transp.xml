@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="?attr/colorControlHighlight">
+
+    <!-- Your custom background -->
+    <item>
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="@android:color/transparent" />
+                </shape>
+
+            </item>
+            <!-- Your existing background -->
+            <item android:drawable="@drawable/background_supprt_2" />
+        </layer-list>
+    </item>
+
+    <!-- Ripple effect mask -->
+    <item android:id="@android:id/mask">
+        <shape android:shape="rectangle">
+            <solid android:color="#5FFFFFFF" /> <!-- Semi-transparent white ripple -->
+            <corners android:radius="10dp"/>
+        </shape>
+    </item>
+
+</ripple>

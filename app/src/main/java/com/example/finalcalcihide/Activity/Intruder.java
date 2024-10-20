@@ -2,19 +2,30 @@ package com.example.finalcalcihide.Activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,6 +36,7 @@ import com.example.finalcalcihide.Utils.AnimationManager;
 import com.example.finalcalcihide.Utils.FileUtils;
 import com.example.finalcalcihide.ViewPager.ImageandVideoViewPager;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +47,7 @@ public class Intruder extends AppCompatActivity {
     private LinearLayout customToolbarContainer;
     private IntruderAdap intruderAdap;
     private LinearLayout containerCustomBottomAppBar;
-    private ImageView selectandDeselectAll, deleteIcon;
+    private ImageView selectandDeselectAll, deleteIcon,settingCount;
     private boolean isAllSelected = false; // To keep track of selection state
 
     private AnimationManager animationManager;
@@ -46,11 +58,17 @@ public class Intruder extends AppCompatActivity {
     private static final String PREFS_NAME = "MyIntruder";
     private static final String KEY_TAKE_SELFIE = "take_selfie";
 
+    View dialogView;
+    TextView cancelTextView ;
+    TextView confirmTextView ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intruder);
+
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.FinalPrimaryColor));
+
 
         intruderRecyclerView = findViewById(R.id.intruder_selfie_gallery_recycler);
         customToolbarContainer = findViewById(R.id.intruder_custom_toolbar_container);
@@ -59,8 +77,14 @@ public class Intruder extends AppCompatActivity {
         deleteIcon = findViewById(R.id.intruder_main_toobar_menu_icon);
         animationContainer = findViewById(R.id.intruder_animation_container);
         switchCompattoggle = findViewById(R.id.activity_intruder_switch);
+        settingCount = findViewById(R.id.intruder_main_toobar_setting);
 
         intruderPaths = FileUtils.getIntruderPaths(this);
+
+        LayoutInflater inflater = getLayoutInflater();
+       dialogView = inflater.inflate(R.layout.dialog_no_of_intru_selfie, null);  // Replace 'dialog_like_count' with your XML layout name
+
+
 
         intruderAdap = new IntruderAdap(this, intruderPaths, new IntruderAdap.OnItemSelectedListener() {
             @Override
@@ -187,6 +211,17 @@ public class Intruder extends AppCompatActivity {
         });
 
 
+        settingCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showObservationTimeDialog();
+            }
+        });
+
+
+
+
+
     }
 
     private void onSelectandDeselect_All(boolean isAnySelected) {
@@ -255,4 +290,88 @@ public class Intruder extends AppCompatActivity {
             Toast.makeText(Intruder.this, "Error moving images back", Toast.LENGTH_SHORT).show();
         }
     }
+
+
+
+    // Method to show the custom dialog with NumberPicker
+    private void showObservationTimeDialog() {
+        // Inflate the custom layout
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_no_of_intru_selfie, null);
+
+        // Create an AlertDialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomAlertDialog);
+        builder.setView(dialogView);
+
+        // Initialize NumberPicker and set values (1-5)
+        NumberPicker numberPicker = dialogView.findViewById(R.id.numberPicker);
+        numberPicker.setMinValue(1);
+        numberPicker.setMaxValue(5);
+        numberPicker.setWrapSelectorWheel(false); // Disable wrapping
+
+        // Change the text color and size
+        for (int i = 0; i < numberPicker.getChildCount(); i++) {
+            View child = numberPicker.getChildAt(i);
+            if (child instanceof EditText) {
+                try {
+                    EditText editText = (EditText) child;
+                    editText.setTextColor(Color.WHITE);  // Set text color to white
+                    editText.setTextSize(24);  // Increase text size
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        // Set the size of the NumberPicker (if needed)
+        ViewGroup.LayoutParams layoutParams = numberPicker.getLayoutParams();
+        layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT;  // Adjust width
+        layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT; // Adjust height
+        numberPicker.setLayoutParams(layoutParams);
+
+        // Find Cancel and Confirm buttons in the inflated layout
+        TextView cancelTextView = dialogView.findViewById(R.id.txv_cancel);
+        TextView confirmTextView = dialogView.findViewById(R.id.txv_confirm);
+
+        // Create and show the dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        // Handle Cancel button click
+        cancelTextView.setOnClickListener(v -> dialog.dismiss());
+
+        // Handle Confirm button click
+        confirmTextView.setOnClickListener(v -> {
+            int selectedCount = numberPicker.getValue();
+            saveLikeCount(selectedCount); // Save the selected count in SharedPreferences
+            dialog.dismiss();
+        });
+    }
+
+    // Method to save the selected like count in SharedPreferences
+    private void saveLikeCount(int count) {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("likeCount", count);  // Save the count
+        editor.apply();  // Commit the changes
+    }
+
+    private void animateNumberPicker(NumberPicker numberPicker) {
+        numberPicker.animate()
+                .scaleX(1.2f) // Scale up
+                .scaleY(1.2f) // Scale up
+                .setDuration(200) // Duration for scaling up
+                .setInterpolator(new android.view.animation.DecelerateInterpolator()) // Easing for scaling up
+                .withEndAction(() -> {
+                    numberPicker.animate()
+                            .scaleX(1f) // Scale back to normal
+                            .scaleY(1f) // Scale back to normal
+                            .setDuration(200) // Duration for scaling down
+                            .setInterpolator(new android.view.animation.AccelerateInterpolator()) // Easing for scaling down
+                            .start();
+                })
+                .start();
+    }
+
+
 }

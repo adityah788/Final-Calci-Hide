@@ -2,7 +2,6 @@ package com.example.finalcalcihide.Activity;
 
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
@@ -15,20 +14,18 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.OptIn;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.media3.common.util.Log;
 import androidx.media3.common.util.UnstableApi;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.finalcalcihide.Adapter.FileShowAdap;
-import com.example.finalcalcihide.Adapter.ImageVideoHideAdapter;
 import com.example.finalcalcihide.FileUtils.ImgVidFHandle;
-import com.example.finalcalcihide.GridSpacingItemDecoration;
 import com.example.finalcalcihide.R;
 import com.example.finalcalcihide.Utils.ToolbarManager;
 import com.example.finalcalcihide.Utils.AnimationManager;
@@ -41,9 +38,6 @@ import java.util.List;
 
 import abhishekti7.unicorn.filepicker.UnicornFilePicker;
 import abhishekti7.unicorn.filepicker.utils.Constants;
-
-
-// ... [imports]
 
 public class FileShow extends AppCompatActivity {
     private ArrayList<String> filePaths = new ArrayList<>();
@@ -64,28 +58,23 @@ public class FileShow extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_images_hidden);
+        setContentView(R.layout.file_show_acitivity);
 
-        // Set navigation bar color to black
+        // Set navigation bar color
         getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.navigation_bar_color));
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.FinalPrimaryColor));
 
-        // Initialize animation container
+        // Initialize components
         animationContainer = findViewById(R.id.animation_container);
         animationManager = new AnimationManager(this, animationContainer);
-
-        // Request necessary permissions
-        PermissionHandler.requestPermissions(FileShow.this);
-
-        // Initialize UI components
-        imageRecyclerView = findViewById(R.id.image_gallery_recycler);
-        fab_container = findViewById(R.id.image_gallary_fab_container);
-        customToolbarContainer = findViewById(R.id.custom_toolbar_container);
-        customBottomAppBar = findViewById(R.id.custom_bottom_appbar);
+        imageRecyclerView = findViewById(R.id.file_gallery_recycler);
+        fab_container = findViewById(R.id.file_gallary_fab_container);
+        customToolbarContainer = findViewById(R.id.file_custom_toolbar_container);
+        customBottomAppBar = findViewById(R.id.file_custom_bottom_appbar);
         customBottomAppBarVisible = findViewById(R.id.custom_btm_appbar_Visible);
         customBottomAppBarDelete = findViewById(R.id.custom_btm_appbar_delete);
         filePaths = FileUtils.getFilePaths(this);
 
-        // Initialize Adapter with the correct listener
         fileAdapter = new FileShowAdap(this, filePaths, new FileShowAdap.OnItemSelectedListener() {
             @Override
             public void onItemSelected(int position) {
@@ -98,107 +87,98 @@ public class FileShow extends AppCompatActivity {
             }
         });
 
-        // Initialize ToolbarManager (assuming it's a custom class)
         toolbarManager = new ToolbarManager(this, customToolbarContainer, fileAdapter, filePaths, this);
         toolbarManager.setToolbarMenu(false);
-        toolbarManager.setTitle("Files");    // Set toolbar title
-
-        // Setup RecyclerView
-//        imageRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-//        int spacing = getResources().getDimensionPixelSize(R.dimen.recycler_item_spacing);
-//        imageRecyclerView.addItemDecoration(new GridSpacingItemDecoration(3, spacing));
+        toolbarManager.setTitle("Files");
 
         imageRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         imageRecyclerView.setAdapter(fileAdapter);
 
-        // Initialize Toolbar and Back Press Handling
         handleOnBackPressed();
 
-        // Handle Show/Hide Button Click
+        PermissionHandler.requestPermissions(FileShow.this);
+
+        // Show/Hide Button Handler
         customBottomAppBarVisible.setOnClickListener(v -> {
             List<String> selectedPaths = fileAdapter.getSelectedImagePaths();
-            final long MINIMUM_DISPLAY_TIME = 2500; // in milliseconds
+            final long MINIMUM_DISPLAY_TIME = 2500;
 
             animationManager.handleAnimationProcess(
                     AnimationManager.AnimationType.HIDE_UNHIDE,
                     selectedPaths,
                     MINIMUM_DISPLAY_TIME,
-                    () -> {
-                        // Background task: Move images back to original locations
-                        ImgVidFHandle.moveImagesBackToOriginalLocationsWrapper(FileShow.this, selectedPaths);
-                        // Update processSuccess based on actual task outcome
-                        // For example, set to true if task succeeds, false otherwise
-                    },
+                    () -> ImgVidFHandle.moveImagesBackToOriginalLocationsWrapper(FileShow.this, selectedPaths),
                     (processSuccess, paths) -> stopAnimationAndUpdateUI(processSuccess, paths)
             );
         });
 
-        // Handle Delete Button Click
+        // Delete Button Handler
         customBottomAppBarDelete.setOnClickListener(v -> {
             List<String> selectedPaths = fileAdapter.getSelectedImagePaths();
-            final long MINIMUM_DISPLAY_TIME = 2100; // in milliseconds
+            final long MINIMUM_DISPLAY_TIME = 2100;
 
             animationManager.handleAnimationProcess(
                     AnimationManager.AnimationType.DELETE,
                     selectedPaths,
                     MINIMUM_DISPLAY_TIME,
-                    () -> {
-                        // Background task: Move images back to recycle locations
-                        ImgVidFHandle.moveImagesBackToRecycleLocationsWrapper(FileShow.this, selectedPaths);
-                        // Update processSuccess based on actual task outcome
-                    },
+                    () -> ImgVidFHandle.moveImagesBackToRecycleLocationsWrapper(FileShow.this, selectedPaths),
                     (processSuccess, paths) -> stopAnimationAndUpdateUI(processSuccess, paths)
             );
         });
 
-        // Handle FAB Click
+        // FAB Click Handler
         fab_container.setOnClickListener(v -> {
-            UnicornFilePicker.from(FileShow.this) // Corrected context
-                    .addConfigBuilder()
-                    .selectMultipleFiles(true)
-                    .showOnlyDirectory(false)
-                    .setRootDirectory(Environment.getExternalStorageDirectory().getAbsolutePath())
-                    .showHiddenFiles(true)
-                    .setFilters(new String[]{
-                            "pdf", "png", "jpg", "jpeg",       // Images
-                            "mp3", "wav", "flac", "m4a",       // Audio
-                            "mp4", "3gp", "mkv", "avi", "mov", // Video
-                            "doc", "docx", "xls", "xlsx",      // Documents
-                            "ppt", "pptx", "txt",              // Documents and Text
-                            "zip", "rar"})
-                    .addItemDivider(true)
-                    //  .theme(R.style.UnicornFilePicker_Dracula)
-                    .build()
-                    .forResult(Constants.REQ_UNICORN_FILE);
+            Log.d("FileShow", "Checking permissions before file picker");
+            if (PermissionHandler.checkPermissions(this)) {
+                Log.d("FileShow", "Launching file picker");
+                // Proceed with launching the file picker
+                UnicornFilePicker.from(FileShow.this)
+                        .addConfigBuilder()
+                        .selectMultipleFiles(true)
+                        .showOnlyDirectory(false)
+                        .setRootDirectory(Environment.getExternalStorageDirectory().getAbsolutePath())
+                        .showHiddenFiles(true)
+                        .setFilters(new String[]{
+                                "pdf", "png", "jpg", "jpeg",
+                                "mp3", "wav", "flac", "m4a",
+                                "mp4", "3gp", "mkv", "avi", "mov",
+                                "doc", "docx", "xls", "xlsx",
+                                "ppt", "pptx", "txt",
+                                "zip", "rar"})
+                        .addItemDivider(true)
+                        .build()
+                        .forResult(Constants.REQ_UNICORN_FILE);
+            } else {
+                // Request permissions if not granted
+                Log.d("FileShow", "Requesting permissions");
+                PermissionHandler.requestPermissions(this);
+            }
         });
+
+
     }
 
-    // Moved onActivityResult outside of onCreate
     @OptIn(markerClass = UnstableApi.class)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == Constants.REQ_UNICORN_FILE && resultCode == RESULT_OK){
-            if(data != null){
+        if (requestCode == Constants.REQ_UNICORN_FILE && resultCode == RESULT_OK) {
+            if (data != null) {
                 ArrayList<String> files = data.getStringArrayListExtra("filePaths");
 
                 boolean success = ImgVidFHandle.copyfilesToPrivateStorage(getApplicationContext(), files);
 
                 if (success) {
-                    // Update imagePaths after copying images
                     filePaths.clear();
-                    filePaths.addAll(FileUtils.getFilePaths(this));   // Reload paths from storage
+                    filePaths.addAll(FileUtils.getFilePaths(this));
 
-                    // Notify the adapter that data has changed
                     runOnUiThread(() -> fileAdapter.notifyDataSetChanged());
-
-                    Toast.makeText(getApplicationContext(), "File copied to private storage", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Files copied to private storage", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Error copying images", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Error copying files", Toast.LENGTH_SHORT).show();
                 }
 
-                for(String file : files){
+                for (String file : files) {
                     Log.e(TAG, file);
                 }
             }
@@ -223,7 +203,6 @@ public class FileShow extends AppCompatActivity {
         toolbarManager.setToolbarMenu(isAnySelected);
         setCustomBottomAppBarVisibility(isAnySelected);
         toolbarManager.setTitle("Files");
-
     }
 
     private void setCustomBottomAppBarVisibility(boolean visible) {
@@ -261,17 +240,14 @@ public class FileShow extends AppCompatActivity {
         getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
-    // Helper method to stop the animation and update the UI
     private void stopAnimationAndUpdateUI(boolean processSuccess, List<String> selectedPaths) {
         if (processSuccess) {
-            // Remove the moved paths from imagePaths
             filePaths.removeAll(selectedPaths);
             fileAdapter.notifyDataSetChanged();
             fileAdapter.clearSelection();
-
-            Toast.makeText(FileShow.this, "Images moved back to original locations and deleted from app", Toast.LENGTH_SHORT).show();
+            Toast.makeText(FileShow.this, "Images moved back to original locations", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(FileShow.this, "Error moving images back", Toast.LENGTH_SHORT).show();
+            Toast.makeText(FileShow.this, "Error moving images", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -279,65 +255,41 @@ public class FileShow extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         refreshImageList();
-
-        Toast.makeText(this, "onResume called", Toast.LENGTH_SHORT).show();
     }
 
     private void refreshImageList() {
-        // Reload image paths
-        ArrayList<String> updatedImagePaths = FileUtils.getFilePaths(this);
-
-        // Update the adapter's data
-        fileAdapter.updateImagePaths(updatedImagePaths);
-
-        // Optionally, handle selection states if needed
+        ArrayList<String> updatedImageList = FileUtils.getFilePaths(this);
+        filePaths.clear();
+        filePaths.addAll(updatedImageList);
+        fileAdapter.notifyDataSetChanged();
     }
 
     private void handleFileClick(File file, boolean isAudio, boolean isDocument, boolean isImage, boolean isVideo) {
-        // Handle click based on file type
-        if (isAudio) {
-            Uri uri = ImgVidFHandle.getFileUri(this, file);
+        if (isImage) {
+            Uri imageUri = ImgVidFHandle.getFileUri(this, file);
             Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(uri, "audio/*");
+            intent.setDataAndType(imageUri, "image/*");
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            Intent chooser = Intent.createChooser(intent, "Open with");
-            if (chooser.resolveActivity(this.getPackageManager()) != null) {
-                this.startActivity(chooser);
-            }
-        } else if (isDocument) {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            Uri uri = ImgVidFHandle.getFileUri(this, file);
-            String mimeType = getMimeType(file);
-            intent.setDataAndType(uri, mimeType);
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            Intent chooser = Intent.createChooser(intent, "Open with");
-            if (chooser.resolveActivity(this.getPackageManager()) != null) { // Changed from intent to chooser
-                this.startActivity(chooser);
-            }
-        } else if (isImage) {
-            Intent intent = new Intent(this, SinglePV.class);
-            intent.putExtra("image_path", file.getAbsolutePath());
-            this.startActivity(intent);
+            startActivity(intent);
         } else if (isVideo) {
-            Intent intent = new Intent(this, SinglePV.class);
-            intent.putExtra("video_path", file.getAbsolutePath());
-            this.startActivity(intent);
-        } else {
-            Toast.makeText(this, "Unsupported file type", Toast.LENGTH_SHORT).show();
+            Uri videoUri = ImgVidFHandle.getFileUri(this, file);
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(videoUri, "video/*");
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            startActivity(intent);
+        } else if (isAudio) {
+            Uri audioUri = ImgVidFHandle.getFileUri(this, file);
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(audioUri, "audio/*");
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            startActivity(intent);
+        } else if (isDocument) {
+            Uri docUri = ImgVidFHandle.getFileUri(this, file);
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(docUri, "application/*");
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            startActivity(intent);
         }
     }
 
-    private String getMimeType(File file) {
-        if (file.getName().endsWith(".pdf")) {
-            return "application/pdf";
-        } else if (file.getName().endsWith(".doc") || file.getName().endsWith(".docx")) {
-            return "application/msword";
-        } else if (file.getName().endsWith(".ppt") || file.getName().endsWith(".pptx")) {
-            return "application/vnd.ms-powerpoint";
-        } else if (file.getName().endsWith(".txt")) {
-            return "text/plain";
-        } else {
-            return "*/*"; // Fallback MIME type
-        }
-    }
 }

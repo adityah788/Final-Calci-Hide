@@ -9,10 +9,10 @@
     android:fitsSystemWindows="true"
     android:theme="@style/Theme.status_bar_clr"
     android:background="@drawable/primary_background"
-    tools:context=".Activity.ImagesHidden">
+    tools:context=".Activity.FileShow">
 
     <LinearLayout
-        android:id="@+id/custom_toolbar_container"
+        android:id="@+id/file_custom_toolbar_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -23,7 +23,7 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/image_gallery_recycler"
+        android:id="@+id/file_gallery_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/custom_toolbar_container"
@@ -36,7 +36,7 @@
 
 
     <include layout="@layout/custom_bottom_appbar"
-        android:id="@+id/custom_bottom_appbar"
+        android:id="@+id/file_custom_bottom_appbar"
         android:layout_width="match_parent"
         android:visibility="invisible"
         android:layout_height="wrap_content"
@@ -47,7 +47,7 @@
     <!-- custom_fab.xml -->
 
     <FrameLayout
-        android:id="@+id/image_gallary_fab_container"
+        android:id="@+id/file_gallary_fab_container"
         android:layout_width="55dp"
         android:layout_height="55dp"
         android:layout_gravity="bottom|end"

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_suport_3"
+    android:background="@drawable/primary_background"
     android:orientation="vertical">
 
 
@@ -35,10 +35,11 @@
 
         <ImageView
             android:id="@+id/new_main_setting"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="16dp"
+            android:background="@drawable/ripple_setting"
             android:layout_marginEnd="10dp"
             android:backgroundTint="@color/White"
             android:src="@drawable/settings_24" />
@@ -52,28 +53,32 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
-        android:background="@drawable/alt_my_background"
         android:elevation="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:orientation="horizontal"
-            android:padding="10dp">
+            android:background="@drawable/secondary_background">
 
             <!-- First RelativeLayout -->
             <RelativeLayout
                 android:id="@+id/r_intruder"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:layout_height="100dp"
+                android:layout_weight="1"
+                android:background="@drawable/ripple_calci_hide">
 
                 <View
                     android:id="@+id/view1"
                     android:layout_width="55dp"
                     android:layout_height="55dp"
                     android:layout_centerHorizontal="true"
-                    android:background="@drawable/rounded_corner" />
+                    android:layout_margin="10dp"
+                    android:background="@drawable/rounded_corner_browser">
+
+
+                </View>
 
 
                 <ImageView
@@ -81,7 +86,7 @@
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="18dp"
                     android:src="@drawable/paparazzi_7219768" />
 
                 <TextView
@@ -89,8 +94,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/intruder"
                     android:layout_centerHorizontal="true"
+                    android:layout_marginTop="14dp"
                     android:gravity="center_horizontal"
-                    android:layout_marginTop="18dp"
                     android:text="Intruder selfie"
                     android:textColor="@color/White"
                     android:textSize="15sp" />
@@ -102,17 +107,16 @@
 
                 android:id="@+id/new_main_Browser"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:layout_height="100dp"
+                android:background="@drawable/ripple_calci_hide"
+            android:layout_weight="1">
 
                 <View
                     android:layout_width="55dp"
                     android:layout_height="55dp"
+                    android:layout_marginTop="10dp"
                     android:layout_centerHorizontal="true"
-                    android:background="@drawable/rounded_corner">
-
-
-                </View>
+                    android:background="@drawable/rounder_corner_intruder" />
 
 
                 <ImageView
@@ -121,7 +125,7 @@
                     android:layout_height="34dp"
                     android:layout_centerHorizontal="true"
 
-                    android:layout_marginTop="9dp"
+                    android:layout_marginTop="19dp"
                     android:src="@drawable/browser_2742473" />
 
                 <TextView
@@ -141,12 +145,14 @@
             <RelativeLayout
                 android:id="@+id/new_main_recycle_bin"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
+                android:background="@drawable/ripple_calci_hide"
                 android:layout_weight="1">
 
                 <View
                     android:layout_width="55dp"
                     android:layout_height="55dp"
+                    android:layout_marginTop="10dp"
                     android:layout_centerHorizontal="true"
                     android:background="@drawable/rounded_corner" />
 
@@ -156,8 +162,9 @@
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="9dp"
-                    android:src="@drawable/delete" />
+                    android:layout_marginTop="19dp"
+                    android:src="@drawable/delete"
+                    android:tint="@color/white"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -181,22 +188,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/rounded_search_box"
         android:layout_marginEnd="10dp"
         android:padding="5dp">
-
-        <View
-            android:layout_width="5dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/rounded_corner" />
 
 
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="10dp"
             android:src="@drawable/incognito_24" />
 
         <TextView
@@ -206,7 +208,7 @@
             android:layout_marginStart="10dp"
             android:hint="Private web browser"
             android:padding="10dp"
-            android:textColorHint="@color/browser_title_color"
+            android:textColorHint="@color/white"
             android:textSize="20sp" />
 
     </LinearLayout>
@@ -233,7 +235,7 @@
 
     <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="380dp"
         android:layout_marginBottom="30dp"
         android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"
@@ -249,7 +251,7 @@
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_margin="10dp"
-            android:background="@drawable/background_supprt_2"
+            android:background="@drawable/ripple_effect_oval_transp"
             android:elevation="8dp">
 
 
@@ -258,7 +260,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:src="@drawable/photo" />
 
             <TextView
@@ -281,7 +283,7 @@
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_margin="10dp"
-            android:background="@drawable/background_supprt_2"
+            android:background="@drawable/ripple_effect_oval_transp"
             android:elevation="8dp">
 
 
@@ -290,7 +292,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:src="@drawable/reel" />
 
             <TextView
@@ -313,7 +315,7 @@
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_margin="10dp"
-            android:background="@drawable/background_supprt_2"
+            android:background="@drawable/ripple_effect_oval_transp"
             android:elevation="8dp">
 
 
@@ -322,7 +324,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:src="@drawable/folder" />
 
             <TextView
@@ -345,7 +347,7 @@
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_margin="10dp"
-            android:background="@drawable/background_supprt_2"
+            android:background="@drawable/ripple_effect_oval_transp"
             android:elevation="8dp">
 
 
@@ -354,7 +356,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:src="@drawable/note" />
 
             <TextView

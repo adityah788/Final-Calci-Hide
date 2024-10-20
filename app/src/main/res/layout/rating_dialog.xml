@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="20dp"
-    android:background="@drawable/rating_dialog_background"
+    android:paddingEnd="60dp"
+    android:paddingStart="60dp"
     android:gravity="center"
-    android:layout_gravity="center"
-    android:elevation="8dp">
+    android:elevation="8dp"
+    android:background="@drawable/background_bottom_sheet">
 
     <!-- Close Button at the top-right corner -->
     <RelativeLayout
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/closeDialog"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/baseline_close_24"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="15dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/shy"
             android:layout_marginBottom="10dp"
-            android:contentDescription="Close dialog"
-            android:clickable="true"
-            android:focusable="true"/>
+            android:contentDescription="Close dialog"/>
     </RelativeLayout>
 
     <!-- Title -->
@@ -35,7 +35,7 @@
         android:textSize="22sp"
         android:textStyle="bold"
         android:layout_marginBottom="12dp"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/limeclr"
         android:gravity="center"/>
 
     <!-- Subtitle -->
@@ -44,12 +44,12 @@
         android:layout_height="wrap_content"
         android:text="We would love to hear your feedback!"
         android:textSize="16sp"
-        android:textColor="@android:color/darker_gray"
+        android:textColor="@color/white"
         android:gravity="center"
-        android:layout_marginBottom="20dp"/>
+        android:layout_marginBottom="10dp"/>
 
     <!-- Rating Bar -->
-    <RatingBar
+    <androidx.appcompat.widget.AppCompatRatingBar
         android:id="@+id/ratingBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
         android:stepSize="1.0"
         android:rating="0"
         android:layout_gravity="center"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="10dp"
         android:theme="@style/RatingBarStyle"/>
 
     <!-- Submit Button -->
@@ -66,12 +66,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Submit"
-        android:padding="12dp"
-        android:backgroundTint="@color/colorAccent"
-        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:background="@drawable/rounded_button"
+        android:textColor="@color/limeclr"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/rating_dialog_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Later"
+        android:textSize="18sp"
         android:textStyle="bold"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/rounded_button" />
+        android:textColor="@android:color/darker_gray"
+        android:padding="8dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="20dp"/>
 
 </LinearLayout>

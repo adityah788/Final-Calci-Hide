@@ -1,23 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_supprt_2"
+    android:background="@drawable/primary_background"
     tools:context=".Activity.Setting">
+
+    <RelativeLayout
+        android:id="@+id/setting_status_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:padding="5dp">
+
+
+        <!-- Back Arrow -->
+        <ImageView
+            android:id="@+id/setting_main_toolbar_back_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:padding="5dp"
+            android:src="@drawable/baseline_arrow_back_24" />
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/main_toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Setting"
+            android:layout_toEndOf="@+id/setting_main_toolbar_back_arrow"
+            android:textColor="#fff"
+            android:padding="5dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="14dp"
+            android:textSize="20sp" />
+
+
+    </RelativeLayout>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/setting_status_bar"
+        android:paddingBottom="10dp">
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
 
+
+            >
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="12dp"
+                app:cardBackgroundColor="@color/TertiaryPrimarycolor"
+                app:cardCornerRadius="20dp"
+                >
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/setting_forgot_hint"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:padding="5dp"
+                        android:src="@drawable/idea_bulb"
+                        android:layout_centerVertical="true"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/setting_forgot_hint"
+                        android:layout_margin="5dp"
+                        android:padding="5dp"
+                        android:text="If forget Password type 123123123 for Reset Password"
+                        android:textSize="20sp"
+                        android:textColor="@color/limeclr"/>
+
+
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_below="@+id/tvWelcome"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:text="security"
+                android:textColor="@color/purple_500"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -25,62 +115,40 @@
                 android:layout_marginLeft="12dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginRight="12dp"
-                app:cardCornerRadius="8dp">
+                app:cardBackgroundColor="@color/TertiaryPrimarycolor"
+                app:cardCornerRadius="20dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/background_supprt_2"
                     android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="48dp"
-                        android:layout_below="@+id/tvWelcome"
-                        android:layout_marginLeft="24dp"
-                        android:layout_marginTop="8dp"
-                        android:gravity="center_vertical"
-                        android:text="security"
-                        android:textColor="@color/purple_500"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tvChangePass"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        style="@style/settingItem"
+                        android:paddingStart="30dp"
                         android:textColor="@color/white"
-                        android:text="Change Password" />
+                        android:text="Change Password"
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginLeft="32dp"
-                        android:layout_marginRight="24dp"
-                        android:background="@color/Black" />
+                    style="@style/settingItem" />
 
                     <TextView
                         android:id="@+id/tvChangeSecureQuestion"
-                        style="@style/settingItem"
-                        android:textColor="@color/white"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="change_security_question" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginLeft="32dp"
-                        android:layout_marginRight="24dp"
-                        android:background="@color/Black" />
-
+                        android:paddingStart="30dp"
+                        android:textColor="@color/white"
+                        android:text="Change Security Question"
+                        android:foreground="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    style="@style/settingItem" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="56dp">
 
-                        <!--                        android:theme="@style/Color1SwitchStyle"-->
                         <androidx.appcompat.widget.SwitchCompat
                             android:id="@+id/swCapture"
                             style="@style/settingItem"
@@ -88,26 +156,38 @@
                             android:layout_height="match_parent"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:checked="false"
-                            />
+                            android:checked="false" />
 
                         <TextView
                             android:id="@+id/tvTakePicture"
-                            style="@style/settingItem"
-                            android:textColor="@color/white"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_centerVertical="true"
-                            android:layout_toLeftOf="@+id/swCapture"
-                            android:text="take_picture" />
+                            android:paddingStart="30dp"
+                            android:textColor="@color/white"
+                            android:text="Take Picture"
+                            android:foreground="?attr/selectableItemBackground"
+                        android:focusable="true"
+                        style="@style/settingItem"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/swCapture" />
                     </RelativeLayout>
 
                 </LinearLayout>
 
-
             </androidx.cardview.widget.CardView>
 
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_below="@+id/tvWelcome"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:text="More"
+                android:textColor="@color/purple_500"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
 
             <!--            app:cardBackgroundColor="@color/dialog_bg"-->
@@ -117,26 +197,15 @@
                 android:layout_marginLeft="12dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginRight="12dp"
-                app:cardCornerRadius="8dp">
+                app:cardBackgroundColor="@color/TertiaryPrimarycolor"
+                app:cardCornerRadius="20dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/background_supprt_2"
-                    android:orientation="vertical"
-                    >
+                    android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="48dp"
-                        android:layout_below="@+id/tvWelcome"
-                        android:layout_marginLeft="24dp"
-                        android:layout_marginTop="8dp"
-                        android:gravity="center_vertical"
-                        android:text="More"
-                        android:textColor="@color/purple_500"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
+
 
                     <TextView
                         android:id="@+id/tvRate"
@@ -144,37 +213,24 @@
                         android:textColor="@color/white"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:paddingStart="30dp"
                         android:text="rate_star" />
 
 
-                    <!--                    android:background="@color/unicorn_light_black"-->
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginLeft="32dp"
-                        android:layout_marginRight="24dp"
-                        android:background="@color/Black"
-                        />
+
 
                     <TextView
                         android:id="@+id/tvShare"
                         style="@style/settingItem"
                         android:textColor="@color/white"
                         android:layout_width="match_parent"
+                        android:paddingStart="30dp"
                         android:layout_height="wrap_content"
                         android:text="share_to_friend" />
 
 
 
 
-                    <!--                    android:background="@color/unicorn_light_black"-->
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginLeft="32dp"
-                        android:layout_marginRight="24dp"
-                        android:background="@color/Black"
-                        />
 
                     <TextView
                         android:id="@+id/tvPolicy"
@@ -182,6 +238,7 @@
                         android:textColor="@color/white"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:paddingStart="30dp"
                         android:layout_marginBottom="8dp"
                         android:text="policy" />
                 </LinearLayout>
@@ -194,4 +251,4 @@
 
     </ScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

@@ -32,33 +32,4 @@
 
 
 
-
-
-
-
-
-    <style name="digitBtn" parent="commonBtn">
-
-        <item name="android:textColor">@color/Black</item>
-
-    </style>
-
-
-    <style name="operatorbtn" parent="commonBtn">
-
-        <item name="android:textColor">@color/btnbackground2</item>
-    </style>
-
-    <style name="commonBtn" parent="Widget.MaterialComponents.ExtendedFloatingActionButton">
-
-        <item name="android:layout_width">70dp</item>
-        <item name="android:layout_height">70dp</item>
-        <item name="cornerRadius">10dp</item>
-        <item name="backgroundTint">@color/white</item>
-        <item name="android:textSize">32sp</item>
-        <item name="android:layout_margin">8dp</item>
-
-    </style>
-
-
 </resources>

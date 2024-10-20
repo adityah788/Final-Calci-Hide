@@ -5,20 +5,24 @@
     android:id="@+id/main_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#1E1F1F"
     tools:context=".Activity.Calculator">
 
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/limebar"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/rounded_bottom_corners"
+        app:layout_constraintBottom_toTopOf="@id/acti_calci_gridLayout"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:id="@+id/calculator_linear_new_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginTop="20dp">
 
             <TextView
                 android:id="@+id/tvPassTitle"
@@ -35,12 +39,12 @@
                 android:paddingLeft="24dp"
                 android:paddingRight="24dp"
                 android:text="Create New Password"
-                android:textColor="@color/Black"
+                android:textColor="@color/white"
                 android:textIsSelectable="true"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-<!--            Todo:  when user one time enter the password in (calculator_linear_password_feild)  set text confirm 4 digit password and press = in tvPassDetail-->
+            <!--            Todo:  when user one time enter the password in (calculator_linear_password_feild)  set text confirm 4 digit password and press = in tvPassDetail-->
 
             <TextView
                 android:id="@+id/tvPassDetail"
@@ -55,7 +59,7 @@
                 android:paddingLeft="24dp"
                 android:paddingRight="24dp"
                 android:text="Enter a 4 digit password and press = "
-                android:textColor="@color/Black"
+                android:textColor="@color/white"
                 android:textIsSelectable="true"
                 android:textSize="15sp" />
 
@@ -67,7 +71,7 @@
                 android:layout_marginTop="8dp"
                 android:orientation="horizontal">
 
-<!--                Todo : here below 4 linear layouts (EditText) works as the 4 digit password -->
+                <!--                Todo : here below 4 linear layouts (EditText) works as the 4 digit password -->
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -86,8 +90,8 @@
                         android:editable="false"
                         android:gravity="center"
                         android:inputType="numberPassword"
-                        android:textColor="@color/Black"
-                        android:textColorHint="@color/Black"
+                        android:textColor="@color/limeclr"
+                        android:textColorHint="@color/limeclr"
                         android:textIsSelectable="true"
                         android:textSize="30sp" />
 
@@ -95,7 +99,7 @@
                         android:layout_width="24dp"
                         android:layout_height="2dp"
                         android:layout_gravity="center"
-                        android:background="@color/Black" />
+                        android:background="@color/limeclr" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -115,8 +119,8 @@
                         android:editable="false"
                         android:gravity="center"
                         android:inputType="numberPassword"
-                        android:textColor="@color/Black"
-                        android:textColorHint="@color/Black"
+                        android:textColor="@color/limeclr"
+                        android:textColorHint="@color/limeclr"
                         android:textIsSelectable="true"
                         android:textSize="30sp" />
 
@@ -124,7 +128,7 @@
                         android:layout_width="24dp"
                         android:layout_height="2dp"
                         android:layout_gravity="center"
-                        android:background="@color/Black" />
+                        android:background="@color/limeclr" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -144,8 +148,8 @@
                         android:editable="false"
                         android:gravity="center"
                         android:inputType="numberPassword"
-                        android:textColor="@color/Black"
-                        android:textColorHint="@color/Black"
+                        android:textColor="@color/limeclr"
+                        android:textColorHint="@color/limeclr"
                         android:textIsSelectable="true"
                         android:textSize="30sp" />
 
@@ -153,7 +157,7 @@
                         android:layout_width="24dp"
                         android:layout_height="2dp"
                         android:layout_gravity="center"
-                        android:background="@color/Black" />
+                        android:background="@color/limeclr" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -173,8 +177,8 @@
                         android:editable="false"
                         android:gravity="center"
                         android:inputType="numberPassword"
-                        android:textColor="@color/Black"
-                        android:textColorHint="@color/Black"
+                        android:textColor="@color/limeclr"
+                        android:textColorHint="@color/limeclr"
                         android:textIsSelectable="true"
                         android:textSize="30sp" />
 
@@ -182,7 +186,7 @@
                         android:layout_width="24dp"
                         android:layout_height="2dp"
                         android:layout_gravity="center"
-                        android:background="@color/Black" />
+                        android:background="@color/limeclr" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -229,237 +233,263 @@
         <RelativeLayout
             android:id="@+id/calculator_relative_calculation_txt"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@id/limebar"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_gravity="bottom|center_horizontal">
+            android:layout_height="match_parent">
 
-
-            <TextView
+            <EditText
                 android:id="@+id/dataTv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="12dp"
-                android:textAlignment="viewEnd"
-                android:textSize="29sp"
-                app:layout_constraintBottom_toTopOf="@+id/resultTv"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:layout_above="@+id/scrollET2"
+                android:layout_marginLeft="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@null"
+                android:editable="false"
+                android:gravity="end"
+                android:textAlignment="textEnd"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="60sp" />
 
-            <TextView
-                android:id="@+id/resultTv"
+            <ScrollView
+                android:id="@+id/scrollET2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="12dp"
-                android:textAlignment="viewEnd"
-                android:textColor="#555558"
-                android:textSize="29sp"
-                android:visibility="gone"
-                android:layout_below="@id/dataTv"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="16dp"
+                android:layout_marginEnd="16dp">
+
+                <EditText
+                    android:id="@+id/resultTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:maxEms="1"
+                    android:maxLines="@integer/material_motion_duration_long_1"
+                    android:layout_marginBottom="20dp"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:textSize="40sp" />
+            </ScrollView>
 
         </RelativeLayout>
+
+
 
 
     </FrameLayout>
 
 
-    <View
-        android:id="@+id/limebar"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/limeclr"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout" />
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <GridLayout
+        android:id="@+id/acti_calci_gridLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:columnCount="4"
+        android:padding="12dp"
+        android:rowCount="5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="horizontal">
+        <!-- First Row -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_clear"
+            style="@style/operatorbtn"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:layout_columnWeight="1"
+            android:onClick="onClearClick"
+            android:text="C" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_clear"
-                android:text="C"
-                style="@style/operatorbtn"
-                android:onClick="onClearClick" />
-
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_backspace"
-                style="@style/operatorbtn"
-                android:onClick="onBackClick"
-                app:icon="@drawable/baseline_backspace_24"
-                app:iconTint="@color/btnbackground2"/>
-
-
-
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/modulo"
-                android:text="%"
-                style="@style/operatorbtn"
-                android:onClick="onOperatorClick"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_backspace"
+            style="@style/operatorbtn"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:layout_columnWeight="1"
+            android:onClick="onBackClick"
+            android:paddingEnd="30dp"
+            app:icon="@drawable/baseline_backspace_24"
+            app:iconGravity="end"
+            app:iconSize="30dp"
+            app:iconTint="@color/white" />
 
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/modulo"
+            style="@style/operatorbtn"
+            android:layout_row="0"
+            android:layout_column="2"
+            android:layout_columnWeight="1"
+            android:onClick="onOperatorClick"
+            android:text="%" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_divide"
-                android:text="/"
-                style="@style/operatorbtn"
-                android:onClick="onOperatorClick"                />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_divide"
+            style="@style/operatorbtn"
+            android:layout_row="0"
 
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:layout_column="3"
+            android:layout_columnWeight="1"
+            android:onClick="onOperatorClick"
+            android:text="/" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_7"
-                android:text="7"
-                style="@style/digitBtn"
-                android:onClick="onDigitClick"/>
+        <!-- Second Row -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_7"
+            style="@style/digitBtn"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:layout_columnWeight="1"
+            android:onClick="onDigitClick"
+            android:text="7" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_8"
-                android:text="8"
-                style="@style/digitBtn"
-                android:onClick="onDigitClick"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_8"
+            style="@style/digitBtn"
+            android:layout_row="1"
+            android:layout_column="1"
+            android:layout_columnWeight="1"
+            android:onClick="onDigitClick"
+            android:text="8" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_9"
-                android:text="9"
-                style="@style/digitBtn"
-                android:onClick="onDigitClick"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_9"
+            style="@style/digitBtn"
+            android:layout_row="1"
+            android:layout_column="2"
+            android:layout_columnWeight="1"
+            android:onClick="onDigitClick"
+            android:text="9" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_multi"
-                android:text="*"
-                style="@style/operatorbtn"
-                android:onClick="onOperatorClick"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_multi"
+            style="@style/operatorbtn"
+            android:layout_row="1"
+            android:layout_column="3"
+            android:layout_columnWeight="1"
+            android:onClick="onOperatorClick"
+            android:text="*" />
 
+        <!-- Third Row -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_4"
+            style="@style/digitBtn"
+            android:layout_row="2"
+            android:layout_column="0"
+            android:layout_columnWeight="1"
+            android:onClick="onDigitClick"
+            android:text="4" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_5"
+            style="@style/digitBtn"
+            android:layout_row="2"
+            android:layout_column="1"
+            android:layout_columnWeight="1"
+            android:onClick="onDigitClick"
+            android:text="5" />
 
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="horizontal">
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_6"
+            style="@style/digitBtn"
+            android:layout_row="2"
+            android:layout_column="2"
+            android:layout_columnWeight="1"
+            android:onClick="onDigitClick"
+            android:text="6" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_4"
-                android:text="4"
-                style="@style/digitBtn"
-                android:onClick="onDigitClick"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_sub"
+            style="@style/operatorbtn"
+            android:layout_row="2"
+            android:layout_column="3"
+            android:layout_columnWeight="1"
+            android:onClick="onOperatorClick"
+            android:text="-" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_5"
-                android:text="5"
-                style="@style/digitBtn"
-                android:onClick="onDigitClick"/>
+        <!-- Fourth Row -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_1"
+            style="@style/digitBtn"
+            android:layout_row="3"
+            android:layout_column="0"
+            android:layout_columnWeight="1"
+            android:onClick="onDigitClick"
+            android:text="1" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_6"
-                android:text="6"
-                style="@style/digitBtn"
-                android:onClick="onDigitClick"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_2"
+            style="@style/digitBtn"
+            android:layout_row="3"
+            android:layout_column="1"
+            android:layout_columnWeight="1"
+            android:onClick="onDigitClick"
+            android:text="2" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_sub"
-                android:text="-"
-                style="@style/operatorbtn"
-                android:onClick="onOperatorClick"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_3"
+            style="@style/digitBtn"
+            android:layout_row="3"
+            android:layout_column="2"
+            android:layout_columnWeight="1"
+            android:onClick="onDigitClick"
+            android:text="3" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_Add"
+            style="@style/operatorbtn"
+            android:layout_row="3"
+            android:layout_column="3"
+            android:layout_columnWeight="1"
+            android:onClick="onOperatorClick"
+            android:text="+" />
 
+        <!-- Fifth Row -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_all_clear"
+            style="@style/operatorbtn"
+            android:layout_row="4"
+            android:layout_column="0"
+            android:layout_columnWeight="1"
+            android:onClick="onAllClearClick"
+            android:text="AC"
+            android:textSize="25sp" />
 
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="horizontal">
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_zero"
+            style="@style/digitBtn"
+            android:layout_row="4"
+            android:layout_column="1"
+            android:layout_columnWeight="1"
+            android:onClick="onDigitClick"
+            android:text="0" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_1"
-                android:text="1"
-                style="@style/digitBtn"
-                android:onClick="onDigitClick"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_point"
+            style="@style/digitBtn"
+            android:layout_row="4"
+            android:layout_column="2"
+            android:layout_columnWeight="1"
+            android:onClick="onPointClick"
+            android:text="." />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_2"
-                android:text="2"
-                style="@style/digitBtn"
-                android:onClick="onDigitClick"/>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_Equal"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_row="4"
+            android:layout_column="3"
+            android:layout_columnWeight="1"
+            android:layout_margin="6dp"
+            android:background="@drawable/background_fab"
+            android:onClick="onEqualClick"
+            android:text="="
+            android:textColor="@color/white"
+            android:textSize="35sp" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_3"
-                android:text="3"
-                style="@style/digitBtn"
-                android:onClick="onDigitClick"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_Add"
-                android:text="+"
-                style="@style/operatorbtn"
-                android:onClick="onOperatorClick"/>
-
-
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <com.google.android.material.button.MaterialButton
-                android:text="AC"
-                android:id="@+id/btn_all_clear"
-                style="@style/operatorbtn"
-                android:textSize="19dp"
-                android:onClick="onAllClearClick"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_zero"
-                android:text="0"
-                style="@style/digitBtn"
-                android:onClick="onDigitClick"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:text="."
-                android:id="@+id/btn_point"
-                style="@style/digitBtn"
-                android:onClick="onPointClick"/>
-
-
-
-            <!-- TODO: if password is saaved in storage and user click on btn_Equal then match content of  dataTv with saved password in storage if matched move activity to ImageGallery.class-->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_Equal"
-                android:text="="
-                style="@style/operatorbtn"
-                android:onClick="onEqualClick"/>
-
-
-
-        </LinearLayout>
-
-
-
-    </LinearLayout>
-
+    </GridLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

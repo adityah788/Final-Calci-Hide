@@ -20,8 +20,13 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatRatingBar;
+import androidx.core.content.ContextCompat;
 
 import com.example.finalcalcihide.R;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+
+import java.util.Objects;
 
 public class Setting extends AppCompatActivity {
 
@@ -31,6 +36,9 @@ public class Setting extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
+
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.FinalPrimaryColor));
+
 
         txtV_change_pass = findViewById(R.id.tvChangePass);
         txtV_security_ques = findViewById(R.id.tvChangeSecureQuestion);
@@ -67,27 +75,28 @@ public class Setting extends AppCompatActivity {
         rate_the_app.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showRatingDialog();
+                showRatingBottomSheet();
             }
         });
     }
 
-    private void showRatingDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+    private void showRatingBottomSheet() {
+        // Create a BottomSheetDialog instance
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.rating_dialog, null);
-        builder.setView(dialogView);
+        bottomSheetDialog.setContentView(dialogView);
 
-        RatingBar ratingBar = dialogView.findViewById(R.id.ratingBar);
+        AppCompatRatingBar ratingBar = dialogView.findViewById(R.id.ratingBar);
         Button submitButton = dialogView.findViewById(R.id.submitRating);
-        ImageView closeButton = dialogView.findViewById(R.id.closeDialog);
-
-        AlertDialog dialog = builder.create();
+        TextView closeButton = dialogView.findViewById(R.id.rating_dialog_close);
 
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss(); // Close the dialog when close icon is clicked
+                bottomSheetDialog.dismiss(); // Close the dialog when close icon is clicked
             }
         });
 
@@ -96,7 +105,7 @@ public class Setting extends AppCompatActivity {
             public void onClick(View v) {
                 float rating = ratingBar.getRating(); // Get the rating selected by the user
                 if (rating > 0) { // Check if a rating has been selected
-                    dialog.dismiss(); // Close the dialog immediately
+                    bottomSheetDialog.dismiss(); // Close the dialog immediately
 
                     if (isInternetAvailable()) { // Check for internet availability
                         openPlayStore(); // Open the Play Store if internet is available
@@ -111,7 +120,8 @@ public class Setting extends AppCompatActivity {
             }
         });
 
-        dialog.show();
+        // Show the BottomSheetDialog
+        bottomSheetDialog.show();
     }
 
     // Function to check internet connection

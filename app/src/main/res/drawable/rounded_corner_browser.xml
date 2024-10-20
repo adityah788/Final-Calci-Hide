@@ -14,8 +14,8 @@
         <shape android:shape="rectangle">
             <gradient
                 android:angle="315"
-                android:startColor="#4527A0"
-                android:endColor="#456289" />
+                android:startColor="#3494E6"
+                android:endColor="#EC6EAD" />
             <corners android:radius="40dp" /> <!-- Match the corner radius -->
         </shape>
     </item>

@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -61,6 +62,8 @@ public class Calculator extends AppCompatActivity {
         binding = ActivityCalculatorBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.calculator_nav_bar_color));
 
         passtxt1 = findViewById(R.id.Passtxt1);
         passtxt2 = findViewById(R.id.Passtxt2);

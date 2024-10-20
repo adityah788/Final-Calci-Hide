@@ -1,71 +1,67 @@
 package com.example.finalcalcihide;
 
+import android.Manifest;
 import android.app.Activity;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
-import android.provider.Settings;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class PermissionHandler {
 
     private static final int REQUEST_PERMISSIONS = 123;
 
+    // Method to request permissions
     public static void requestPermissions(Activity activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            // Android 11 and above: Request MANAGE_EXTERNAL_STORAGE permission
             if (!Environment.isExternalStorageManager()) {
-                Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-                Uri uri = Uri.fromParts("package", activity.getPackageName(), null);
-                intent.setData(uri);
-                activity.startActivityForResult(intent, REQUEST_PERMISSIONS);
+                Toast.makeText(activity, "Please grant MANAGE_EXTERNAL_STORAGE permission in settings.", Toast.LENGTH_LONG).show();
             } else {
+                // If permission is already granted, proceed with other permissions
                 checkAndRequestPermissions(activity);
             }
         } else {
+            // Android 10 and below: request read/write permissions
             checkAndRequestPermissions(activity);
         }
     }
 
+    // Method to check and request the necessary permissions
     private static void checkAndRequestPermissions(Activity activity) {
         List<String> permissionsNeeded = new ArrayList<>();
-        if (ContextCompat.checkSelfPermission(activity, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            permissionsNeeded.add(android.Manifest.permission.READ_EXTERNAL_STORAGE);
+
+        // Check for read and write external storage permissions (for Android 10 and below)
+        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            permissionsNeeded.add(Manifest.permission.READ_EXTERNAL_STORAGE);
         }
-        if (ContextCompat.checkSelfPermission(activity, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            permissionsNeeded.add(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q &&
+                ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            permissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         }
 
+        // Request any necessary permissions
         if (!permissionsNeeded.isEmpty()) {
             ActivityCompat.requestPermissions(activity, permissionsNeeded.toArray(new String[0]), REQUEST_PERMISSIONS);
         }
     }
 
-    public static void onRequestPermissionsResult(Activity activity, int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_PERMISSIONS) {
-            Map<String, Integer> perms = new HashMap<>();
-            perms.put(android.Manifest.permission.READ_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
-            perms.put(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
-            for (int i = 0; i < permissions.length; i++) {
-                perms.put(permissions[i], grantResults[i]);
-            }
-            if (perms.get(android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-                    && perms.get(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                // All permissions are granted
-            } else {
-                Toast.makeText(activity, "Some permissions are denied", Toast.LENGTH_LONG).show();
-            }
+    // Utility method to check if the necessary permissions are granted
+    public static boolean checkPermissions(Activity activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            // Check if the MANAGE_EXTERNAL_STORAGE permission is granted for Android 11+
+            return Environment.isExternalStorageManager();
+        } else {
+            // Check for read/write permissions for Android 10 and below
+            return ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+                    (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q &&
+                            ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
         }
     }
 }
-

@@ -17,7 +17,7 @@
 
     <color name="browser_divider_color">#1e000000</color>
     <color name="browser_text_color">#de000000</color>
-    <color name="browser_title_color">#646464</color>
+    <color name="browser_title_color">#505050</color>
 
     <color name="overlayColor">#8000BFFF</color>
 
@@ -43,4 +43,21 @@
     <color name="colorAccent">#03DAC5</color>
 
 
+    <color name="calciDisplay">#3c3c3c</color>
+    <color name="calculator_nav_bar_color">#3c3c3c</color>
+    <color name="Mainstatusbar">#191A1A</color>
+
+
+    <color name="originalgrey">#B0B0B0</color>
+    <color name="dark_grey">#424242</color>
+    <color name="blue">#3F51B5</color>
+
+
+    <color name="dialog_color_1">#FDD736</color>
+    <color name="dialog_color_2">#3B5796</color>
+
+
+    <color name="FinalPrimaryColor">#1E1F1F</color>
+    <color name="SecondPrimaryColor">#3c3c3c</color>
+    <color name="TertiaryPrimarycolor">#30303A</color>
 </resources>

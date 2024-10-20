@@ -71,7 +71,7 @@ public class IntruderAdap extends RecyclerView.Adapter<IntruderAdap.ViewHolder> 
         holder.txtTime.setText(timeFormat.format(lastModified));
 
         boolean isSelected = selectedItems.contains(position);
-        holder.imageView.setColorFilter(isSelected ? ContextCompat.getColor(context, R.color.overlayColor) : Color.TRANSPARENT, PorterDuff.Mode.SRC_ATOP);
+//        holder.imageView.setColorFilter(isSelected ? ContextCompat.getColor(context, R.color.overlayColor) : Color.TRANSPARENT, PorterDuff.Mode.SRC_ATOP);
         holder.imageViewTick.setVisibility(isSelected ? View.VISIBLE : View.GONE);
 
         holder.itemView.setOnClickListener(v -> {

@@ -107,7 +107,7 @@ public class ImgVidFHandle {
                         return false;
                     }
                 } else {
-                    Log.e(TAGG, "File not found or not readable: " + mediaPath);
+                    Log.e(TAGG, "Fel not found or not readable: " + mediaPath);
                     return false;
                 }
             }
@@ -393,7 +393,7 @@ public class ImgVidFHandle {
                         return false;
                     }
                 } else {
-                    Log.e(TAGG, "File not found or not readable: " + file);
+                    Log.e(TAGG, "Fel not found or not readable: " + file);
                     return false;
                 }
             }
@@ -508,13 +508,13 @@ public class ImgVidFHandle {
                 if (fileToDelete.exists()) {
                     // Attempt to delete the file
                     if (fileToDelete.delete()) {
-                        Log.d(TAGG, "File deleted successfully: " + path);
+                        Log.d(TAGG, "Fel deleted successfully: " + path);
                     } else {
                         Log.e(TAGG, "Failed to delete file: " + path);
                         return false;
                     }
                 } else {
-                    Log.e(TAGG, "File not found: " + path);
+                    Log.e(TAGG, "Fel not found: " + path);
                     return false;
                 }
             }

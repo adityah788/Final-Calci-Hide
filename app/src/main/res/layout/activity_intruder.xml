@@ -5,6 +5,8 @@
     android:id="@+id/mainl"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/primary_background"
+    android:theme="@style/Theme.status_bar_clr"
     tools:context=".Activity.Intruder">
 
     <LinearLayout
@@ -14,7 +16,6 @@
         android:orientation="vertical">
 
         <RelativeLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,14 +51,27 @@
                 <!-- Menu Icon -->
                 <ImageView
                     android:id="@+id/intruder_main_toobar_menu_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_marginEnd="5dp"
-                    android:padding="5dp"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
                     android:layout_centerVertical="true"
+                    android:padding="5dp"
+                    android:src="@drawable/delete"
+                    android:layout_marginEnd="12dp"
+                    android:layout_toStartOf="@id/intruder_main_toobar_setting"
+                    app:tint="@color/white" />
+
+                <ImageView
+                    android:id="@+id/intruder_main_toobar_setting"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
                     android:layout_alignParentEnd="true"
-                    android:src="@drawable/baseline_delete_24" />
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="12dp"
+                    android:padding="5dp"
+                    android:src="@drawable/settings_24"
+                    app:tint="@color/white" />
+
 
                 <ImageView
                     android:id="@+id/_intruder_contextual_toolbar_select_and_deselect_all"
@@ -95,7 +109,8 @@
                 android:id="@+id/activity_intruder_cardview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="5dp"
+                app:cardBackgroundColor="@color/TertiaryPrimarycolor"
+                app:cardCornerRadius="8dp"
                 android:layout_margin="10dp"
                 >
 
@@ -118,6 +133,7 @@
                         android:text="Intruder Selfie"
                         android:layout_toStartOf="@id/activity_intruder_switch"
                         android:textSize="22sp"
+                        android:textColor="@color/white"
                         android:layout_toEndOf="@id/activity_intruder_intruder_image"
                         android:layout_marginStart="8dp" />
 
@@ -126,6 +142,7 @@
                         android:layout_height="wrap_content"
                         android:text="Take picture of intruders when wrong password"
                         android:textSize="16sp"
+                        android:textColor="@color/limeclr"
                         android:layout_toStartOf="@id/activity_intruder_switch"
                         android:layout_below="@id/activity_intruder_txt_Intdruder_Selfie"
                         android:layout_toEndOf="@id/activity_intruder_intruder_image"
@@ -137,11 +154,25 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginEnd="10dp" />
+                        android:layout_marginEnd="10dp"
+                        app:thumbTint="#563CA3"
+                        android:trackTint="#4527A0"/>
 
                 </RelativeLayout>
 
             </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Selfies"
+                android:textStyle="bold"
+                android:textColor="@color/limeclr"
+                android:textSize="18sp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="15dp"
+                android:padding="5dp"/>
+
 
             <!-- RecyclerView inside NestedScrollView -->
             <androidx.recyclerview.widget.RecyclerView
@@ -150,8 +181,6 @@
                 android:layout_height="wrap_content"
                 android:clipToPadding="false"
                 android:layout_marginTop="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
                 android:paddingBottom="70dp"
                 android:nestedScrollingEnabled="false" />
 

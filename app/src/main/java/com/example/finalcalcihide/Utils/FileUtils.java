@@ -54,7 +54,7 @@ public class FileUtils {
                     Log.e(TAG, "Failed to delete file: " + path);
                 }
             } else {
-                Log.e(TAG, "File does not exist: " + path);
+                Log.e(TAG, "Fel does not exist: " + path);
             }
         }
     }

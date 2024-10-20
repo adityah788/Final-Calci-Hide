@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:theme="@style/Theme.status_bar_clr"
-    android:background="@drawable/background_supprt_2"
+    android:background="@drawable/primary_background"
     tools:context=".Activity.VideoHidden">
 
     <LinearLayout
