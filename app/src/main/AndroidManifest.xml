@@ -3,14 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission
-        android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
-        tools:ignore="ScopedStorage" />
+
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO"/>
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
 
     <uses-permission android:name="android.permission.CAMERA" />
-
 
     <queries>
 
@@ -34,6 +33,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FinalCalciHide"
         tools:targetApi="31">
+
+        <activity android:name=".Activity.NoteActivityRecyclerView"
+            android:exported="false"/>
+        <activity
+            android:name=".Activity.FinalFileActivity"
+            android:exported="false" />
         <activity
             android:name=".Activity.SecutityQues"
             android:exported="false" />
@@ -53,7 +58,7 @@
             android:name=".Activity.Intruder"
             android:exported="false" />
         <activity
-            android:name=".Activity.NoteActivity"
+            android:name=".Activity.NotesActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
@@ -83,7 +88,7 @@
             android:theme="@style/Theme.status_bar_clr" />
         <activity
             android:name=".Activity.Calculator"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

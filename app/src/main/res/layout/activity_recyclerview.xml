@@ -1,0 +1,135 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainl"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/primary_background"
+    android:theme="@style/Theme.status_bar_clr"
+    tools:context=".Activity.NoteActivityRecyclerView">
+
+    <LinearLayout
+        android:id="@+id/note_custom_toolbar_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+
+            <RelativeLayout
+                android:id="@+id/notes_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp">
+
+                <!-- Back Arrow -->
+                <ImageView
+                    android:id="@+id/main_toolbar_back_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:padding="5dp"
+                    android:src="@drawable/baseline_arrow_back_24" />
+
+                <!-- Title -->
+                <TextView
+                    android:id="@+id/intruder_main_toolbar_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Notes"
+                    android:layout_toEndOf="@+id/main_toolbar_back_arrow"
+                    android:textColor="#fff"
+                    android:padding="5dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="14dp"
+                    android:textSize="20sp" />
+
+                <!-- Menu Icon -->
+                <ImageView
+                    android:id="@+id/intruder_main_toobar_menu_icon"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    android:padding="5dp"
+                    android:src="@drawable/delete"
+                    android:layout_marginEnd="12dp"
+                    android:layout_alignParentEnd="true"
+                    app:tint="@color/white" />
+
+
+                <ImageView
+                    android:id="@+id/intruder_contextual_toolbar_select_and_deselect_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="5dp"
+                    android:padding="5dp"
+                    android:visibility="gone"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/baseline_check_box_outline_blank_24" />
+
+            </RelativeLayout>
+
+
+            <!-- RecyclerView inside NestedScrollView -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/note_selfie_gallery_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:layout_marginTop="10dp"
+                android:layout_below="@id/notes_toolbar"
+                android:paddingBottom="70dp" />
+
+
+        </RelativeLayout>
+
+
+
+    </LinearLayout>
+
+    <include layout="@layout/custom_bottom_appbar_delete"
+        android:id="@+id/container_note_custom_bottom_appbar_delete"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+
+    <FrameLayout
+        android:id="@+id/note_recycler_gallary_fab_container"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_gravity="bottom|end"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="25dp"
+        android:background="@drawable/background_fab">
+
+        <ImageView
+            android:id="@+id/fab_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/baseline_add_24" />
+
+    </FrameLayout>
+
+
+
+    <!-- Include Lottie Animations Layout -->
+    <FrameLayout
+        android:id="@+id/intruder_animation_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+        <include
+            layout="@layout/animation"/>
+    </FrameLayout>
+
+
+</RelativeLayout>

@@ -47,9 +47,8 @@ public class Intruder extends AppCompatActivity {
     private LinearLayout customToolbarContainer;
     private IntruderAdap intruderAdap;
     private LinearLayout containerCustomBottomAppBar;
-    private ImageView selectandDeselectAll, deleteIcon,settingCount;
+    private ImageView selectandDeselectAll, deleteIcon, settingCount;
     private boolean isAllSelected = false; // To keep track of selection state
-
     private AnimationManager animationManager;
     private FrameLayout animationContainer;
     private SwitchCompat switchCompattoggle;
@@ -59,8 +58,8 @@ public class Intruder extends AppCompatActivity {
     private static final String KEY_TAKE_SELFIE = "take_selfie";
 
     View dialogView;
-    TextView cancelTextView ;
-    TextView confirmTextView ;
+    TextView cancelTextView;
+    TextView confirmTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +70,7 @@ public class Intruder extends AppCompatActivity {
 
 
         intruderRecyclerView = findViewById(R.id.intruder_selfie_gallery_recycler);
-        customToolbarContainer = findViewById(R.id.intruder_custom_toolbar_container);
+//        customToolbarContainer = findViewById(R.id.intruder_custom_toolbar_container);
         containerCustomBottomAppBar = findViewById(R.id.container_custom_bottom_appbar_delete);
         selectandDeselectAll = findViewById(R.id._intruder_contextual_toolbar_select_and_deselect_all);
         deleteIcon = findViewById(R.id.intruder_main_toobar_menu_icon);
@@ -82,8 +81,7 @@ public class Intruder extends AppCompatActivity {
         intruderPaths = FileUtils.getIntruderPaths(this);
 
         LayoutInflater inflater = getLayoutInflater();
-       dialogView = inflater.inflate(R.layout.dialog_no_of_intru_selfie, null);  // Replace 'dialog_like_count' with your XML layout name
-
+        dialogView = inflater.inflate(R.layout.dialog_no_of_intru_selfie, null);  // Replace 'dialog_like_count' with your XML layout name
 
 
         intruderAdap = new IntruderAdap(this, intruderPaths, new IntruderAdap.OnItemSelectedListener() {
@@ -192,7 +190,7 @@ public class Intruder extends AppCompatActivity {
                     () -> {
                         // Background task: Move images back to recycle locations
 //                        ImgVidFHandle.moveImagesBackToRecycleLocationsWrapper(ImagesHidden.this, selectedPaths);
-                       FileUtils.deleteFiles(selectedPaths);
+                        FileUtils.deleteFiles(selectedPaths);
                         // Update processSuccess based on actual task outcome
                     },
                     (processSuccess, paths) -> stopAnimationAndUpdateUI(processSuccess, paths)
@@ -217,9 +215,6 @@ public class Intruder extends AppCompatActivity {
                 showObservationTimeDialog();
             }
         });
-
-
-
 
 
     }
@@ -290,7 +285,6 @@ public class Intruder extends AppCompatActivity {
             Toast.makeText(Intruder.this, "Error moving images back", Toast.LENGTH_SHORT).show();
         }
     }
-
 
 
     // Method to show the custom dialog with NumberPicker

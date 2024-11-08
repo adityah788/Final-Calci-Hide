@@ -15,8 +15,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.example.finalcalcihide.Activity.FileShow;
+import com.example.finalcalcihide.Activity.FinalFileActivity;
 import com.example.finalcalcihide.Activity.ImagesHidden;
 import com.example.finalcalcihide.Activity.Intruder;
+import com.example.finalcalcihide.Activity.NoteActivityRecyclerView;
+import com.example.finalcalcihide.Activity.NotesActivity;
 import com.example.finalcalcihide.Activity.RecycleBin;
 import com.example.finalcalcihide.Activity.Setting;
 import com.example.finalcalcihide.Activity.VideoHidden;
@@ -25,7 +28,7 @@ import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
 
-    RelativeLayout relativeLayoutImage,relativeLayoutIntruder,relativeLayoutVideos,relativeLayoutRecycleBin,relativeLayoutFile;
+    RelativeLayout relativeLayoutImage,relativeLayoutIntruder,relativeLayoutVideos,relativeLayoutRecycleBin,relativeLayoutFile,relativeLayoutNotes;
 
     ImageView btnSetting ;
 
@@ -49,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         relativeLayoutRecycleBin = findViewById(R.id.new_main_recycle_bin);
         relativeLayoutFile = findViewById(R.id.new_main_file);
         btnSetting = findViewById(R.id.new_main_setting);
+        relativeLayoutNotes = findViewById(R.id.new_main_note);
 
         // Check if a new selfie has been added
         SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
@@ -103,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         relativeLayoutFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, FileShow.class));
+                startActivity(new Intent(MainActivity.this, FinalFileActivity.class));
 
             }
         });
@@ -112,6 +116,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, Setting.class));
+            }
+        });
+
+
+
+        relativeLayoutNotes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, NoteActivityRecyclerView.class));
+
             }
         });
 

@@ -18,19 +18,17 @@
     <string name="image2">image2</string>
 
 
-
     <string name="dropdown_icon_desc">Dropdown icon</string>
 
 
-
     <style name="CustomAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:background">@drawable/rating_dialog_background</item> <!-- Custom background color -->
+        <item name="android:background">@drawable/rating_dialog_background
+        </item> <!-- Custom background color -->
         <item name="android:windowMinWidthMajor">85%</item> <!-- Adjust dialog width -->
         <item name="android:windowMinWidthMinor">85%</item>
-        <item name="android:windowBackground">@drawable/rating_dialog_background</item> <!-- Rounded corners background -->
+        <item name="android:windowBackground">@drawable/rating_dialog_background
+        </item> <!-- Rounded corners background -->
     </style>
-
-
 
 
 </resources>

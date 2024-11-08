@@ -1,10 +1,17 @@
 package com.example.finalcalcihide.Utils;
 
+import android.app.Activity;
 import android.content.Context;
+import android.Manifest;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
+import android.os.Environment;
+import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.CameraSelector;
@@ -17,12 +24,24 @@ import com.google.common.util.concurrent.ListenableFuture;
 
 import java.io.File;
 import java.util.concurrent.ExecutionException;
+import android.content.pm.PackageManager;
+
 
 public class IntruderUtils {
 
     private static final String TAG = "IntruderUtils";
     private static ImageCapture imageCapture;
     private static ProcessCameraProvider cameraProvider;
+
+
+    private static final int FILE_PERMISSION_REQUEST_CODE = 100;
+    private static final String[] REQUIRED_PERMISSIONS = new String[]{
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+
+
+
 
     // SharedPreferences constants
     private static final String PREFS_NAME = "IntruderSelfiePrefs";
@@ -99,4 +118,101 @@ public class IntruderUtils {
                     }
                 });
     }
+
+
+
+
+
+    public static void setupFileAccess(Activity activity, ActivityResultLauncher<String[]> requestPermissionsLauncher) {
+        // Define the required permissions
+        String[] requiredPermissions = {
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE // If you also need write access
+        };
+
+        // Check if permissions are granted
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            // For Android 11 and above, check for manage all files permission
+            if (!Environment.isExternalStorageManager()) {
+                // Request Manage All Files permission
+                Intent intent = new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                activity.startActivity(intent);
+            } else {
+                // Permissions are granted, proceed with file access
+                Log.d(TAG, "File access permissions granted.");
+                // Call your method to access files here
+                accessFiles(activity);
+            }
+        } else {
+            // For Android versions below 11, check if permissions are granted
+            boolean allPermissionsGranted = true;
+            for (String permission : requiredPermissions) {
+                if (ContextCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED) {
+                    allPermissionsGranted = false;
+                    break;
+                }
+            }
+
+            if (!allPermissionsGranted) {
+                // Request storage permissions
+                requestPermissionsLauncher.launch(requiredPermissions);
+            } else {
+                // Permissions are granted, proceed with file access
+                Log.d(TAG, "File access permissions granted.");
+                accessFiles(activity);
+            }
+        }
+    }
+
+    private static void accessFiles(Activity activity) {
+        // Your logic for accessing files
+        Toast.makeText(activity, "Accessing files...", Toast.LENGTH_SHORT).show();
+        // Add your file access code here
+    }
+
+
+
+
+
+
+
+
+
+
+    // Access files and handle permissions
+    public static void accessFiles(Activity activity, ActivityResultLauncher<String[]> requestPermissionsLauncher, ActivityResultLauncher<Intent> manageAllFilesPermissionLauncher) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            if (!Environment.isExternalStorageManager()) {
+                // Request Manage All Files permission for Android 11+
+                Intent intent = new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                manageAllFilesPermissionLauncher.launch(intent);
+            } else {
+                // Permission already granted, proceed with file access
+//                startUnicornFilePicker(activity);
+                Toast.makeText(activity, "Per already granted", Toast.LENGTH_LONG).show();
+
+            }
+        } else {
+            if (!allPermissionsGranted(activity)) {
+                // Request storage permissions for Android versions < 11
+                requestPermissionsLauncher.launch(REQUIRED_PERMISSIONS);
+            } else {
+                // Permission already granted, proceed with file access
+//                startUnicornFilePicker(activity);
+                Toast.makeText(activity, "Per granted", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    // Check if all necessary permissions are granted
+    private static boolean allPermissionsGranted(Context context) {
+        for (String permission : REQUIRED_PERMISSIONS) {
+            if (ContextCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
 }

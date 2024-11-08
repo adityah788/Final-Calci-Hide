@@ -62,12 +62,21 @@ dependencies {
     implementation("com.github.abhishekti7:UnicornFilePicker:1.0.2")
 
 
+    // Lifecycle components
+    implementation(libs.lifecycle.runtime.ktx)
+    implementation(libs.lifecycle.viewmodel.ktx)
 
+    // Kotlin coroutines
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
 
 
     implementation(libs.constraintlayout)
     implementation(libs.coordinatorlayout)
+    implementation(libs.room.common)
+    implementation(libs.room.runtime)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    annotationProcessor(libs.room.compiler)
 }
