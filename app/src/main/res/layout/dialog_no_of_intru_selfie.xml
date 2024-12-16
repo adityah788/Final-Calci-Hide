@@ -1,79 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/background_bottom_sheet"
-        android:padding="16dp">
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="16dp">
 
-        <!-- Title -->
+    <!-- Title -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:letterSpacing="0.02"
+        android:paddingBottom="12dp"
+        android:text="Set Observation Time"
+        android:textColor="#FFFFFF"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <!-- Subtitle -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:letterSpacing="0.01"
+        android:paddingBottom="15dp"
+        android:text="How many failed unlock attempts?"
+        android:textColor="@color/limeclr"
+        android:textSize="16sp" />
+
+    <!-- Number Picker -->
+    <com.shawnlin.numberpicker.NumberPicker
+        android:id="@+id/number_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        app:np_dividerColor="@color/white"
+        app:np_height="180dp"
+        app:np_max="5"
+        app:np_min="1"
+        app:np_selectedTextColor="@color/white"
+        app:np_textColor="@color/white"
+        app:np_value="3"
+        app:np_width="70dp" />
+
+
+    <!-- Buttons Layout -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <!-- Cancel Button -->
         <TextView
+            android:id="@+id/txv_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
-            android:letterSpacing="0.02"
-            android:paddingBottom="12dp"
-            android:text="Set Observation Time"
-            android:textColor="#FFFFFF"
-            android:textSize="22sp"
+            android:layout_marginEnd="10dp"
+            android:padding="10dp"
+            android:text="CANCEL"
+            android:textColor="@color/white"
+            android:textSize="14sp"
             android:textStyle="bold" />
 
-        <!-- Subtitle -->
-        <TextView
+        <!-- Confirm Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/txv_confirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/blue"
             android:fontFamily="sans-serif"
-            android:letterSpacing="0.01"
-            android:paddingBottom="15dp"
-            android:text="How many failed unlock attempts?"
-            android:textColor="@color/limeclr"
-            android:textSize="16sp" />
-
-        <!-- Number Picker -->
-        <NumberPicker
-            android:id="@+id/numberPicker"
-            android:layout_width="161dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textSize="44sp"
-            android:scrollbarSize="25dp" />
-
-        <!-- Buttons Layout -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_gravity="end"
             android:padding="10dp"
-            android:orientation="horizontal">
-
-            <!-- Cancel Button -->
-            <TextView
-                android:id="@+id/txv_cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:textSize="14sp"
-                android:padding="10dp"
-                android:text="CANCEL"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
-
-            <!-- Confirm Button -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/txv_confirm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:padding="10dp"
-                android:backgroundTint="@color/blue"
-                android:text="CONFIRM"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
-        </LinearLayout>
-
+            android:text="CONFIRM"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
     </LinearLayout>
+
+</LinearLayout>

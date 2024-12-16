@@ -138,6 +138,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingStart="30dp"
+                        android:layout_marginBottom="4dp"
                         android:textColor="@color/white"
                         android:text="Change Security Question"
                         android:foreground="?attr/selectableItemBackground"
@@ -145,32 +146,6 @@
                     android:focusable="true"
                     style="@style/settingItem" />
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="56dp">
-
-                        <androidx.appcompat.widget.SwitchCompat
-                            android:id="@+id/swCapture"
-                            style="@style/settingItem"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:checked="false" />
-
-                        <TextView
-                            android:id="@+id/tvTakePicture"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:paddingStart="30dp"
-                            android:textColor="@color/white"
-                            android:text="Take Picture"
-                            android:foreground="?attr/selectableItemBackground"
-                        android:focusable="true"
-                        style="@style/settingItem"
-                        android:layout_centerVertical="true"
-                        android:layout_toLeftOf="@+id/swCapture" />
-                    </RelativeLayout>
 
                 </LinearLayout>
 
@@ -214,7 +189,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingStart="30dp"
-                        android:text="rate_star" />
+                        android:text="Rate Us" />
 
 
 
@@ -239,7 +214,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingStart="30dp"
-                        android:layout_marginBottom="8dp"
+                        android:layout_marginBottom="5dp"
                         android:text="policy" />
                 </LinearLayout>
 

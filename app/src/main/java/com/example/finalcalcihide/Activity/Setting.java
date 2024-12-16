@@ -23,6 +23,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatRatingBar;
 import androidx.core.content.ContextCompat;
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.airbnb.lottie.LottieDrawable;
 import com.example.finalcalcihide.R;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
@@ -79,7 +81,6 @@ public class Setting extends AppCompatActivity {
             }
         });
     }
-
 
     private void showRatingBottomSheet() {
         // Create a BottomSheetDialog instance

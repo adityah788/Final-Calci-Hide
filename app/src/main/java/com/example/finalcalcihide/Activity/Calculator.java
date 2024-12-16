@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,13 +18,17 @@ import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatRatingBar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.airbnb.lottie.LottieDrawable;
 import com.example.finalcalcihide.MainActivity;
 import com.example.finalcalcihide.R;
 import com.example.finalcalcihide.Utils.IntruderUtils;
 import com.example.finalcalcihide.databinding.ActivityCalculatorBinding;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
@@ -93,6 +98,8 @@ public class Calculator extends AppCompatActivity {
         if (!isPasswordSet || resetPassword) {
             // No password set, prompt user to create one
             tvPassDetail.setText("Enter a 4 digit password and press =");
+
+            showRatingBottomSheet();
 
             Log.d("Reset Password", "!isPasswordSet || resetPassword clicked");
 
@@ -553,5 +560,34 @@ public class Calculator extends AppCompatActivity {
 //            binding.tvPassDetail.setText("Press = to save or verify your password.");
 //        }
     }
+
+
+
+    private void showRatingBottomSheet() {
+        // Create a BottomSheetDialog instance
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+
+        // Inflate the custom layout
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.set_pass_ani, null);
+        bottomSheetDialog.setContentView(dialogView);
+
+        // Initialize the LottieAnimationView
+        LottieAnimationView animationView = dialogView.findViewById(R.id.ani_hide_unhide);
+        if (animationView != null) {
+            // Set the animation file and play
+            animationView.setAnimation(R.raw.lottie_ani_correct); // Load animation from raw resource
+            animationView.setRepeatCount(LottieDrawable.INFINITE); // Set repeat count
+            animationView.playAnimation(); // Start the animation
+            Log.d("LottieDebug", "LottieAnimation is running ......");
+
+        } else {
+            Log.e("LottieDebug", "LottieAnimationView is NULL");
+        }
+
+        // Show the BottomSheetDialog
+        bottomSheetDialog.show();
+    }
+
 
 }

@@ -17,7 +17,6 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +38,8 @@ import com.example.finalcalcihide.ViewPager.ImageandVideoViewPager;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.shawnlin.numberpicker.NumberPicker;
 
 public class Intruder extends AppCompatActivity {
 
@@ -297,25 +298,14 @@ public class Intruder extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomAlertDialog);
         builder.setView(dialogView);
 
+        NumberPicker numberPicker ;
+
         // Initialize NumberPicker and set values (1-5)
-        NumberPicker numberPicker = dialogView.findViewById(R.id.numberPicker);
+        numberPicker = dialogView.findViewById(R.id.number_picker);
         numberPicker.setMinValue(1);
         numberPicker.setMaxValue(5);
         numberPicker.setWrapSelectorWheel(false); // Disable wrapping
 
-        // Change the text color and size
-        for (int i = 0; i < numberPicker.getChildCount(); i++) {
-            View child = numberPicker.getChildAt(i);
-            if (child instanceof EditText) {
-                try {
-                    EditText editText = (EditText) child;
-                    editText.setTextColor(Color.WHITE);  // Set text color to white
-                    editText.setTextSize(24);  // Increase text size
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
 
         // Set the size of the NumberPicker (if needed)
         ViewGroup.LayoutParams layoutParams = numberPicker.getLayoutParams();
@@ -342,12 +332,12 @@ public class Intruder extends AppCompatActivity {
         });
     }
 
-    // Method to save the selected like count in SharedPreferences
+    // Save the selected count in SharedPreferences
     private void saveLikeCount(int count) {
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("likeCount", count);  // Save the count
-        editor.apply();  // Commit the changes
+        SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("selectedCount", count);
+        editor.apply();
     }
 
     private void animateNumberPicker(NumberPicker numberPicker) {

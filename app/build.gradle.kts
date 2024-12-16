@@ -60,6 +60,7 @@ dependencies {
 
 
     implementation("com.github.abhishekti7:UnicornFilePicker:1.0.2")
+    implementation("io.github.ShawnLin013:number-picker:2.4.13")
 
 
     // Lifecycle components
