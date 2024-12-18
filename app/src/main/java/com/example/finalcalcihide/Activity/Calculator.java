@@ -45,7 +45,7 @@ public class Calculator extends AppCompatActivity {
     private int wrongPasswordCount = 0; // Counter for wrong password attempts
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 100;
 
-    private SharedPreferences sharedPreferences,sharedPreferencesintru;
+    private SharedPreferences sharedPreferences, sharedPreferencesintru;
     private boolean isPasswordSet;
     private boolean isTakeSelfieEnabled;
 
@@ -54,8 +54,8 @@ public class Calculator extends AppCompatActivity {
     private EditText passtxt1, passtxt2, passtxt3, passtxt4;
     private TextView tvPassDetail;
 
-    private Boolean isInitialPassdone=false;
-    private Boolean flagInidone=false;
+    private Boolean isInitialPassdone = false;
+    private Boolean flagInidone = false;
     private String firstPassword;
     boolean resetPassword;
     Intent intent;
@@ -82,7 +82,7 @@ public class Calculator extends AppCompatActivity {
 
         // Shared Preferences to store the password
         sharedPreferences = getSharedPreferences("CalculatorPrefs", MODE_PRIVATE);
-        sharedPreferencesintru = getSharedPreferences("MyIntruder",MODE_PRIVATE);
+        sharedPreferencesintru = getSharedPreferences("MyIntruder", MODE_PRIVATE);
         isPasswordSet = sharedPreferences.contains("password");
         isTakeSelfieEnabled = sharedPreferencesintru.getBoolean("take_selfie", false);
 
@@ -127,38 +127,14 @@ public class Calculator extends AppCompatActivity {
                     finish(); // or call super.onBackPressed();
                 } else {
                     // Show the alert dialog
-                    new AlertDialog.Builder(Calculator.this)
-                            .setTitle("Exit App")
-                            .setMessage("Are you sure you want to exit the app?")
-                            .setPositiveButton("Yes", (dialog, which) -> finishAffinity())
-                            .setNegativeButton("No", null)
-                            .show();
+                    new AlertDialog.Builder(Calculator.this).setTitle("Exit App").setMessage("Are you sure you want to exit the app?").setPositiveButton("Yes", (dialog, which) -> finishAffinity()).setNegativeButton("No", null).show();
                 }
             }
         });
 
-        // Check and request camera permission
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_REQUEST_CODE);
-        } else {
-            // Permission already granted, set up the camera
-            IntruderUtils.setupCamera(this);
-        }
+
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == CAMERA_PERMISSION_REQUEST_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission granted
-                IntruderUtils.setupCamera(this);
-            } else {
-                // Permission denied
-                Toast.makeText(this, "Camera permission is required to take selfies.", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
 
     public void onAllClearClick(View view) {
         Log.d("Calculator", "onAllClearClick called. isPasswordSet: " + isPasswordSet);
@@ -275,17 +251,14 @@ public class Calculator extends AppCompatActivity {
 
 
             // Combine the four EditText fields into a single password string
-            String enteredPassword = passtxt1.getText().toString() +
-                    passtxt2.getText().toString() +
-                    passtxt3.getText().toString() +
-                    passtxt4.getText().toString();
+            String enteredPassword = passtxt1.getText().toString() + passtxt2.getText().toString() + passtxt3.getText().toString() + passtxt4.getText().toString();
 
 
             if (enteredPassword.length() == 4) {
                 if (!flagInidone) {
                     firstPassword = enteredPassword;
                     flagInidone = true;
-                    enteredPassword="";
+                    enteredPassword = "";
                     inputPassword.setLength(0);
                     updatePasswordFields(inputPassword.toString());
 
@@ -308,18 +281,17 @@ public class Calculator extends AppCompatActivity {
                         binding.calculatorLinearNewPassword.setVisibility(View.GONE);
                         binding.calculatorRelativeCalculationTxt.setVisibility(View.VISIBLE);
 
-                        startActivity(new Intent(Calculator.this,SecutityQues.class));
+                        startActivity(new Intent(Calculator.this, SecutityQues.class));
                         finish();
 
-                    }
-                    else {
+                    } else {
                         Toast.makeText(this, "Enter the correct Password", Toast.LENGTH_LONG).show();
-                        Log.d("Hamar calcu","Enter the correct Password is shown");
+                        Log.d("Hamar calcu", "Enter the correct Password is shown");
 
                     }
                 }
 
-                isInitialPassdone=true;
+                isInitialPassdone = true;
                 binding.tvPassDetail.setText("Confirm Your 4 digit Password ");
                 Toast.makeText(Calculator.this, "Confirm the password", Toast.LENGTH_SHORT).show();
 //                inputPassword.setLength(0); // Clear the StringBuilder
@@ -351,16 +323,24 @@ public class Calculator extends AppCompatActivity {
                 } else {
                     finish();
                 }
-            } else if (enteredPassword.length() == 4 && !enteredPassword.equals(savedPassword) && isTakeSelfieEnabled ) {
+            } else if (enteredPassword.length() == 4 && !enteredPassword.equals(savedPassword) && isTakeSelfieEnabled) {
                 // Handle incorrect password
                 Toast.makeText(this, "You MF Fraudster", Toast.LENGTH_SHORT).show();
                 wrongPasswordCount++;
 
-                if (wrongPasswordCount > 2) {
-                    // Trigger selfie capture after 3 wrong attempts
-                    IntruderUtils.takeSelfie(this);
+                // Retrieve the SharedPreferences
+                SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+
+                // Get the value of "selected_number" from SharedPreferences (default to 3 if not set)
+                int selectedNumber = sharedPreferences.getInt("selected_number", 3); // Default to 3 if not set
+
+                // Check if wrongPasswordCount exceeds or equals selected_number
+                if (wrongPasswordCount >= selectedNumber) {
+                    // Trigger selfie capture after the specified number of failed attempts
+                    IntruderUtils.setupAndCaptureSelfie(this);
                     Toast.makeText(this, "Selfie capture triggered due to multiple failed attempts", Toast.LENGTH_SHORT).show();
                 }
+
             } else if (binding.resultTv.getText().length() > 1) {
                 binding.dataTv.setText(binding.resultTv.getText().toString().substring(1));
             }
@@ -369,25 +349,7 @@ public class Calculator extends AppCompatActivity {
             binding.resultTv.setText("");
         }
 
-//        // Reset the EditText fields after the equal button is pressed
-//        passtxt1.setText("");
-//        passtxt2.setText("");
-//        passtxt3.setText("");
-//        passtxt4.setText("");
-
-        // Set equalclicked to true after pressing the equal button
-//        equalclicked = true;
     }
-
-
-//    public void onOperatorClick(View view) {
-//        if (lastNumeric && !stateError) {
-//            binding.dataTv.append(((Button) view).getText());
-//            lastDot = false;
-//            lastNumeric = false;
-//            onEqual();
-//        }
-//    }
 
 
     public void onOperatorClick(View view) {
@@ -533,6 +495,7 @@ public class Calculator extends AppCompatActivity {
         super.onResume();
         isInstanceActive = true;
     }
+
     // If calci rerelated error of calci not opening when background  then
     // remove this onResume and onPause
     @Override
@@ -540,8 +503,6 @@ public class Calculator extends AppCompatActivity {
         super.onPause();
         isInstanceActive = false;
     }
-
-
 
 
     public static boolean isActivityActive() {
@@ -560,7 +521,6 @@ public class Calculator extends AppCompatActivity {
 //            binding.tvPassDetail.setText("Press = to save or verify your password.");
 //        }
     }
-
 
 
     private void showRatingBottomSheet() {

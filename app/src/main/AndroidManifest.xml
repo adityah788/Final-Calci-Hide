@@ -61,7 +61,7 @@
             android:name=".Activity.NotesActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Activity.Calculator"
             android:exported="false" />
         <activity
             android:name=".Activity.SelectVideos"
@@ -87,7 +87,7 @@
             android:exported="false"
             android:theme="@style/Theme.status_bar_clr" />
         <activity
-            android:name=".Activity.Calculator"
+            android:name=".MainActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

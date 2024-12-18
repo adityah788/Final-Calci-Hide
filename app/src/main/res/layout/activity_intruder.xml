@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/primary_background"
-    android:theme="@style/Theme.status_bar_clr"
     tools:context=".Activity.Intruder">
 
     <LinearLayout
@@ -33,6 +32,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:padding="5dp"
+                    android:background="@drawable/ripple_back"
                     android:src="@drawable/baseline_arrow_back_24" />
 
                 <!-- Title -->
@@ -55,8 +55,9 @@
                     android:layout_height="35dp"
                     android:layout_centerVertical="true"
                     android:padding="5dp"
-                    android:src="@drawable/delete"
+                    android:src="@drawable/baseline_delete_24"
                     android:layout_marginEnd="12dp"
+                    android:background="@drawable/ripple_back"
                     android:layout_toStartOf="@id/intruder_main_toobar_setting"
                     app:tint="@color/white" />
 
@@ -69,6 +70,7 @@
                     android:layout_gravity="end"
                     android:layout_marginEnd="12dp"
                     android:padding="5dp"
+                    android:background="@drawable/ripple_back"
                     android:src="@drawable/settings_24"
                     app:tint="@color/white" />
 
@@ -78,7 +80,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:layout_marginEnd="5dp"
+                    android:layout_marginEnd="12dp"
                     android:padding="5dp"
                     android:visibility="gone"
                     android:layout_centerVertical="true"
@@ -152,11 +154,12 @@
                         android:id="@+id/activity_intruder_switch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:thumb="@drawable/thumb_small"
                         android:layout_alignParentEnd="true"
+                        android:layout_margin="5dp"
                         android:layout_centerVertical="true"
-                        android:layout_marginEnd="10dp"
-                        app:thumbTint="#563CA3"
-                        android:trackTint="#4527A0"/>
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:track="@drawable/track" />
 
                 </RelativeLayout>
 
@@ -198,7 +201,7 @@
 
     <!-- Include Lottie Animations Layout -->
     <FrameLayout
-        android:id="@+id/intruder_animation_container"
+        android:id="@+id/real_intruder_animation_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone">

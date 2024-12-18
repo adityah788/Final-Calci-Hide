@@ -60,4 +60,11 @@
     <color name="FinalPrimaryColor">#1E1F1F</color>
     <color name="SecondPrimaryColor">#3c3c3c</color>
     <color name="TertiaryPrimarycolor">#30303A</color>
+
+
+    <color name="ripple_color">#80FFFFFF</color> <!-- White ripple with 50% opacity -->
+    <color name="ripple_color_for_blue">#33FFFFFF</color> <!-- White ripple with 50% opacity -->
+
+
+
 </resources>

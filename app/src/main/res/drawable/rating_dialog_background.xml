@@ -10,5 +10,4 @@
 
 
     <!-- Optional shadow (only works with certain layouts like CardView) -->
-    <size android:height="200dp"/>
 </shape>

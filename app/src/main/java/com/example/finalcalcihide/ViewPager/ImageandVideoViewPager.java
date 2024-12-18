@@ -54,6 +54,8 @@ public class ImageandVideoViewPager extends AppCompatActivity {
         delete = findViewById(R.id.img_viewpager_toobar_deleter_icon);
         visible = findViewById(R.id.img_viewpager_main_toobar_unlock);
 
+
+
         // Handle Delete Button Click
         delete.setOnClickListener(v -> {
             List<String> selectedPaths = new ArrayList<>();
@@ -110,10 +112,20 @@ public class ImageandVideoViewPager extends AppCompatActivity {
 
         // Retrieve image paths and position
         Intent intent = getIntent();
+        boolean hideButtons = intent.getBooleanExtra("hideButtons", false);
         imagePaths = intent.getStringArrayListExtra("imagePaths");
         int position = intent.getIntExtra("position", 0);
 
         Log.d("ImageViewPager", "Loaded image paths: " + imagePaths);
+
+
+        // Check if we need to hide the buttons
+        if (hideButtons) {
+            // Hide both buttons by setting visibility to GONE (or INVISIBLE)
+            delete.setVisibility(View.GONE);
+            visible.setVisibility(View.GONE);
+        }
+
 
         // Setup ViewPager2
         viewPager = findViewById(R.id.imageViewpager_viewpager);

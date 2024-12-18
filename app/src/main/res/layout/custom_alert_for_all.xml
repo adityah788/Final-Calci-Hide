@@ -1,50 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/background_bottom_sheet"
     android:gravity="center_horizontal"
     android:orientation="vertical"
+    android:background="@drawable/rating_dialog_background"
     android:padding="16dp">
 
     <!-- Title -->
     <TextView
+        android:id="@+id/custom_alert_Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_margin="5dp"
         android:fontFamily="sans-serif-medium"
-        android:letterSpacing="0.02"
-        android:paddingBottom="12dp"
         android:text="Set Observation Time"
         android:textColor="@color/white"
-        android:textSize="22sp" />
+        android:textSize="20sp" />
 
     <!-- Subtitle -->
     <TextView
+        android:id="@+id/custom_alert_body"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif"
-        android:letterSpacing="0.01"
-        android:paddingBottom="15dp"
+        android:layout_gravity="start"
+        android:layout_margin="5dp"
         android:text="How many failed unlock attempts?"
         android:textColor="@color/limeclr"
-        android:textSize="16sp" />
+        android:textSize="18sp" />
 
     <!-- Number Picker -->
-    <com.shawnlin.numberpicker.NumberPicker
-        android:id="@+id/number_picker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        app:np_dividerColor="@color/white"
-        app:np_height="180dp"
-        app:np_max="5"
-        app:np_min="1"
-        app:np_selectedTextColor="@color/white"
-        app:np_textColor="@color/white"
-        app:np_value="3"
-        app:np_width="70dp" />
 
 
     <!-- Buttons Layout -->
@@ -58,7 +46,7 @@
 
         <!-- Cancel Button -->
         <TextView
-            android:id="@+id/txv_cancel"
+            android:id="@+id/txv_cancel_alert_dialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
@@ -70,7 +58,7 @@
 
         <!-- Confirm Button -->
         <TextView
-            android:id="@+id/txv_confirm"
+            android:id="@+id/txv_confirm_alert_dialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/ripple_for_btn"
@@ -78,6 +66,8 @@
             android:padding="10dp"
             android:text="CONFIRM"
             android:textColor="@color/white" />
+
+
 
     </LinearLayout>
 
