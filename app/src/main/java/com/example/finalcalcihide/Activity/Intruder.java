@@ -5,7 +5,9 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -399,15 +401,16 @@ public class Intruder extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomAlertDialog);
         builder.setView(dialogView);
 
-        TextView cancelTextView = dialogView.findViewById(R.id.txv_cancel);
+        TextView cancelTextView = dialogView.findViewById(R.id.txv_cancel_alert_dialog);
         TextView title = dialogView.findViewById(R.id.custom_alert_Title);
         TextView body = dialogView.findViewById(R.id.custom_alert_body);
-        TextView confirmTextView = dialogView.findViewById(R.id.txv_confirm);
+        TextView confirmTextView = dialogView.findViewById(R.id.txv_confirm_alert_dialog);
 
         AlertDialog dialog = builder.create();
 
         if (isDeniedMultipleTimes) {
             // If the user has denied multiple times, change the dialog message
+            confirmTextView.setText("Got it");
             title.setText("Grant Permission");
             body.setText("To use camera normally, please grant camera permission. Go to Settings > Permissions > Camera > Allow.");
         } else {
@@ -427,10 +430,20 @@ public class Intruder extends AppCompatActivity {
         });
 
         confirmTextView.setOnClickListener(v -> {
-            // Check and request camera permission
-            dialog.dismiss();
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_REQUEST_CODE);
+            if (isDeniedMultipleTimes) {
+                // If permission is denied multiple times, open the app settings
+                String packageName = getPackageName();
+                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                intent.setData(Uri.parse("package:" + packageName));
+                startActivity(intent);
+                dialog.dismiss();
+            } else {
+                // If not denied multiple times, request the camera permission
+                dialog.dismiss();
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_REQUEST_CODE);
+            }
         });
+
     }
 
     // Save the selected count in SharedPreferences
