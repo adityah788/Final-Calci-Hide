@@ -14,10 +14,14 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
+
+import com.bumptech.glide.request.RequestOptions;
 import com.example.finalcalcihide.FileUtils.ImgVidFHandle;
-import com.example.finalcalcihide.Listner.OnItemSelectedListener;
 import com.example.finalcalcihide.R;
-import com.example.finalcalcihide.Utils.SelectionManager;
+import com.example.finalcalcihide.ViewModel.VideoModel;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,57 +29,59 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-public class ImageVideoHideAdapter extends RecyclerView.Adapter<ImageVideoHideAdapter.ViewHolder> {
+public class SelectVideosfromGalleryAdapter extends RecyclerView.Adapter<SelectVideosfromGalleryAdapter.ViewHolder> {
+
 
 
     private final Context context;
     private final ArrayList<String> imagePaths;
     private final OnItemSelectedListener listener;
     private final HashSet<Integer> hashSetselectedItems = new HashSet<>();
+    private List<VideoModel> videos;
 
 
-    public ImageVideoHideAdapter(Context context, ArrayList<String> imagePaths, OnItemSelectedListener listener) {
+
+    public SelectVideosfromGalleryAdapter(Context context, ArrayList<String> imagePaths, OnItemSelectedListener listener, List<VideoModel> videos) {
         this.context = context;
         this.imagePaths = imagePaths;
         this.listener = listener;
+        this.videos = videos;
     }
 
     public interface OnItemSelectedListener {
         void onItemSelected(int position);
+
         void onSelectionChanged(boolean isSelected);
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SelectVideosfromGalleryAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.image_item, parent, false);
-        return new ViewHolder(view);
+        return new SelectVideosfromGalleryAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String imagePath = imagePaths.get(position);
-        File file = new File(imagePath);
 
-        Glide.with(context)
-                .load(file)
+        VideoModel video = videos.get(position);
+
+        // Load thumbnail using Picasso
+        Picasso.get()
+                .load(video.getUri())
+                .resize(300, 300) // Resize to make it a thumbnail
+                .centerCrop() // Crop to maintain aspect ratio
+                .placeholder(R.drawable.reel) // Placeholder while loading
+                .error(R.drawable.baseline_cancel_24) // Error image if loading fails
                 .into(holder.imageView);
 
-        if (isVideoFile(file)) {
-            holder.videoDuration.setVisibility(View.VISIBLE);
-            // Here you can set the actual video duration if available
-            try {
-                holder.videoDuration.setText(ImgVidFHandle.getVideoDuration(file));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        } else {
-            holder.videoDuration.setVisibility(View.GONE);
-        }
+
 
         boolean isSelected = hashSetselectedItems.contains(position);
         holder.imageView.setColorFilter(isSelected ? ContextCompat.getColor(context, R.color.overlayColor) : Color.TRANSPARENT, PorterDuff.Mode.SRC_ATOP);
         holder.imageViewTick.setVisibility(isSelected ? View.VISIBLE : View.GONE);
+        holder.imageViewUnTick.setVisibility(isSelected ? View.GONE : View.VISIBLE);
+
 
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
@@ -89,9 +95,11 @@ public class ImageVideoHideAdapter extends RecyclerView.Adapter<ImageVideoHideAd
         });
     }
 
+
     @Override
     public int getItemCount() {
-        return imagePaths.size();
+        return videos.size();
+
     }
 
     private boolean isVideoFile(File file) {
@@ -104,6 +112,11 @@ public class ImageVideoHideAdapter extends RecyclerView.Adapter<ImageVideoHideAd
         return false;
     }
 
+    private String getVideoDuration(File file) {
+        // Placeholder method to get video duration
+        // Replace this with actual implementation to get video duration
+        return "00:00"; // Default placeholder duration
+    }
 
     public void toggleSelection(int position) {
         if (hashSetselectedItems.contains(position)) {
@@ -140,6 +153,13 @@ public class ImageVideoHideAdapter extends RecyclerView.Adapter<ImageVideoHideAd
         return !hashSetselectedItems.isEmpty();
     }
 
+
+    // In your SelectImageVideosAdapter
+    public HashSet<Integer> getSelectedItems() {
+        return hashSetselectedItems;
+    }
+
+
     public List<String> getSelectedImagePaths() {
         List<String> selectedPaths = new ArrayList<>();
         for (int position : hashSetselectedItems) {
@@ -150,25 +170,16 @@ public class ImageVideoHideAdapter extends RecyclerView.Adapter<ImageVideoHideAd
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
-        ImageView imageViewTick;
+        ImageView imageViewTick,imageViewUnTick;
         TextView videoDuration;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.image_item_Imageview);
             imageViewTick = itemView.findViewById(R.id.tickMarkImageView);
+            imageViewUnTick = itemView.findViewById(R.id.untickMarkImageView);
             videoDuration = itemView.findViewById(R.id.image_item_duration);
         }
     }
 
-
-
-    public void updateImagePaths(ArrayList<String> newImagePaths) {
-        imagePaths.clear();
-        imagePaths.addAll(newImagePaths);
-        // Clear selections as the data has changed
-        hashSetselectedItems.clear();
-        notifyDataSetChanged();
-        listener.onSelectionChanged(false);
-    }
 }

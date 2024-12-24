@@ -20,6 +20,7 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
 import com.bumptech.glide.request.RequestOptions;
 import com.example.finalcalcihide.FileUtils.ImgVidFHandle;
 import com.example.finalcalcihide.R;
+import com.example.finalcalcihide.ViewModel.VideoModel;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,53 +29,6 @@ import java.util.HashSet;
 import java.util.List;
 
 public class SelectImageVideosAdapter extends RecyclerView.Adapter<SelectImageVideosAdapter.ViewHolder> {
-
-//    private List<String> bitmapList;
-//    private List<Boolean> selected;
-//    private Context context;
-//
-//    public SelectImageVideosAdapter(List<String> bitmapList, List<Boolean> selected, Context context) {
-//        this.bitmapList = bitmapList;
-//        this.selected = selected;
-//        this.context = context;
-//    }
-//
-//
-//    @NonNull
-//    @Override
-//    public SelectImageVideosAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.select_img_vid_adap_item, parent, false);
-//
-//        return new MyViewHolder(itemView);
-//    }
-//
-//    @Override
-//    public void onBindViewHolder(@NonNull SelectImageVideosAdapter.MyViewHolder holder, int position) {
-//        Glide.with(context).load("file://" + bitmapList.get(position)).apply(new RequestOptions().override(153, 160).centerCrop().dontAnimate().skipMemoryCache(true)).transition(withCrossFade()).into(holder.thumbnail);
-//        if (selected.get(position).equals(true)) {
-//            holder.check.setVisibility(View.VISIBLE);
-//            holder.check.setAlpha(150);
-//        } else {
-//            holder.check.setVisibility(View.GONE);
-//        }
-//
-//    }
-//
-//    @Override
-//    public int getItemCount() {
-//        return 0;
-//    }
-//
-//
-//    public class MyViewHolder extends RecyclerView.ViewHolder {
-//        public ImageView thumbnail, check;
-//
-//        public MyViewHolder(View view) {
-//            super(view);
-//            thumbnail = (ImageView) view.findViewById(R.id.image);
-//            check = (ImageView) view.findViewById(R.id.image2);
-//        }
-//    }
 
 
     private final Context context;
@@ -111,23 +65,12 @@ public class SelectImageVideosAdapter extends RecyclerView.Adapter<SelectImageVi
                 .load(file)
                 .into(holder.imageView);
 
-        if (isVideoFile(file)) {
-            holder.videoIcon.setVisibility(View.VISIBLE);
-            holder.videoDuration.setVisibility(View.VISIBLE);
-            // Here you can set the actual video duration if available
-            try {
-                holder.videoDuration.setText(ImgVidFHandle.getVideoDuration(file));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        } else {
-            holder.videoIcon.setVisibility(View.GONE);
-            holder.videoDuration.setVisibility(View.GONE);
-        }
 
         boolean isSelected = hashSetselectedItems.contains(position);
         holder.imageView.setColorFilter(isSelected ? ContextCompat.getColor(context, R.color.overlayColor) : Color.TRANSPARENT, PorterDuff.Mode.SRC_ATOP);
         holder.imageViewTick.setVisibility(isSelected ? View.VISIBLE : View.GONE);
+        holder.imageViewUnTick.setVisibility(isSelected ? View.GONE : View.VISIBLE);
+
 
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
@@ -147,21 +90,6 @@ public class SelectImageVideosAdapter extends RecyclerView.Adapter<SelectImageVi
         return imagePaths.size();
     }
 
-    private boolean isVideoFile(File file) {
-        String[] videoExtensions = {".mp4", ".mkv", ".avi", ".mov"};
-        for (String extension : videoExtensions) {
-            if (file.getName().toLowerCase().endsWith(extension)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private String getVideoDuration(File file) {
-        // Placeholder method to get video duration
-        // Replace this with actual implementation to get video duration
-        return "00:00"; // Default placeholder duration
-    }
 
     public void toggleSelection(int position) {
         if (hashSetselectedItems.contains(position)) {
@@ -215,15 +143,15 @@ public class SelectImageVideosAdapter extends RecyclerView.Adapter<SelectImageVi
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
-        ImageView imageViewTick, videoIcon;
-        TextView videoDuration;
+        ImageView imageViewTick,imageViewUnTick;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.image_item_Imageview);
             imageViewTick = itemView.findViewById(R.id.tickMarkImageView);
-            videoIcon = itemView.findViewById(R.id.image_item_video);
-            videoDuration = itemView.findViewById(R.id.image_item_duration);
+            imageViewUnTick = itemView.findViewById(R.id.untickMarkImageView);
+
         }
     }
 

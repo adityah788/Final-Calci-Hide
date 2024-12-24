@@ -66,7 +66,7 @@ public class ImageandVideoViewPagerAdapter extends RecyclerView.Adapter<Imageand
                     .load(imageFile)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .placeholder(R.color.status_bar)
-                    .error(R.drawable.baseline_cancel_presentation_24)
+                    .error(R.drawable.close)
                     .into(holder.photoView);
 
             holder.playIcon.setOnClickListener(v -> {
@@ -94,7 +94,7 @@ public class ImageandVideoViewPagerAdapter extends RecyclerView.Adapter<Imageand
                     .load(imageFile)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .placeholder(R.color.status_bar)
-                    .error(R.drawable.baseline_cancel_presentation_24)
+                    .error(R.drawable.close)
                     .into(holder.photoView);
         }
 

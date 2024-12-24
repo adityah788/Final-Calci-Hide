@@ -32,6 +32,17 @@
             android:layout_marginEnd="8dp"
             android:layout_marginTop="8dp"/>
 
+        <ImageView
+            android:id="@+id/untickMarkImageView"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:scaleType="fitXY"
+            android:visibility="gone"
+             android:src="@drawable/baseline_check_box_outline_blank_24"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"/>
+
 
         <TextView
             android:id="@+id/image_item_duration"
@@ -40,25 +51,12 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="8dp"
+            android:visibility="gone"
             android:layout_marginBottom="22dp"
             android:background="@color/light_dark"
             android:text="04:45"
             android:textColor="@color/White"
             />
-
-            <ImageView
-                android:id="@+id/image_item_video"
-                android:layout_width="30dp"
-                android:layout_height="25dp"
-                android:scaleType="fitXY"
-                android:background="@color/light_dark"
-                android:src="@drawable/svghai"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="8dp"
-                android:layout_marginBottom="8dp"
-                />
-
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

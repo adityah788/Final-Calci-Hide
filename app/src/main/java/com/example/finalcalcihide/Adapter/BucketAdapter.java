@@ -43,7 +43,7 @@ public class BucketAdapter extends RecyclerView.Adapter<BucketAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.title.setText(bucketNames.get(position));
+        holder.title.setText( bucketNames.get(position));
 
         // Load the thumbnail image using Glide
         Glide.with(context)
@@ -51,7 +51,7 @@ public class BucketAdapter extends RecyclerView.Adapter<BucketAdapter.MyViewHold
                 .into(holder.thumbnail);
 
         // Set the image count
-        holder.titleSize.setText(String.valueOf(imageCounts.get(position)));
+        holder.titleSize.setText("("+String.valueOf(imageCounts.get(position))+")");
 
 
         holder.itemView.setOnClickListener(v -> {

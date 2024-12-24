@@ -2,8 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/Theme.status_bar_clr"
-    android:background="@drawable/background_supprt_2">
+    android:background="@drawable/primary_background">
 
     <include layout="@layout/main_toolbar"
         android:id="@+id/image_video_gallery_main_toolbar"/>

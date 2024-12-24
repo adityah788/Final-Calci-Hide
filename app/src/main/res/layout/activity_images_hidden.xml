@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_activity_select_images"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/primary_background"
     android:fitsSystemWindows="true"
     android:theme="@style/Theme.status_bar_clr"
-    android:background="@drawable/primary_background"
     tools:context=".Activity.ImagesHidden">
 
     <LinearLayout
@@ -27,21 +26,51 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/custom_toolbar_container"
-        android:clipToPadding="false"
-        android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
-        android:paddingBottom="70dp"
-        />
+        android:clipToPadding="false"
+        android:paddingBottom="70dp" />
 
 
-    <include layout="@layout/custom_bottom_appbar"
+    <RelativeLayout
+        android:id="@+id/no_file_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/custom_toolbar_container"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:layout_marginTop="75dp"
+        android:clipToPadding="false">
+
+        <ImageView
+            android:id="@+id/imagehidden_no_file"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerHorizontal="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/empty_box" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No File Click + to add file"
+            android:textColor="#9ab1ce"
+            android:textSize="16sp"
+            android:layout_below="@+id/imagehidden_no_file"
+            android:layout_marginTop="10dp"/>
+
+
+    </RelativeLayout>
+
+
+    <include
         android:id="@+id/custom_bottom_appbar"
+        layout="@layout/custom_bottom_appbar"
         android:layout_width="match_parent"
-        android:visibility="invisible"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        />
+        android:visibility="invisible" />
 
 
     <!-- custom_fab.xml -->
@@ -50,9 +79,9 @@
         android:id="@+id/image_gallary_fab_container"
         android:layout_width="55dp"
         android:layout_height="55dp"
-        android:layout_gravity="bottom|end"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom|end"
         android:layout_margin="25dp"
         android:background="@drawable/background_fab">
 
@@ -72,8 +101,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone">
-        <include
-            layout="@layout/animation"/>
+
+        <include layout="@layout/animation" />
     </FrameLayout>
 
 </RelativeLayout>

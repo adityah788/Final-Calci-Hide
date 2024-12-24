@@ -24,10 +24,9 @@
     <style name="CustomAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:windowMinWidthMajor">90%</item> <!-- Adjust dialog width -->
         <item name="android:windowMinWidthMinor">90%</item>
-        <item name="android:windowBackground">@drawable/rating_dialog_background</item> <!-- Rounded corners background -->
+        <item name="android:windowBackground">@drawable/rating_dialog_background
+        </item> <!-- Rounded corners background -->
     </style>
-
-
 
 
     <!-- Custom Style for Confirm Button with Reduced Corner Radius -->

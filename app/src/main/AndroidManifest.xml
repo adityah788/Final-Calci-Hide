@@ -3,23 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
-    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"/>
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
-    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO"/>
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
-
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
-    <queries>
-
-        <!-- Query for media player apps that can handle audio files -->
-        <intent>
-            <action android:name="android.intent.action.VIEW" />
-
-            <data android:mimeType="audio/*" />
-        </intent>
-    </queries>
 
     <application
         android:name=".Activity.YourApplication"
@@ -33,9 +22,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FinalCalciHide"
         tools:targetApi="31">
-
-        <activity android:name=".Activity.NoteActivityRecyclerView"
-            android:exported="false"/>
+        <activity
+            android:name=".Activity.SelectVideosfromGallery"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.NoteActivityRecyclerView"
+            android:exported="false" />
         <activity
             android:name=".Activity.FinalFileActivity"
             android:exported="false" />
@@ -88,7 +80,7 @@
             android:theme="@style/Theme.status_bar_clr" />
         <activity
             android:name=".MainActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

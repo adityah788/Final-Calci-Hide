@@ -9,7 +9,7 @@
     android:fitsSystemWindows="true"
     android:theme="@style/Theme.status_bar_clr"
     android:background="@drawable/primary_background"
-    tools:context=".Activity.SelectImagesorVideos">
+    tools:context=".Activity.SelectVideosfromGallery">
 
     <LinearLayout
         android:id="@+id/select_img_custom_toolbar_container"

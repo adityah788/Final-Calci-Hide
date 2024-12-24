@@ -63,6 +63,10 @@ dependencies {
     implementation("io.github.ShawnLin013:number-picker:2.4.13")
 
 
+    implementation("com.squareup.picasso:picasso:2.8")
+
+
+
     // Lifecycle components
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.lifecycle.viewmodel.ktx)

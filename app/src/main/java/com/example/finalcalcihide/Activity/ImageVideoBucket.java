@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +23,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class ImageVideoBucket extends AppCompatActivity implements BucketAdapter.OnBucketClickListener {
     private static final String TAG = "ImageVideoBucket";
@@ -58,6 +60,10 @@ public class ImageVideoBucket extends AppCompatActivity implements BucketAdapter
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_video_gallery);
+
+
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.FinalPrimaryColor));
+
 
         // Initialize UI components
         backArrow = findViewById(R.id.main_toolbar_back_arrow);
@@ -100,8 +106,16 @@ public class ImageVideoBucket extends AppCompatActivity implements BucketAdapter
 
     @Override
     public void onBucketClick(String bucketName) {
-        Intent intent = new Intent(ImageVideoBucket.this, SelectImagesorVideos.class);
-        intent.putExtra("FROM", mediaType); // Pass the media type
+        Intent intent ;
+        if(Objects.equals(mediaType, "Images")) {
+             intent = new Intent(ImageVideoBucket.this, SelectImagesorVideos.class);
+            intent.putExtra("FROM", mediaType); // Pass the media type
+        }else {
+            intent = new Intent(ImageVideoBucket.this, SelectVideosfromGallery.class);
+            intent.putExtra("BUCKET_NAME", bucketName); // Replace bucketName with the actual bucket name variable
+            intent.putExtra("FROM", "Videos"); // If you're navigating for videos
+
+        }
 
         if ("Images".equals(mediaType)) {
             getPictures(bucketName);  // Fetch images
@@ -110,6 +124,8 @@ public class ImageVideoBucket extends AppCompatActivity implements BucketAdapter
         }
 
         startActivity(intent);
+
+
     }
 
     /**
