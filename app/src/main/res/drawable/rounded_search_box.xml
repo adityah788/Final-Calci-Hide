@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="?android:colorControlHighlight">
 
-    <!-- Solid background -->
+    <!-- Background layer for the ripple effect -->
     <item>
-        <shape android:shape="rectangle">
-            <corners android:radius="40dp"/>
-            <solid android:color="@color/TertiaryPrimarycolor"/>
-        </shape>
+        <layer-list>
+            <!-- Solid background -->
+            <item>
+                <shape android:shape="rectangle">
+                    <corners android:radius="40dp" />
+                    <solid android:color="@color/TertiaryPrimarycolor" />
+                </shape>
+            </item>
+
+            <!-- Optional gradient overlay -->
+            <item>
+                <shape android:shape="rectangle">
+                    <corners android:radius="40dp" /> <!-- Match the corner radius -->
+                </shape>
+            </item>
+        </layer-list>
     </item>
-
-    <!-- Gradient overlay -->
-    <item>
-        <shape android:shape="rectangle">
-
-            <corners android:radius="40dp" /> <!-- Match the corner radius -->
-        </shape>
-    </item>
-
-</layer-list>
+</ripple>

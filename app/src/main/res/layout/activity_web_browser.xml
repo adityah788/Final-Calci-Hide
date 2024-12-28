@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/primary_background"
+    tools:context=".Activity.Web_Browser">
+
+    <RelativeLayout
+        android:id="@+id/input_Fields"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/rounded_search_box"
+        android:padding="5dp">
+
+
+        <ImageView
+            android:id="@+id/link_Icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="5dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/baseline_link_24" />
+
+        <EditText
+            android:id="@+id/web_editext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginHorizontal="10dp"
+            android:layout_toStartOf="@+id/cancel_Icon"
+            android:layout_toEndOf="@+id/link_Icon"
+            android:hint="Search Or Type URL"
+            android:imeOptions="actionGo"
+            android:inputType="textUri"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/cancel_Icon"
+            android:layout_width="13dp"
+            android:layout_height="13dp"
+            android:layout_marginEnd="12dp"
+            android:visibility="gone"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/close" />
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/divider_1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E1E1E1"
+        android:layout_below="@+id/input_Fields"
+        android:visibility="invisible"/>
+
+    <ProgressBar
+        android:id="@+id/web_progess_bar"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/input_Fields"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:visibility="invisible"/>
+
+    <WebView
+        android:id="@+id/web_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/White"
+        android:layout_below="@+id/divider_1"/>
+
+
+
+</RelativeLayout>

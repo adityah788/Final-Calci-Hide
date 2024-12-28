@@ -10,6 +10,8 @@ public class Note {
     public String title;
     public String content;
     public String date;
+    public String path; // Path to the note file or related resource
+
 
     public Note(String title, String content, String date) {
         this.title = title;

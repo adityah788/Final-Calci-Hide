@@ -10,6 +10,7 @@ import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,15 +30,17 @@ import com.example.finalcalcihide.Activity.NotesActivity;
 import com.example.finalcalcihide.Activity.RecycleBin;
 import com.example.finalcalcihide.Activity.Setting;
 import com.example.finalcalcihide.Activity.VideoHidden;
+import com.example.finalcalcihide.Activity.Web_Browser;
 import com.example.finalcalcihide.Utils.FileUtils;
 
 import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
 
-    RelativeLayout relativeLayoutImage, relativeLayoutIntruder, relativeLayoutVideos, relativeLayoutRecycleBin, relativeLayoutFile, relativeLayoutNotes;
+    RelativeLayout relativeLayoutImage, relativeLayoutIntruder, relativeLayoutVideos, relativeLayoutRecycleBin, relativeLayoutFile, relativeLayoutNotes,relativeLayoutBrowser;
 
     ImageView btnSetting;
+    LinearLayout linearLayoutlongwebBrowser;
 
     // SharedPreferences constants
     private static final String PREFS_NAME = "IntruderSelfiePrefs";
@@ -71,6 +74,9 @@ public class MainActivity extends AppCompatActivity {
         relativeLayoutFile = findViewById(R.id.new_main_file);
         btnSetting = findViewById(R.id.new_main_setting);
         relativeLayoutNotes = findViewById(R.id.new_main_note);
+        relativeLayoutBrowser = findViewById(R.id.new_main_web_browser);
+        linearLayoutlongwebBrowser = findViewById(R.id.new_main_web_browser_long);
+
 
         // Check if a new selfie has been added
         SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
@@ -155,6 +161,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        relativeLayoutBrowser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, Web_Browser.class));
+
+            }
+        });
+
+        linearLayoutlongwebBrowser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, Web_Browser.class));
+            }
+        });
 
     }
 

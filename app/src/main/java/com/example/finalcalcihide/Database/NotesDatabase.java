@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase;
 
 import com.example.finalcalcihide.Model.Note;
 
-@Database(entities = {Note.class}, version = 1)
+@Database(entities = {Note.class}, version = 2)
 public abstract class NotesDatabase extends RoomDatabase {
     private static NotesDatabase instance;
 
