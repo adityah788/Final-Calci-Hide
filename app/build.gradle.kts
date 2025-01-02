@@ -59,11 +59,13 @@ dependencies {
     implementation ("androidx.camera:camera-view:1.3.4")
 
 
-    implementation("com.github.abhishekti7:UnicornFilePicker:1.0.2")
     implementation("io.github.ShawnLin013:number-picker:2.4.13")
 
 
     implementation("com.squareup.picasso:picasso:2.8")
+
+
+    implementation(project(":UnicornFilePicker")) // Adjust this path to the actual module location
 
 
 

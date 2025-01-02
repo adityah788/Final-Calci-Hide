@@ -29,4 +29,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Final Calci Hide"
 include(":app")
- 
+include(":UnicornFilePicker")
