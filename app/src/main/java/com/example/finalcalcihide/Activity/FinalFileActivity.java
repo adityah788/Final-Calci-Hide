@@ -1,5 +1,7 @@
 package com.example.finalcalcihide.Activity;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
@@ -13,8 +15,12 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.Nullable;
+import androidx.annotation.OptIn;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.media3.common.util.Log;
+import androidx.media3.common.util.UnstableApi;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -108,7 +114,7 @@ public class FinalFileActivity extends AppCompatActivity {
                     selectedPaths,
                     MINIMUM_DISPLAY_TIME,
                     () -> {
-                        ImgVidFHandle.moveImagesBackToOriginalLocationsWrapper(FinalFileActivity.this, selectedPaths);
+                        ImgVidFHandle.moveFilesBackToOriginalLocationsWrapper(FinalFileActivity.this, selectedPaths);
                     },
                     (processSuccess, paths) -> stopAnimationAndUpdateUI(processSuccess, paths)
             );
@@ -122,15 +128,20 @@ public class FinalFileActivity extends AppCompatActivity {
 
                 UnicornFilePicker.from(FinalFileActivity.this)
                         .addConfigBuilder()
-                        .selectMultipleFiles(false)
-                        .showOnlyDirectory(true)
+                        .selectMultipleFiles(true)
+                        .showOnlyDirectory(false)
                         .setRootDirectory(Environment.getExternalStorageDirectory().getAbsolutePath())
-                        .showHiddenFiles(false)
-                        .setFilters(new String[]{"pdf", "png", "jpg", "jpeg"})
+                        .showHiddenFiles(true)
+                        .setFilters(new String[]{
+                                "pdf", "png", "jpg", "jpeg",
+                                "mp3", "wav", "flac", "m4a",
+                                "mp4", "3gp", "mkv", "avi", "mov",
+                                "doc", "docx", "xls", "xlsx",
+                                "ppt", "pptx", "txt",
+                                "zip", "rar"})
                         .addItemDivider(true)
                         .build()
                         .forResult(Constants.REQ_UNICORN_FILE);
-
             }
         });
 
@@ -147,13 +158,41 @@ public class FinalFileActivity extends AppCompatActivity {
                     selectedPaths,
                     MINIMUM_DISPLAY_TIME,
                     () -> {
-                        ImgVidFHandle.moveImagesBackToRecycleLocationsWrapper(FinalFileActivity.this, selectedPaths);
+                        ImgVidFHandle.moveImagesBackToRecycleLocationsWrapper(FinalFileActivity.this, selectedPaths,"FinalFileActivity");
                     },
                     (processSuccess, paths) -> stopAnimationAndUpdateUI(processSuccess, paths)
             );
         });
 
 
+    }
+
+
+    @OptIn(markerClass = UnstableApi.class)
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.REQ_UNICORN_FILE && resultCode == RESULT_OK) {
+            if (data != null) {
+                ArrayList<String> files = data.getStringArrayListExtra("filePaths");
+
+                boolean success = ImgVidFHandle.copyfilesToPrivateStorage(getApplicationContext(), files);
+
+                if (success) {
+                    filePaths.clear();
+                    filePaths.addAll(FileUtils.getFilePaths(this));
+
+                    runOnUiThread(() -> finalFileAdapter.notifyDataSetChanged());
+                    Toast.makeText(getApplicationContext(), "Files copied to private storage", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error copying files", Toast.LENGTH_SHORT).show();
+                }
+
+                for (String file : files) {
+                    Log.e(TAG, file);
+                }
+            }
+        }
     }
 
 

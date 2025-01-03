@@ -1,89 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="70dp">
-
-    <FrameLayout
-        android:id="@+id/item_file_frame"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/item_file_image"
-            android:layout_width="50dp"
-            android:layout_height="50dp" />
-
-    </FrameLayout>
-
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:clickable="true"
+    android:focusable="true"
+    app:cardBackgroundColor="@color/TertiaryPrimarycolor"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp">
 
     <RelativeLayout
-        android:id="@+id/item_file_details"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/container_file_tick"
-        app:layout_constraintStart_toEndOf="@id/item_file_frame"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/item_file_txt"
-            android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:layout_marginStart="10dp"
-            android:text="smatphone-22343.png"
-            android:textSize="20sp"/>
-
-        <TextView
-            android:id="@+id/item_file_time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/item_file_txt"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="10dp"
-            android:gravity="bottom"
-            android:text="12/04/2024" />
-
-        <TextView
-            android:id="@+id/item_file_size"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@id/item_file_time"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="100dp"
-            android:gravity="bottom"
-            android:text="442 Kb" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/container_file_tick"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toEndOf="@id/item_file_details"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/item_file_details"
-        app:layout_constraintTop_toTopOf="parent">
+        android:background="@drawable/ripple_recyclerview_item"
+        android:padding="5dp">
 
+        <!-- Intruder Image -->
         <ImageView
-            android:id="@+id/item_file_tick"
+            android:id="@+id/file_image"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="16dp"
+            android:padding="5dp"
+            android:scaleType="centerCrop" />
+
+        <!-- Intruder Date -->
+        <TextView
+            android:id="@+id/file_details"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:src="@drawable/baseline_check_box_24" />
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="8dp"
+            android:layout_toEndOf="@id/file_image"
+            android:fontFamily="sans-serif"
+            android:text="489375sdfkl  . jpg"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
 
-        <ImageView
-            android:id="@+id/item_file_tick_blank"
+
+        <TextView
+            android:id="@+id/file_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/file_details"
+            android:layout_toEndOf="@id/file_image"
+            android:fontFamily="sans-serif"
+            android:text="5 Apr"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+
+        <!-- Intruder Time -->
+        <TextView
+            android:id="@+id/file_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/file_details"
             android:layout_marginStart="10dp"
-            android:src="@drawable/baseline_check_box_outline_blank_24" />
+            android:layout_toEndOf="@id/file_date"
+            android:fontFamily="sans-serif"
+            android:text="5489 MB"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+
+        <!-- Tick Mark Image -->
+        <ImageView
+            android:id="@+id/file_tickMarkImageView"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/baseline_check_box_24"
+            android:visibility="gone" />
     </RelativeLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

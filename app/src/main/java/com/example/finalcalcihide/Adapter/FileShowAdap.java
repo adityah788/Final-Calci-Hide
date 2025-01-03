@@ -53,56 +53,56 @@
 
         @Override
         public void onBindViewHolder(@NonNull FileShowAdap.ViewHolder holder, int position) {
-            String filePath = filePaths.get(position);
-            File file = new File(filePath);
-
-            // Set the file details
-            holder.textViewtitle.setText(file.getName());
-            holder.textViewsize.setText(getFileSize(file.length()));
-            holder.textViewtime.setText(getFormattedDate(file.lastModified()));
-
-            // Determine file type
-            boolean isAudio = isAudioFile(file);
-            boolean isDocument = isDocumentFile(file);
-            boolean isImage = isImageFile(file);
-            boolean isVideo = isVideoFile(file);
-
-            // Set image based on file type
-            if (isAudio) {
-                holder.imageViewimage.setImageResource(R.drawable.baseline_audiotrack_24);
-            } else if (isDocument) {
-                holder.imageViewimage.setImageResource(R.drawable.baseline_insert_drive_file_24);
-            } else if (isImage || isVideo) {
-                Glide.with(context).load(file).into(holder.imageViewimage);
-            } else {
-                holder.imageViewimage.setImageResource(R.color.browser_title_color);
-            }
-
-            // Set selection state
-            holder.containertick.setVisibility(View.VISIBLE);
-            holder.imageViewtick.setVisibility(View.GONE);
-            holder.imageViewtickblank.setVisibility(View.GONE);
-            holder.itemView.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent));
-
-            if (hashSetselectedItems.contains(position)) {
-                holder.imageViewtick.setVisibility(View.VISIBLE);
-                holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.overlayColor));
-            } else if (!hashSetselectedItems.isEmpty()) {
-                holder.imageViewtickblank.setVisibility(View.VISIBLE);
-            }
-
-            holder.itemView.setOnLongClickListener(v -> {
-                toggleSelection(position);
-                return true;
-            });
-
-            holder.itemView.setOnClickListener(v -> {
-                if (hashSetselectedItems.contains(position)) {
-                    toggleSelection(position);
-                } else {
-                    listener.onItemSelected(position);
-                }
-            });
+//            String filePath = filePaths.get(position);
+//            File file = new File(filePath);
+//
+//            // Set the file details
+//            holder.textViewtitle.setText(file.getName());
+//            holder.textViewsize.setText(getFileSize(file.length()));
+//            holder.textViewtime.setText(getFormattedDate(file.lastModified()));
+//
+//            // Determine file type
+//            boolean isAudio = isAudioFile(file);
+//            boolean isDocument = isDocumentFile(file);
+//            boolean isImage = isImageFile(file);
+//            boolean isVideo = isVideoFile(file);
+//
+//            // Set image based on file type
+//            if (isAudio) {
+//                holder.imageViewimage.setImageResource(R.drawable.baseline_audiotrack_24);
+//            } else if (isDocument) {
+//                holder.imageViewimage.setImageResource(R.drawable.baseline_insert_drive_file_24);
+//            } else if (isImage || isVideo) {
+//                Glide.with(context).load(file).into(holder.imageViewimage);
+//            } else {
+//                holder.imageViewimage.setImageResource(R.color.browser_title_color);
+//            }
+//
+//            // Set selection state
+//            holder.containertick.setVisibility(View.VISIBLE);
+//            holder.imageViewtick.setVisibility(View.GONE);
+//            holder.imageViewtickblank.setVisibility(View.GONE);
+//            holder.itemView.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent));
+//
+//            if (hashSetselectedItems.contains(position)) {
+//                holder.imageViewtick.setVisibility(View.VISIBLE);
+//                holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.overlayColor));
+//            } else if (!hashSetselectedItems.isEmpty()) {
+//                holder.imageViewtickblank.setVisibility(View.VISIBLE);
+//            }
+//
+//            holder.itemView.setOnLongClickListener(v -> {
+//                toggleSelection(position);
+//                return true;
+//            });
+//
+//            holder.itemView.setOnClickListener(v -> {
+//                if (hashSetselectedItems.contains(position)) {
+//                    toggleSelection(position);
+//                } else {
+//                    listener.onItemSelected(position);
+//                }
+//            });
         }
 
         @Override
@@ -215,13 +215,14 @@
 
             public ViewHolder(@NonNull View itemView) {
                 super(itemView);
-                imageViewtick = itemView.findViewById(R.id.item_file_tick);
-                imageViewtickblank = itemView.findViewById(R.id.item_file_tick_blank);
-                imageViewimage = itemView.findViewById(R.id.item_file_image);
-                textViewsize = itemView.findViewById(R.id.item_file_size);
-                textViewtime = itemView.findViewById(R.id.item_file_time);
-                textViewtitle = itemView.findViewById(R.id.item_file_txt);
-                containertick = itemView.findViewById(R.id.container_file_tick);
+
+                imageViewtick = itemView.findViewById(R.id.file_tickMarkImageView);
+//                imageViewtickblank = itemView.findViewById(R.id.item_file_tick_blank);
+                imageViewimage = itemView.findViewById(R.id.file_image);
+                textViewsize = itemView.findViewById(R.id.file_size);
+//                textViewdate = itemView.findViewById(R.id.file_date);
+                textViewtitle = itemView.findViewById(R.id.file_details);
+//                containertick = itemView.findViewById(R.id.container_file_tick);
             }
         }
 

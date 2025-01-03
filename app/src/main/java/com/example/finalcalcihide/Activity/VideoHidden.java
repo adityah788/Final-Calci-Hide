@@ -131,7 +131,7 @@ public class VideoHidden extends AppCompatActivity {
                     MINIMUM_DISPLAY_TIME,
                     () -> {
                         // Background task: Move images back to recycle locations
-                        ImgVidFHandle.moveImagesBackToRecycleLocationsWrapper(VideoHidden.this, selectedPaths);
+                        ImgVidFHandle.moveImagesBackToRecycleLocationsWrapper(VideoHidden.this, selectedPaths,null);
                         // Update processSuccess based on actual task outcome
                     },
                     (processSuccess, paths) -> stopAnimationAndUpdateUI(processSuccess, paths)

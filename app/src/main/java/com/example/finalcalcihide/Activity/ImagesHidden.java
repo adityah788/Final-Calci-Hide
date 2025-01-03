@@ -146,7 +146,7 @@ public class ImagesHidden extends AppCompatActivity {
                         MINIMUM_DISPLAY_TIME,
                         () -> {
                             // Background task: Move images back to recycle locations
-                            ImgVidFHandle.moveImagesBackToRecycleLocationsWrapper(ImagesHidden.this, selectedPaths);
+                            ImgVidFHandle.moveImagesBackToRecycleLocationsWrapper(ImagesHidden.this, selectedPaths,null);
                             // Update processSuccess based on actual task outcome
                         },
                         (processSuccess, paths) -> stopAnimationAndUpdateUI(processSuccess, paths)

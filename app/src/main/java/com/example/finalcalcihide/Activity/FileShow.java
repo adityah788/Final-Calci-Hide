@@ -121,7 +121,7 @@ public class FileShow extends AppCompatActivity {
                     AnimationManager.AnimationType.DELETE,
                     selectedPaths,
                     MINIMUM_DISPLAY_TIME,
-                    () -> ImgVidFHandle.moveImagesBackToRecycleLocationsWrapper(FileShow.this, selectedPaths),
+                    () -> ImgVidFHandle.moveImagesBackToRecycleLocationsWrapper(FileShow.this, selectedPaths,"FileShow"),
                     (processSuccess, paths) -> stopAnimationAndUpdateUI(processSuccess, paths)
             );
         });

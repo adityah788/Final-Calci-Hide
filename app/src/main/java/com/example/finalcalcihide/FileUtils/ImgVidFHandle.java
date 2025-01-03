@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 
 
@@ -27,7 +28,6 @@ import java.util.concurrent.TimeUnit;
 public class ImgVidFHandle {
 
     private static final String TAGG = "IMediaCopyUtil";
-
 
 
     public static Uri getFileUri(Context context, File file) {
@@ -275,23 +275,154 @@ public class ImgVidFHandle {
 
 
 
-    protected static boolean moveMediaToNewLocation(Context context, List<String> selectedPaths) {
+    protected static boolean moveFilesBackToOriginalLocations(Context context, List<String> selectedPaths) {
+        try {
+            SharedPreferences sharedPreferences = context.getSharedPreferences("file_media_paths", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+
+            for (String copiedPath : selectedPaths) {
+                String originalPath = sharedPreferences.getString(copiedPath, null);
+                if (originalPath != null) {
+                    File copiedFile = new File(copiedPath);
+
+                    if (copiedFile.exists() && copiedFile.canRead()) {
+                        File originalFile = new File(originalPath);
+
+                        try (FileInputStream inputStream = new FileInputStream(copiedFile);
+                             BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+                             FileOutputStream outputStream = new FileOutputStream(originalFile);
+                             BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream)) {
+
+                            // Move the file contents back to the original location
+                            byte[] buffer = new byte[1024];
+                            int bytesRead;
+                            while ((bytesRead = bufferedInputStream.read(buffer)) != -1) {
+                                bufferedOutputStream.write(buffer, 0, bytesRead);
+                            }
+
+                            // Scan the file to update the media gallery
+                            MediaScannerConnection.scanFile(context, new String[]{originalFile.getAbsolutePath()}, null,
+                                    (path, uri) -> {
+                                        if (uri != null) {
+                                            Log.d(TAGG, "Media successfully scanned into gallery: " + path);
+                                            // Optionally, update shared preferences or perform additional actions
+                                            editor.apply();
+                                            Log.d(TAGG, "Successfully moved media back to original location: " + originalPath);
+
+                                            // Delete the copied file after successful move
+                                            if (copiedFile.delete()) {
+                                                Log.d(TAGG, "Copied file deleted successfully: " + copiedPath);
+                                            } else {
+                                                Log.e(TAGG, "Failed to delete copied file: " + copiedPath);
+                                            }
+                                        } else {
+                                            Log.e(TAGG, "Failed to scan media into gallery: " + path);
+                                        }
+                                    });
+
+                        } catch (IOException e) {
+                            Log.e(TAGG, "Error moving file back: " + originalPath, e);
+                            return false;
+                        }
+                    } else {
+                        Log.e(TAGG, "Copied media file not found or not readable: " + copiedPath);
+                        return false;
+                    }
+                } else {
+                    Log.e(TAGG, "Original media path not found for: " + copiedPath);
+                    return false;
+                }
+            }
+
+            return true;
+        } catch (Exception e) {
+            Log.e(TAGG, "Unexpected error moving media back", e);
+            return false;
+        }
+    }
+
+
+
+//    protected static boolean moveMediaToNewLocation(Context context, List<String> selectedPaths) {
+//        File imageRootDir = new File(context.getFilesDir(), ".dont_delete_me_by_hides/recycle");
+//
+//        // Ensure the target directory exists
+//        if (!imageRootDir.exists() && !imageRootDir.mkdirs()) {
+//            Log.e(TAGG, "Failed to create directory: " + imageRootDir.getAbsolutePath());
+//            return false;
+//        }
+//
+//        try {
+//            for (String sourcePath : selectedPaths) {
+//                File sourceFile = new File(sourcePath);
+//                if (sourceFile.exists() && sourceFile.canRead()) {
+//                    // Generate a unique identifier for the file
+//                    String uniqueFileName = System.currentTimeMillis() + "_" + sourceFile.getName();
+//                    File targetFile = new File(imageRootDir, uniqueFileName);
+//
+//                    try (FileInputStream inputStream = new FileInputStream(sourceFile);
+//                         BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+//                         FileOutputStream outputStream = new FileOutputStream(targetFile);
+//                         BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream)) {
+//
+//                        // Copy the file contents to the new location
+//                        byte[] buffer = new byte[1024];
+//                        int bytesRead;
+//                        while ((bytesRead = bufferedInputStream.read(buffer)) != -1) {
+//                            bufferedOutputStream.write(buffer, 0, bytesRead);
+//                        }
+//
+//                        // Delete the source file after copying successfully
+//                        if (sourceFile.delete()) {
+//                            Log.d(TAGG, "Source file deleted successfully: " + sourcePath);
+//                        } else {
+//                            Log.e(TAGG, "Failed to delete source file: " + sourcePath);
+//                            return false;
+//                        }
+//
+//                    } catch (IOException e) {
+//                        Log.e(TAGG, "Error copying file: " + sourcePath, e);
+//                        return false;
+//                    }
+//                } else {
+//                    Log.e(TAGG, "Source media file not found or not readable: " + sourcePath);
+//                    return false;
+//                }
+//            }
+//
+//            return true;
+//        } catch (Exception e) {
+//            Log.e(TAGG, "Unexpected error moving media", e);
+//            return false;
+//        }
+//    }
+
+
+    protected static boolean moveMediaToNewLocation(Context context, List<String> selectedPaths, @Nullable String sourceMarker) {
         File imageRootDir = new File(context.getFilesDir(), ".dont_delete_me_by_hides/recycle");
 
         // Ensure the target directory exists
-        if (!imageRootDir.exists()) {
-            if (!imageRootDir.mkdirs()) {
-                Log.e(TAGG, "Failed to create directory: " + imageRootDir.getAbsolutePath());
-                return false;
-            }
+        if (!imageRootDir.exists() && !imageRootDir.mkdirs()) {
+            Log.e(TAGG, "Failed to create directory: " + imageRootDir.getAbsolutePath());
+            return false;
         }
 
         try {
+            // Determine if a marker needs to be added
+            String markerSuffix = (sourceMarker != null) ? "_" + sourceMarker : "";
+
             for (String sourcePath : selectedPaths) {
                 File sourceFile = new File(sourcePath);
+
                 if (sourceFile.exists() && sourceFile.canRead()) {
-                    // Define the target path in the new location
-                    File targetFile = new File(imageRootDir, sourceFile.getName());
+                    // Extract file extension and name without extension
+                    String originalFileName = sourceFile.getName();
+                    String fileExtension = getFileExtension(originalFileName);
+                    String fileNameWithoutExtension = removeFileExtension(originalFileName);
+
+                    // Append the marker before the file extension, if applicable
+                    String targetFileName = fileNameWithoutExtension + markerSuffix + "."+fileExtension;
+                    File targetFile = new File(imageRootDir, targetFileName);
 
                     try (FileInputStream inputStream = new FileInputStream(sourceFile);
                          BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
@@ -305,7 +436,7 @@ public class ImgVidFHandle {
                             bufferedOutputStream.write(buffer, 0, bytesRead);
                         }
 
-                        // Delete the source file after copying successfully
+                        // Delete the source file after successfully copying
                         if (sourceFile.delete()) {
                             Log.d(TAGG, "Source file deleted successfully: " + sourcePath);
                         } else {
@@ -328,6 +459,14 @@ public class ImgVidFHandle {
             Log.e(TAGG, "Unexpected error moving media", e);
             return false;
         }
+    }
+
+    private static String removeFileExtension(String fileName) {
+        int lastDotIndex = fileName.lastIndexOf('.');
+        if (lastDotIndex > 0 && lastDotIndex < fileName.length() - 1) {
+            return fileName.substring(0, lastDotIndex);
+        }
+        return fileName; // Return the original name if no extension is found
     }
 
 
@@ -409,6 +548,9 @@ public class ImgVidFHandle {
     protected static boolean moveDataToImagesorVideos(Context context, List<String> selectedPaths) {
         File imagesDir = new File(context.getFilesDir(), ".dont_delete_me_by_hides/images");
         File videosDir = new File(context.getFilesDir(), ".dont_delete_me_by_hides/videos");
+        File filesDir = new File(context.getFilesDir(), ".dont_delete_me_by_hides/files");
+
+
 
         // Ensure the target directories exist
         if (!imagesDir.exists() && !imagesDir.mkdirs()) {
@@ -419,22 +561,35 @@ public class ImgVidFHandle {
             Log.e(TAGG, "Failed to create videos directory: " + videosDir.getAbsolutePath());
             return false;
         }
+        if (!filesDir.exists() && !filesDir.mkdirs()) {
+            Log.e(TAGG, "Failed to create files directory: " + filesDir.getAbsolutePath());
+            return false;
+        }
 
         try {
             for (String sourcePath : selectedPaths) {
                 File sourceFile = new File(sourcePath);
                 if (sourceFile.exists() && sourceFile.canRead()) {
                     // Determine if it's an image or video by file extension
-                    String extension = getFileExtension(sourceFile.getName()).toLowerCase();
                     File targetDir;
-
-                    if (isImage(extension)) {
-                        targetDir = imagesDir;
-                    } else if (isVideo(extension)) {
-                        targetDir = videosDir;
+                    String originalFileName = sourceFile.getName();
+                    // Check if the file contains the sourceMarker
+                    if (originalFileName.contains("FinalFileActivity")) {
+                        // Remove the marker and move the file to .dont_delete_me_by_hides/files
+                        targetDir = filesDir;
+//                        originalFileName = originalFileName.replace("_" + sourceMarker, "");
                     } else {
-                        Log.e(TAGG, "Unsupported file type: " + sourcePath);
-                        return false;
+                        // Determine target directory based on file type
+                        String extension = getFileExtension(originalFileName).toLowerCase();
+
+                        if (isImage(extension)) {
+                            targetDir = imagesDir;
+                        } else if (isVideo(extension)) {
+                            targetDir = videosDir;
+                        } else {
+                            Log.e(TAGG, "Unsupported file type: " + sourcePath);
+                            return false;
+                        }
                     }
 
                     // Define the target file in the new location
@@ -488,7 +643,7 @@ public class ImgVidFHandle {
     }
 
     // Helper method to check if a file is an image
-      private static boolean isImage(String extension) {
+    private static boolean isImage(String extension) {
         String[] imageExtensions = {"jpg", "jpeg", "png", "gif", "bmp", "webp"};
         return Arrays.asList(imageExtensions).contains(extension);
     }
@@ -527,8 +682,6 @@ public class ImgVidFHandle {
     }
 
 
-
-
     public static boolean copyImagesToPrivateStorageWrapper(Context context, ArrayList<String> mediaPaths) {
         // Directly call the protected method with the ArrayList<String>
         return copyMediaToPrivateStorage(context, mediaPaths);
@@ -540,9 +693,15 @@ public class ImgVidFHandle {
         return moveMediaBackToOriginalLocations(context, selectedImagePaths);
     }
 
+    public static boolean moveFilesBackToOriginalLocationsWrapper(Context context, List<String> selectedImagePaths) {
+        return moveFilesBackToOriginalLocations(context, selectedImagePaths);
+    }
 
-    public static boolean moveImagesBackToRecycleLocationsWrapper(Context context, List<String> selectedImagePaths) {
-        return moveMediaToNewLocation(context, selectedImagePaths);
+
+
+
+    public static boolean moveImagesBackToRecycleLocationsWrapper(Context context, List<String> selectedImagePaths,@Nullable String sourceMarker) {
+        return moveMediaToNewLocation(context, selectedImagePaths,sourceMarker);
     }
 
 

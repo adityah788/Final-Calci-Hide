@@ -69,7 +69,7 @@ public class ImageandVideoViewPager extends AppCompatActivity {
                     MINIMUM_DISPLAY_TIME,
                     () -> {
                         // Background task: Move images back to recycle locations
-                        ImgVidFHandle.moveImagesBackToRecycleLocationsWrapper(ImageandVideoViewPager.this, selectedPaths);
+                        ImgVidFHandle.moveImagesBackToRecycleLocationsWrapper(ImageandVideoViewPager.this, selectedPaths,null);
                         // Update processSuccess based on actual task outcome
                     },
                     (processSuccess, paths) -> stopAnimationAndUpdateUI(processSuccess, paths)
