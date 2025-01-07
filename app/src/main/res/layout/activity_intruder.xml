@@ -33,7 +33,7 @@
                     android:layout_marginStart="5dp"
                     android:padding="5dp"
                     android:background="@drawable/ripple_back"
-                    android:src="@drawable/baseline_arrow_back_24" />
+                    android:src="@drawable/flati_arrow_left_24" />
 
                 <!-- Title -->
                 <TextView

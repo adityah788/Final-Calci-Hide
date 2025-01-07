@@ -38,9 +38,13 @@ public class Calculator extends AppCompatActivity {
     private boolean lastNumeric = false;
     private boolean stateError = false;
     private boolean lastDot = false;
+    private boolean lastoperator = false;
+
+
     private boolean equalclicked = false;
     private Expression expression;
     private static boolean isInstanceActive = false;
+
 
     private int wrongPasswordCount = 0; // Counter for wrong password attempts
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 100;
@@ -132,6 +136,16 @@ public class Calculator extends AppCompatActivity {
             }
         });
 
+        binding.calcuReloadBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                inputPassword.setLength(0);
+                updatePasswordFields(inputPassword.toString());
+
+            }
+        });
+
 
     }
 
@@ -161,22 +175,6 @@ public class Calculator extends AppCompatActivity {
     }
 
 
-//    public void onDigitClick(View view) {
-//        if (stateError) {
-//            binding.dataTv.setText(((Button) view).getText());
-//            stateError = false;
-//        } else if (equalclicked) {
-//            onAllClearClick(view);
-//            binding.dataTv.append(((Button) view).getText());
-//            equalclicked = false;
-//        } else {
-//            binding.dataTv.append(((Button) view).getText());
-//        }
-//        lastNumeric = true;
-//        onEqual();
-//    }
-
-
     // Method to handle digit button clicks
     public void onDigitClick(View view) {
         if (!isPasswordSet || resetPassword) {
@@ -204,69 +202,31 @@ public class Calculator extends AppCompatActivity {
     }
 
 
-//    public void onEqualClick(View view) {
-//        onEqual();
-//
-//        String enteredPassword = binding.dataTv.getText().toString();
-//
-//        if (enteredPassword.equals("11223344")) {
-//            Toast.makeText(this, "Password 11223344 is clicked", Toast.LENGTH_SHORT).show();
-//            wrongPasswordCount = 0; // Reset counter
-//        } else if (enteredPassword.length() == 4 && !enteredPassword.equals("6666")) {
-//            Toast.makeText(this, "You MF Fraudster", Toast.LENGTH_SHORT).show();
-//            wrongPasswordCount++;
-//
-//            if (wrongPasswordCount > 2) {
-//                // More than 2 wrong attempts, trigger selfie capture
-//                IntruderUtils.takeSelfie(this);
-//                Toast.makeText(this, "Selfie capture triggered due to multiple failed attempts", Toast.LENGTH_SHORT).show();
-//            }
-//        } else if (enteredPassword.length() == 4 && enteredPassword.equals("6666")) {
-//            // Correct password logic
-//            if (isTaskRoot()) {
-//                startActivity(new Intent(Calculator.this, MainActivity.class));
-//                finish();
-//            } else {
-//                finish();
-//            }
-//            wrongPasswordCount = 0; // Reset counter
-//        } else if (binding.resultTv.getText().length() > 1) {
-//            binding.dataTv.setText(binding.resultTv.getText().toString().substring(1));
-//        }
-//
-//        equalclicked = true;
-//        binding.resultTv.setText("");
-//    }
-
-
     public void onEqualClick(View view) {
 
+        // Shared Preferences instance (use a single instance)
+        SharedPreferences sharedPreferences = getSharedPreferences("CalculatorPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        // If the password is not set yet
+        // Handle if the password is not set or needs to be reset
         if (!isPasswordSet || resetPassword) {
-
-            // Shared Preferences instance
-            SharedPreferences sharedPreferences = getSharedPreferences("CalculatorPrefs", MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-
 
             // Combine the four EditText fields into a single password string
             String enteredPassword = passtxt1.getText().toString() + passtxt2.getText().toString() + passtxt3.getText().toString() + passtxt4.getText().toString();
 
-
             if (enteredPassword.length() == 4) {
+                // If this is the first time setting the password
                 if (!flagInidone) {
                     firstPassword = enteredPassword;
                     flagInidone = true;
-                    enteredPassword = "";
+                    enteredPassword = "";  // Clear the entered password for the next step
                     inputPassword.setLength(0);
                     updatePasswordFields(inputPassword.toString());
-
                 }
+
+                // After initial password is set, confirm the entered password
                 if (isInitialPassdone) {
-
                     if (enteredPassword.equals(firstPassword)) {
-
                         // Save the entered password in SharedPreferences
                         editor.putString("password", enteredPassword);
                         editor.putBoolean("isPasswordSet", true); // Mark password as set
@@ -276,42 +236,64 @@ public class Calculator extends AppCompatActivity {
                         Toast.makeText(this, "Password set successfully", Toast.LENGTH_SHORT).show();
                         wrongPasswordCount = 0; // Reset counter
 
-
-                        // show original calci
+                        // Show original calculator UI
                         binding.calculatorLinearNewPassword.setVisibility(View.GONE);
                         binding.calculatorRelativeCalculationTxt.setVisibility(View.VISIBLE);
 
                         startActivity(new Intent(Calculator.this, SecutityQues.class));
                         finish();
-
                     } else {
                         Toast.makeText(this, "Enter the correct Password", Toast.LENGTH_LONG).show();
                         Log.d("Hamar calcu", "Enter the correct Password is shown");
-
                     }
                 }
-
                 isInitialPassdone = true;
                 binding.tvPassDetail.setText("Confirm Your 4 digit Password ");
                 Toast.makeText(Calculator.this, "Confirm the password", Toast.LENGTH_SHORT).show();
-//                inputPassword.setLength(0); // Clear the StringBuilder
-
-
             } else {
                 Toast.makeText(this, "Please enter a valid 4-digit password", Toast.LENGTH_SHORT).show();
             }
         }
         // If the password is already set
-
         else {
 
-            onEqual();
+            onEqual(); // Proceed with normal calculation logic
 
             // Retrieve the saved password from SharedPreferences
             String savedPassword = sharedPreferences.getString("password", "");
             String enteredPassword = binding.dataTv.getText().toString();
 
+            // Reset password if the user enters '123123'
+            if (enteredPassword.equals("123123123")) {
+                // Clear the saved password
+                editor.putString("password", ""); // Clear the password
+                editor.putBoolean("isPasswordSet", false); // Mark password as not set
+                editor.apply(); // Apply the changes
 
+                // Reset the UI to ask the user to set a new password
+                isPasswordSet = false;
+                resetPassword = true;
+                binding.calculatorLinearNewPassword.setVisibility(View.VISIBLE);
+                binding.calculatorRelativeCalculationTxt.setVisibility(View.GONE);
+
+                Toast.makeText(this, "Password has been reset. Set a new password", Toast.LENGTH_SHORT).show();
+
+                // Clear the password fields
+                passtxt1.setText("");
+                passtxt2.setText("");
+                passtxt3.setText("");
+                passtxt4.setText("");
+
+                // Clear all previous activities from the stack and restart the activity
+                Intent resetIntent = new Intent(this, Calculator.class);
+                resetIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // Clear the activity stack
+                startActivity(resetIntent); // Start the Calculator activity again
+                finish(); // Close the current activity
+
+                return;  // Exit early, no need to check the password now
+            }
+
+            // If password is correct, proceed with normal logic
             if (enteredPassword.equals(savedPassword)) {
                 Toast.makeText(this, "Password is correct", Toast.LENGTH_SHORT).show();
                 wrongPasswordCount = 0; // Reset counter
@@ -327,9 +309,6 @@ public class Calculator extends AppCompatActivity {
                 // Handle incorrect password
                 Toast.makeText(this, "You MF Fraudster", Toast.LENGTH_SHORT).show();
                 wrongPasswordCount++;
-
-                // Retrieve the SharedPreferences
-                SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
 
                 // Get the value of "selected_number" from SharedPreferences (default to 3 if not set)
                 int selectedNumber = sharedPreferences.getInt("selected_number", 3); // Default to 3 if not set
@@ -348,16 +327,10 @@ public class Calculator extends AppCompatActivity {
             equalclicked = true;
             binding.resultTv.setText("");
         }
-
     }
 
 
     public void onOperatorClick(View view) {
-        // Retrieve the state of isPasswordSet from SharedPreferences
-//        SharedPreferences sharedPreferences = getSharedPreferences("CalculatorPrefs", MODE_PRIVATE);
-//        boolean isPasswordSet = sharedPreferences.getBoolean("isPasswordSet", false);
-
-        // If the password is not set, disable the functionality
         if (!isPasswordSet || resetPassword) {
             Toast.makeText(this, "Set the password first to use the calculator", Toast.LENGTH_SHORT).show();
             return; // Exit the method, disabling the operation
@@ -368,6 +341,14 @@ public class Calculator extends AppCompatActivity {
             binding.dataTv.append(((Button) view).getText());
             lastDot = false;
             lastNumeric = false;
+            lastoperator = true;
+            onEqual();
+        } else {
+            binding.dataTv.setText(binding.dataTv.getText().toString().substring(0, binding.dataTv.getText().toString().length() - 1));
+            binding.dataTv.append(((Button) view).getText());
+            lastDot = false;
+            lastNumeric = false;
+            lastoperator = true;
             onEqual();
         }
     }
@@ -390,27 +371,6 @@ public class Calculator extends AppCompatActivity {
             lastNumeric = false;
         }
     }
-
-//    public void onBackClick(View view) {
-//        if (binding.dataTv.getText().length() > 0) {
-//            binding.dataTv.setText(binding.dataTv.getText().toString().substring(0, binding.dataTv.getText().toString().length() - 1));
-//            try {
-//                if (binding.dataTv.getText().length() > 0) {
-//                    char lastChar = binding.dataTv.getText().toString().charAt(binding.dataTv.getText().toString().length() - 1);
-//                    if (Character.isDigit(lastChar)) {
-//                        onEqual();
-//                    }
-//                } else {
-//                    binding.resultTv.setText("");
-//                    binding.resultTv.setVisibility(View.GONE);
-//                }
-//            } catch (Exception e) {
-//                binding.resultTv.setText("");
-//                binding.resultTv.setVisibility(View.GONE);
-//                Log.e("last char Error", e.toString());
-//            }
-//        }
-//    }
 
 
     public void onBackClick(View view) {
@@ -487,17 +447,12 @@ public class Calculator extends AppCompatActivity {
         isInstanceActive = false;
     }
 
-
-    // If calci rerelated error of calci not opening when background  then
-    // remove this onResume and onPause
     @Override
     protected void onResume() {
         super.onResume();
         isInstanceActive = true;
     }
 
-    // If calci rerelated error of calci not opening when background  then
-    // remove this onResume and onPause
     @Override
     protected void onPause() {
         super.onPause();
@@ -517,9 +472,6 @@ public class Calculator extends AppCompatActivity {
         passtxt3.setText(password.length() > 2 ? String.valueOf(password.charAt(2)) : "");
         passtxt4.setText(password.length() > 3 ? String.valueOf(password.charAt(3)) : "");
 
-//        if (password.length() == 4) {
-//            binding.tvPassDetail.setText("Press = to save or verify your password.");
-//        }
     }
 
 
@@ -548,6 +500,5 @@ public class Calculator extends AppCompatActivity {
         // Show the BottomSheetDialog
         bottomSheetDialog.show();
     }
-
 
 }

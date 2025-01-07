@@ -35,6 +35,9 @@ public class Web_Browser extends AppCompatActivity {
     ProgressBar progressBar;
     WebView webView;
 
+    private long backPressedTime; // Time of the last back press
+    private Toast backPressedToast; // Toast message for back press warning
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,19 +119,27 @@ public class Web_Browser extends AppCompatActivity {
             }
         });
 
-        // Handle back button press for WebView navigation
+        // Handle back button press logic using OnBackPressedCallback
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
                 if (webView.canGoBack()) {
-                    webView.goBack();
+                    webView.goBack(); // If WebView can go back, go back
                 } else {
-                    finish();
+                    // Double back press to exit
+                    if (backPressedTime + 2000 > System.currentTimeMillis()) {
+                        finish(); // Exit the activity
+                    } else {
+                        // Show the toast to the user
+                        backPressedToast = Toast.makeText(Web_Browser.this, "Press back again to exit", Toast.LENGTH_SHORT);
+                        backPressedToast.show();
+                    }
+                    backPressedTime = System.currentTimeMillis(); // Update the time of last back press
                 }
-                Toast.makeText(Web_Browser.this, "To Previous Activity", Toast.LENGTH_SHORT).show();
             }
         };
 
+        // Register the callback with the OnBackPressedDispatcher
         getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
@@ -144,19 +155,19 @@ public class Web_Browser extends AppCompatActivity {
     private class MyWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-            return false;
+            return false; // Let WebView handle the URL loading
         }
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
-            progressBar.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE); // Show progress bar
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
-            progressBar.setVisibility(View.INVISIBLE);
+            progressBar.setVisibility(View.INVISIBLE); // Hide progress bar
         }
     }
 }

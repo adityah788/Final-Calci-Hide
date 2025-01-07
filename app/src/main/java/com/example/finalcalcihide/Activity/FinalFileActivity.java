@@ -6,6 +6,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
@@ -25,6 +26,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.example.finalcalcihide.Adapter.FileShowAdap;
 import com.example.finalcalcihide.Adapter.FinalFileAdap;
 import com.example.finalcalcihide.FileUtils.ImgVidFHandle;
 import com.example.finalcalcihide.R;
@@ -33,6 +35,7 @@ import com.example.finalcalcihide.Utils.FileUtils;
 import com.example.finalcalcihide.Utils.ToolbarManager;
 import com.example.finalcalcihide.ViewPager.ImageandVideoViewPager;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -129,6 +132,7 @@ public class FinalFileActivity extends AppCompatActivity {
                 UnicornFilePicker.from(FinalFileActivity.this)
                         .addConfigBuilder()
                         .selectMultipleFiles(true)
+                        .theme(R.style.UnicornFilePickert_Mytheme)
                         .showOnlyDirectory(false)
                         .setRootDirectory(Environment.getExternalStorageDirectory().getAbsolutePath())
                         .showHiddenFiles(true)
@@ -201,16 +205,21 @@ public class FinalFileActivity extends AppCompatActivity {
         if (finalFileAdapter.isSelectedAny()) {
             finalFileAdapter.toggleSelection(position);
         } else {
-            Intent intent = new Intent(this, ImageandVideoViewPager.class);
-            intent.putStringArrayListExtra("imagePaths", filePaths);
-            intent.putExtra("position", position);
-            startActivity(intent);
+            String filePath = filePaths.get(position);
+            File file = new File(filePath);
+            boolean isAudio = finalFileAdapter.isAudioFile(file);
+            boolean isDocument = finalFileAdapter.isDocumentFile(file);
+            boolean isImage = finalFileAdapter.isImageFile(file);
+            boolean isVideo = finalFileAdapter.isVideoFile(file);
+            handleFileClick(file, isAudio, isDocument, isImage, isVideo);
         }
     }
 
     private void onSelectandDeselect_All(boolean isAnySelected) {
         toolbarManager.setToolbarMenu(isAnySelected);
         setCustomBottomAppBarVisibility(isAnySelected);
+        toolbarManager.setTitle("Files");
+
     }
 
     private void setCustomBottomAppBarVisibility(boolean visible) {
@@ -258,5 +267,36 @@ public class FinalFileActivity extends AppCompatActivity {
             Toast.makeText(FinalFileActivity.this, "Error moving images back", Toast.LENGTH_SHORT).show();
         }
     }
+
+
+    private void handleFileClick(File file, boolean isAudio, boolean isDocument, boolean isImage, boolean isVideo) {
+        if (isImage) {
+            Uri imageUri = ImgVidFHandle.getFileUri(this, file);
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(imageUri, "image/*");
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            startActivity(intent);
+        } else if (isVideo) {
+            Uri videoUri = ImgVidFHandle.getFileUri(this, file);
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(videoUri, "video/*");
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            startActivity(intent);
+        } else if (isAudio) {
+            Uri audioUri = ImgVidFHandle.getFileUri(this, file);
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(audioUri, "audio/*");
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            startActivity(intent);
+        } else if (isDocument) {
+            Uri docUri = ImgVidFHandle.getFileUri(this, file);
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(docUri, "application/*");
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            startActivity(intent);
+        }
+    }
+
+
 
 }

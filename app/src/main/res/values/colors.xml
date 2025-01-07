@@ -60,6 +60,8 @@
     <color name="FinalPrimaryColor">#1E1F1F</color>
     <color name="SecondPrimaryColor">#3c3c3c</color>
     <color name="TertiaryPrimarycolor">#30303A</color>
+    <color name="floatingActionbtncolorStart">#4527A0</color>
+    <color name="floatingActionbtncolorEnd">#456289</color>
 
 
     <color name="ripple_color">#80FFFFFF</color> <!-- White ripple with 50% opacity -->

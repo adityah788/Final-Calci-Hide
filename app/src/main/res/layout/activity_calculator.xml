@@ -200,9 +200,11 @@
                 app:cardCornerRadius="20dp">
 
                 <LinearLayout
+                    android:id="@+id/calcu_reload_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:minWidth="64dp"
+                    android:background="@drawable/one_for_all_transperent_ripple_btn"
                     android:orientation="horizontal"
                     android:paddingLeft="8dp"
                     android:paddingRight="4dp">
@@ -211,8 +213,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:padding="8dp"
-                        android:src="@drawable/reel"
-                        app:tint="@color/white" />
+                        android:src="@drawable/reload" />
 
                     <TextView
                         android:layout_width="wrap_content"

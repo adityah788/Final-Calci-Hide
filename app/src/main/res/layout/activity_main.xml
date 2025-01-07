@@ -10,7 +10,7 @@
     <RelativeLayout
         android:id="@+id/new_main_title"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp">
@@ -35,345 +35,337 @@
 
         <ImageView
             android:id="@+id/new_main_setting"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:padding="5dp"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="16dp"
             android:background="@drawable/ripple_back"
-            android:layout_marginEnd="10dp"
             android:backgroundTint="@color/White"
             android:src="@drawable/settings_24" />
 
 
     </RelativeLayout>
 
-    <FrameLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="10dp"
-        android:elevation="5dp">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:orientation="horizontal"
-            android:background="@drawable/secondary_background">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <!-- First RelativeLayout -->
-            <RelativeLayout
-                android:id="@+id/r_intruder"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_weight="1"
-                android:background="@drawable/ripple_calci_hide">
+            <FrameLayout
+                android:id="@+id/framestart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="10dp"
+                android:elevation="5dp">
 
-                <View
-                    android:id="@+id/view1"
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
-                    android:layout_centerHorizontal="true"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:orientation="horizontal"
+                    android:background="@drawable/secondary_background">
+
+                    <!-- First RelativeLayout -->
+                    <RelativeLayout
+                        android:id="@+id/r_intruder"
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/ripple_calci_hide">
+
+                        <View
+                            android:id="@+id/view1"
+                            android:layout_width="55dp"
+                            android:layout_height="55dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_margin="10dp"
+                            android:background="@drawable/rounded_corner_browser" />
+
+                        <ImageView
+                            android:id="@+id/intruder"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="18dp"
+                            android:src="@drawable/paparazzi_7219768" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/intruder"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="14dp"
+                            android:gravity="center_horizontal"
+                            android:text="Intruder selfie"
+                            android:textColor="@color/White"
+                            android:textSize="15sp" />
+
+                    </RelativeLayout>
+
+                    <!-- Second RelativeLayout -->
+                    <RelativeLayout
+                        android:id="@+id/new_main_web_browser"
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/ripple_calci_hide"
+                        android:layout_weight="1">
+
+                        <View
+                            android:layout_width="55dp"
+                            android:layout_height="55dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_centerHorizontal="true"
+                            android:background="@drawable/rounder_corner_intruder" />
+
+                        <ImageView
+                            android:id="@+id/Browser"
+                            android:layout_width="34dp"
+                            android:layout_height="34dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="19dp"
+                            android:src="@drawable/browser_2742473" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/Browser"
+                            android:layout_centerHorizontal="true"
+                            android:gravity="center_horizontal"
+                            android:layout_marginTop="18dp"
+                            android:text="Browser"
+                            android:textColor="@color/White"
+                            android:textSize="15sp" />
+
+                    </RelativeLayout>
+
+                    <!-- Third RelativeLayout -->
+                    <RelativeLayout
+                        android:id="@+id/new_main_recycle_bin"
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/ripple_calci_hide"
+                        android:layout_weight="1">
+
+                        <View
+                            android:layout_width="55dp"
+                            android:layout_height="55dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_centerHorizontal="true"
+                            android:background="@drawable/rounded_corner" />
+
+                        <ImageView
+                            android:id="@+id/recycle_bin"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="19dp"
+                            android:src="@drawable/delete"
+                            app:tint="@color/white" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/recycle_bin"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="18dp"
+                            android:text="Recycle Bin"
+                            android:gravity="center_horizontal"
+                            android:textColor="@color/White"
+                            android:textSize="15sp" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/new_main_web_browser_long"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/rounded_search_box"
+                android:layout_marginEnd="10dp"
+                android:padding="5dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/incognito_24" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:hint="Private web browser"
+                    android:padding="10dp"
+                    android:textColorHint="@color/white"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:padding="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hide "
+                    android:textColor="@color/White"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="360dp"
+                android:layout_marginBottom="30dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:columnCount="2"
+                android:rowCount="2">
+
+                <RelativeLayout
+                    android:id="@+id/main_Images"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
                     android:layout_margin="10dp"
-                    android:background="@drawable/rounded_corner_browser">
+                    android:background="@drawable/ripple_effect_oval_transp"
+                    android:elevation="8dp">
 
+                    <ImageView
+                        android:id="@+id/new_hide_images"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="30dp"
+                        android:src="@drawable/photo" />
 
-                </View>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/new_hide_images"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:text="Images"
+                        android:textColor="@color/White"
+                        android:textSize="25dp" />
 
+                </RelativeLayout>
 
-                <ImageView
-                    android:id="@+id/intruder"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="18dp"
-                    android:src="@drawable/paparazzi_7219768" />
-
-                <TextView
+                <RelativeLayout
+                    android:id="@+id/new_main_vidoes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/intruder"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="14dp"
-                    android:gravity="center_horizontal"
-                    android:text="Intruder selfie"
-                    android:textColor="@color/White"
-                    android:textSize="15sp" />
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/ripple_effect_oval_transp"
+                    android:elevation="8dp">
 
-            </RelativeLayout>
+                    <ImageView
+                        android:id="@+id/new_hide_videos"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="30dp"
+                        android:src="@drawable/reel" />
 
-            <!-- Second RelativeLayout -->
-            <RelativeLayout
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/new_hide_videos"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="20dp"
+                        android:text="Videos"
+                        android:textColor="@color/White"
+                        android:textSize="25dp" />
 
-                android:id="@+id/new_main_web_browser"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:background="@drawable/ripple_calci_hide"
-            android:layout_weight="1">
+                </RelativeLayout>
 
-                <View
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_centerHorizontal="true"
-                    android:background="@drawable/rounder_corner_intruder" />
-
-
-                <ImageView
-                    android:id="@+id/Browser"
-                    android:layout_width="34dp"
-                    android:layout_height="34dp"
-                    android:layout_centerHorizontal="true"
-
-                    android:layout_marginTop="19dp"
-                    android:src="@drawable/browser_2742473" />
-
-                <TextView
+                <RelativeLayout
+                    android:id="@+id/new_main_file"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/Browser"
-                    android:layout_centerHorizontal="true"
-                    android:gravity="center_horizontal"
-                    android:layout_marginTop="18dp"
-                    android:text="Browser"
-                    android:textColor="@color/White"
-                    android:textSize="15sp" />
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/ripple_effect_oval_transp"
+                    android:elevation="8dp">
 
-            </RelativeLayout>
+                    <ImageView
+                        android:id="@+id/new_hide_file"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="30dp"
+                        android:src="@drawable/folder" />
 
-            <!-- Third RelativeLayout -->
-            <RelativeLayout
-                android:id="@+id/new_main_recycle_bin"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:background="@drawable/ripple_calci_hide"
-                android:layout_weight="1">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/new_hide_file"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:text="File"
+                        android:textColor="@color/White"
+                        android:textSize="25dp" />
 
-                <View
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_centerHorizontal="true"
-                    android:background="@drawable/rounded_corner" />
+                </RelativeLayout>
 
-
-                <ImageView
-                    android:id="@+id/recycle_bin"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="19dp"
-                    android:src="@drawable/delete"
-                    app:tint="@color/white" />
-
-                <TextView
+                <RelativeLayout
+                    android:id="@+id/new_main_note"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/recycle_bin"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="18dp"
-                    android:text="Recycle Bin"
-                    android:gravity="center_horizontal"
-                    android:textColor="@color/White"
-                    android:textSize="15sp" />
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/ripple_effect_oval_transp"
+                    android:elevation="8dp">
 
-            </RelativeLayout>
+                    <ImageView
+                        android:id="@+id/new_hide_note"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="30dp"
+                        android:src="@drawable/note" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/new_hide_note"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:text="Note"
+                        android:textColor="@color/White"
+                        android:textSize="25dp" />
+
+                </RelativeLayout>
+
+            </GridLayout>
 
         </LinearLayout>
-
-    </FrameLayout>
-
-    <LinearLayout
-        android:id="@+id/new_main_web_browser_long"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="25dp"
-        android:background="@drawable/rounded_search_box"
-        android:layout_marginEnd="10dp"
-        android:padding="5dp">
-
-
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="10dp"
-            android:src="@drawable/incognito_24" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="10dp"
-            android:hint="Private web browser"
-            android:padding="10dp"
-            android:textColorHint="@color/white"
-            android:textSize="20sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="10dp"
-        android:padding="5dp">
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hide "
-            android:textColor="@color/White"
-            android:textSize="25sp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
-
-    <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="380dp"
-        android:layout_marginBottom="30dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:columnCount="2"
-        android:rowCount="2">
-
-
-        <RelativeLayout
-            android:id="@+id/main_Images"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_margin="10dp"
-            android:background="@drawable/ripple_effect_oval_transp"
-            android:elevation="8dp">
-
-
-            <ImageView
-                android:id="@+id/new_hide_images"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="30dp"
-                android:src="@drawable/photo" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/new_hide_images"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:text="Images"
-                android:textColor="@color/White"
-                android:textSize="25dp" />
-
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/new_main_vidoes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_margin="10dp"
-            android:background="@drawable/ripple_effect_oval_transp"
-            android:elevation="8dp">
-
-
-            <ImageView
-                android:id="@+id/new_hide_videos"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="30dp"
-                android:src="@drawable/reel" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/new_hide_videos"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
-                android:text="Videos"
-                android:textColor="@color/White"
-                android:textSize="25dp" />
-
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/new_main_file"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_margin="10dp"
-            android:background="@drawable/ripple_effect_oval_transp"
-            android:elevation="8dp">
-
-
-            <ImageView
-                android:id="@+id/new_hide_file"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="30dp"
-                android:src="@drawable/folder" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/new_hide_file"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:text="File"
-                android:textColor="@color/White"
-                android:textSize="25dp" />
-
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/new_main_note"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_margin="10dp"
-            android:background="@drawable/ripple_effect_oval_transp"
-            android:elevation="8dp">
-
-
-            <ImageView
-                android:id="@+id/new_hide_note"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="30dp"
-                android:src="@drawable/note" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/new_hide_note"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:text="Note"
-                android:textColor="@color/White"
-                android:textSize="25dp" />
-
-
-        </RelativeLayout>
-
-
-    </GridLayout>
-
+    </ScrollView>
 
 </LinearLayout>

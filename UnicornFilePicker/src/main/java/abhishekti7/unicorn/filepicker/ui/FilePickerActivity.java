@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -14,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,10 +25,13 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import abhishekti7.unicorn.filepicker.R;
 import abhishekti7.unicorn.filepicker.adapters.DirectoryAdapter;
@@ -101,17 +107,77 @@ public class FilePickerActivity extends AppCompatActivity {
             finish();
         }
 
+//        filePickerBinding.fabSelect.setOnClickListener(v -> {
+//            Intent intent = new Intent();
+//            if (config.showOnlyDirectory()) {
+//                selectedFiles.clear();
+//                selectedFiles.add(arrDirStack.get(arrDirStack.size() - 1).getPath());
+//            }
+//            intent.putStringArrayListExtra("filePaths", selectedFiles);
+//            setResult(config.getReqCode(), intent);
+//            setResult(RESULT_OK, intent);
+//            finish();
+//        });
+
+
         filePickerBinding.fabSelect.setOnClickListener(v -> {
-            Intent intent = new Intent();
-            if (config.showOnlyDirectory()) {
-                selectedFiles.clear();
-                selectedFiles.add(arrDirStack.get(arrDirStack.size() - 1).getPath());
-            }
-            intent.putStringArrayListExtra("filePaths", selectedFiles);
-            setResult(config.getReqCode(), intent);
-            setResult(RESULT_OK, intent);
-            finish();
+            final long MINIMUM_DISPLAY_TIME = 2500;  // Animation duration (in milliseconds)
+
+            // Initialize the Lottie animation view
+            LottieAnimationView lottieAnimationView = findViewById(R.id.lottieAnimationView);
+            filePickerBinding.animFrma.setVisibility(View.VISIBLE);
+            // Get reference to the FrameLayout containing the animation
+
+            // Create an overlay view to block interaction with the background
+//            View overlayView = new View(this);
+//            overlayView.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+//            overlayView.setBackgroundColor(Color.parseColor("#1E1F1F")); // Semi-transparent black color
+            filePickerBinding.appBar.setVisibility(View.GONE);
+            filePickerBinding.fabSelect.setVisibility(View.GONE);
+            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.FinalPrimaryColor));
+//            overlayView.setClickable(true);  // This view will intercept all touches
+
+            // Add the overlay to the root layout
+//            filePickerBinding.getRoot().addView(overlayView);  // Blocks interaction with background views
+
+            // Make sure the animation FrameLayout is visible
+            lottieAnimationView.setVisibility(View.VISIBLE);  // Make sure the Lottie animation view is visible
+            lottieAnimationView.playAnimation();  // Start the animation
+
+            // Perform the work after a delay (to ensure the animation runs for the specified time)
+            new Handler().postDelayed(() -> {
+                // Perform your background work here
+                if (config.showOnlyDirectory()) {
+                    selectedFiles.clear();  // Clear selected files
+                    selectedFiles.add(arrDirStack.get(arrDirStack.size() - 1).getPath());  // Add directory path to selected files
+                }
+
+                // Prepare the intent with updated selected files
+                Intent intent = new Intent();
+                intent.putStringArrayListExtra("filePaths", selectedFiles);  // Add selected files to the intent
+
+                // Set the result codes
+                setResult(config.getReqCode(), intent);
+                setResult(RESULT_OK, intent);
+
+                // Stop the animation and hide the FrameLayout
+                lottieAnimationView.cancelAnimation();  // Stop the animation if it's still playing
+
+                filePickerBinding.appBar.setVisibility(View.VISIBLE);
+
+                // Remove the overlay to allow interaction with the background
+//                filePickerBinding.getRoot().removeView(overlayView);  // Remove the blocking overlay
+                filePickerBinding.animFrma.setVisibility(View.GONE);
+
+                finish();  // Close the activity
+                filePickerBinding.fabSelect.setVisibility(View.VISIBLE);
+            }, MINIMUM_DISPLAY_TIME);  // Minimum display time for the animation
         });
+
+
+
+
+
 
         TypedValue typedValue = new TypedValue();
         Resources.Theme theme = getTheme();

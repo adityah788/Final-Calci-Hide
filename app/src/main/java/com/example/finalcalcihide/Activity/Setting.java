@@ -33,6 +33,7 @@ import java.util.Objects;
 public class Setting extends AppCompatActivity {
 
     TextView txtV_change_pass, txtV_security_ques, share_with_frnd, rate_the_app;
+    ImageView backarrow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,7 @@ public class Setting extends AppCompatActivity {
         txtV_security_ques = findViewById(R.id.tvChangeSecureQuestion);
         share_with_frnd = findViewById(R.id.tvShare);
         rate_the_app = findViewById(R.id.tvRate);
+        backarrow = findViewById(R.id.setting_main_toolbar_back_arrow);
 
         txtV_change_pass.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,6 +82,15 @@ public class Setting extends AppCompatActivity {
                 showRatingBottomSheet();
             }
         });
+
+        backarrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+
     }
 
     private void showRatingBottomSheet() {

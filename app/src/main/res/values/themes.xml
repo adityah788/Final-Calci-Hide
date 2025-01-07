@@ -101,4 +101,32 @@
 
 
 
+    <style name="UnicornFilePickert.Mytheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/FinalPrimaryColor</item>
+        <item name="colorAccent">@color/white</item>
+
+        <item name="android:statusBarColor">@color/FinalPrimaryColor</item>
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:navigationBarColor">@color/FinalPrimaryColor</item>
+
+        <!-- textColorPrimary is for toolbar title text  -->
+        <item name="android:textColorPrimary">@color/white</item>
+
+        <!-- textColorSecondary is for toolbar action icons tint-->
+        <item name="android:textColorSecondary">@color/white</item>
+
+        <item name="unicorn.colorAccent">@color/floatingActionbtncolorStart</item>
+        <item name="unicorn.fabColor">@color/floatingActionbtncolorStart</item>
+        <item name="unicorn.background">@color/FinalPrimaryColor</item>
+        <item name="unicorn.secondaryTextColor">@color/white</item>
+        <item name="unicorn.primaryTextColor">@color/white</item>
+        <item name="unicorn.file.heading">@color/white</item>
+        <item name="unicorn.file.subHeading">@color/white</item>
+        <item name="unicorn.file.iconTint">@color/white</item>
+        <item name="unicorn.file.arrowIconTint">@color/unicorn_white</item>
+        <item name="unicorn.file.selectionTint">@color/SecondPrimaryColor</item>
+    </style>
+
+
 </resources>
