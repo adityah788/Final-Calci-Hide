@@ -206,6 +206,15 @@ public class ImageandVideoViewPager extends AppCompatActivity {
             Toast.makeText(ImageandVideoViewPager.this, "Error moving image", Toast.LENGTH_SHORT).show();
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (adapter != null) {
+            adapter.releasePlayer();  // This will release the ExoPlayer
+        Log.d("ImageandVideoViewPager","released player");
+        }
+    }
 }
 
 

@@ -87,7 +87,7 @@ public class FileShow extends AppCompatActivity {
             }
         });
 
-        toolbarManager = new ToolbarManager(this, customToolbarContainer, fileAdapter, filePaths, this);
+        toolbarManager = new ToolbarManager(this, customToolbarContainer, fileAdapter, filePaths, this,"Files");
         toolbarManager.setToolbarMenu(false);
         toolbarManager.setTitle("Files");
 

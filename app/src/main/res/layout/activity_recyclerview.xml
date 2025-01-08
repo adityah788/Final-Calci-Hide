@@ -49,19 +49,6 @@
                     android:layout_marginStart="14dp"
                     android:textSize="20sp" />
 
-                <!-- Menu Icon -->
-                <ImageView
-                    android:id="@+id/intruder_main_toobar_menu_icon"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_centerVertical="true"
-                    android:padding="5dp"
-                    android:src="@drawable/delete"
-                    android:visibility="gone"
-                    android:layout_marginEnd="12dp"
-                    android:layout_alignParentEnd="true"
-                    app:tint="@color/white" />
-
 
                 <ImageView
                     android:id="@+id/notes_delete"
@@ -76,6 +63,38 @@
                     android:src="@drawable/baseline_delete_24" />
 
             </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/notes_Rv_no_file_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/notes_toolbar"
+                android:layout_centerInParent="true"
+                android:visibility="gone"
+                android:layout_marginTop="75dp"
+                android:clipToPadding="false">
+
+                <ImageView
+                    android:id="@+id/notes_Rv_no_file"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_centerHorizontal="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/empty_box" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No File Click + to add file"
+                    android:textColor="#9ab1ce"
+                    android:textSize="16sp"
+                    android:layout_below="@+id/notes_Rv_no_file"
+                    android:layout_marginTop="10dp"/>
+
+
+            </RelativeLayout>
+
 
 
             <!-- RecyclerView inside NestedScrollView -->

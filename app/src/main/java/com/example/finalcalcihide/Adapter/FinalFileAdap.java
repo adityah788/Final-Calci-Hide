@@ -26,11 +26,11 @@ import java.util.Locale;
 
 
 public
-class FinalFileAdap extends RecyclerView.Adapter<FinalFileAdap.ViewHolder> {
+class   FinalFileAdap extends RecyclerView.Adapter<FinalFileAdap.ViewHolder> {
 
     private final Context context;
     private final ArrayList<String> filePaths;
-    private final FinalFileAdap.OnItemSelectedListener listener;
+    private final OnItemSelectedListener listener;
     private final HashSet<Integer> hashSetselectedItems = new HashSet<>();
 
     public interface OnItemSelectedListener {
@@ -38,7 +38,7 @@ class FinalFileAdap extends RecyclerView.Adapter<FinalFileAdap.ViewHolder> {
         void onSelectionChanged(boolean isSelected);
     }
 
-    public FinalFileAdap(Context context, ArrayList<String> filePaths, FinalFileAdap.OnItemSelectedListener listener) {
+    public FinalFileAdap(Context context, ArrayList<String> filePaths, OnItemSelectedListener listener) {
         this.context = context;
         this.filePaths = filePaths;
         this.listener = listener;
@@ -99,9 +99,7 @@ class FinalFileAdap extends RecyclerView.Adapter<FinalFileAdap.ViewHolder> {
         });
 
         holder.itemView.setOnClickListener(v -> {
-            if (hashSetselectedItems.contains(position)) {
-                toggleSelection(position);
-            } else {
+            if (listener != null) {
                 listener.onItemSelected(position);
             }
         });

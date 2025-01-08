@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.PopupMenu;
 
+import com.example.finalcalcihide.Adapter.FinalFileAdap;
 import com.example.finalcalcihide.Adapter.ImageVideoHideAdapter;
 import com.example.finalcalcihide.Adapter.IntruderAdap;
 import com.example.finalcalcihide.R;
@@ -25,24 +26,29 @@ public class ToolbarManager {
     private final LayoutInflater inflater;
     private ImageVideoHideAdapter imageVideoAdapter;
     private IntruderAdap intruderAdapter;
+    private FinalFileAdap finalFileAdap;
     Context context;
     private ArrayList<String> imagePaths;
     Activity activity;
+    String title;
 
     // Constructor accepting either ImageVideoHideAdapter or IntruderAdap
     public ToolbarManager(Context context, LinearLayout customToolbarContainer,
-                          Object adapter, ArrayList<String> imagePaths, Activity activity) {
+                          Object adapter, ArrayList<String> imagePaths, Activity activity,String title) {
         this.customToolbarContainer = customToolbarContainer;
         this.inflater = LayoutInflater.from(context);
         this.context = context;
         this.imagePaths = imagePaths;
         this.activity = activity;
+        this.title = title;
 
         // Determine the adapter type
         if (adapter instanceof ImageVideoHideAdapter) {
             this.imageVideoAdapter = (ImageVideoHideAdapter) adapter;
         } else if (adapter instanceof IntruderAdap) {
             this.intruderAdapter = (IntruderAdap) adapter;
+        } else if (adapter instanceof FinalFileAdap) {
+            this.finalFileAdap = (FinalFileAdap) adapter;
         }
     }
 
@@ -55,10 +61,12 @@ public class ToolbarManager {
         );
         customToolbarContainer.addView(customToolbar);
 
+
         if (isAnySelected) {
             setupContextualToolbar(customToolbar);
         } else {
             setupMainToolbar(customToolbar);
+            setTitle(title);
         }
     }
 
@@ -185,7 +193,10 @@ public class ToolbarManager {
             imageVideoAdapter.clearSelection();
         } else if (intruderAdapter != null) {
             intruderAdapter.clearSelection();
+        } else if (finalFileAdap != null) {
+            finalFileAdap.clearSelection();
         }
+
     }
 
     // Helper method to get the selected item count

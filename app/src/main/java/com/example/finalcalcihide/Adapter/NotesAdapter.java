@@ -97,6 +97,13 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
         return selectedNotes;
     }
 
+    public void clearSelection(){
+        selectedItems.clear();
+
+    }
+
+
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView titleTextView, bodyTextView, dateTextView;
         View imageViewTick;

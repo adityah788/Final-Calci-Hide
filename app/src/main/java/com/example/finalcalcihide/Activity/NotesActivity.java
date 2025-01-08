@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -54,15 +55,26 @@ public class NotesActivity extends AppCompatActivity {
             loadNoteById(noteId);
         }
 
-        doneButton.setOnClickListener(v -> saveAndReturn());
-        backButton.setOnClickListener(v -> finish());
+        doneButton.setOnClickListener(v ->
+                saveAndReturn());
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveAndReturn();
+                finish();
+            }
+        });
+
 
         notesEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -80,11 +92,11 @@ public class NotesActivity extends AppCompatActivity {
 
                 // If title or content is not empty, save the note before going back
 //                if (!title.isEmpty() || !content.isEmpty()) {
-                    saveAndReturn();  // Save the note before finishing the activity
+                saveAndReturn();  // Save the note before finishing the activity
                 Toast.makeText(NotesActivity.this, "Notes save kr diya", Toast.LENGTH_SHORT).show();
 //                } else {
 //                    // Otherwise, go back as usual
-                    finish();
+                finish();
 //                }
             }
         });
@@ -130,7 +142,6 @@ public class NotesActivity extends AppCompatActivity {
     }
 
 
-
     private void updateTimestamp() {
         String date = new SimpleDateFormat("dd MMMM yyyy | HH:mm a", Locale.getDefault()).format(new Date());
         int characterCount = notesEditText.getText().length();
@@ -149,10 +160,6 @@ public class NotesActivity extends AppCompatActivity {
             });
         });
     }
-
-
-
-
 
 
 }

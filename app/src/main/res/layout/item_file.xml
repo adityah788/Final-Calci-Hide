@@ -34,9 +34,11 @@
             android:layout_alignParentTop="true"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="8dp"
+            android:layout_marginEnd="5dp"
             android:layout_toEndOf="@id/file_image"
+            android:layout_toStartOf="@+id/file_tickMarkImageView"
             android:fontFamily="sans-serif"
-            android:text="489375sdfkl  . jpg"
+            android:text="4893755874595.jpg"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
@@ -76,7 +78,6 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="10dp"
             android:scaleType="fitXY"
-            android:src="@drawable/baseline_check_box_24"
-            android:visibility="gone" />
+            android:src="@drawable/baseline_check_box_24" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

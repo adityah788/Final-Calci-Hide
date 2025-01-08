@@ -147,7 +147,7 @@ public class SelectImagesorVideos extends AppCompatActivity {
                         });
                     }).start();
                 } else {
-                    Toast.makeText(SelectImagesorVideos.this, "No images selected to hide.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SelectImagesorVideos.this, "No image selected to hide.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -185,7 +185,9 @@ public class SelectImagesorVideos extends AppCompatActivity {
 
     private void onSelectandDeselect_All(boolean isAnySelected) {
         setToolbarMenu(isAnySelected);
-        setCustomBottomAppBarVisibility(isAnySelected);
+
+        // in future if wanted to show animated hide make it enable
+//        setCustomBottomAppBarVisibility(isAnySelected);
     }
 
     private void setToolbarMenu(boolean isAnySelected) {
@@ -240,23 +242,30 @@ public class SelectImagesorVideos extends AppCompatActivity {
         }
     }
 
-    private void setCustomBottomAppBarVisibility(boolean visible) {
-        if (visible && customBottomAppBar.getVisibility() != View.VISIBLE) {
-            customBottomAppBar.setTranslationY(customBottomAppBar.getHeight());
-            customBottomAppBar.setVisibility(View.VISIBLE);
-            customBottomAppBar.animate().translationY(0).setDuration(300).setListener(null);
-        } else if (!visible && customBottomAppBar.getVisibility() == View.VISIBLE) {
-            customBottomAppBar.animate()
-                    .translationY(customBottomAppBar.getHeight())
-                    .setDuration(300)
-                    .setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            customBottomAppBar.setVisibility(View.GONE);
-                        }
-                    });
-        }
-    }
+
+
+
+    // in future if wanted to show animated hide make it enable
+
+//    private void setCustomBottomAppBarVisibility(boolean visible) {
+//        if (visible && customBottomAppBar.getVisibility() != View.VISIBLE) {
+//            customBottomAppBar.setTranslationY(customBottomAppBar.getHeight());
+//            customBottomAppBar.setVisibility(View.VISIBLE);
+//            customBottomAppBar.animate().translationY(0).setDuration(300).setListener(null);
+//        } else if (!visible && customBottomAppBar.getVisibility() == View.VISIBLE) {
+//            customBottomAppBar.animate()
+//                    .translationY(customBottomAppBar.getHeight())
+//                    .setDuration(300)
+//                    .setListener(new AnimatorListenerAdapter() {
+//                        @Override
+//                        public void onAnimationEnd(Animator animation) {
+//                            customBottomAppBar.setVisibility(View.GONE);
+//                        }
+//                    });
+//        }
+//    }
+
+
 
     private void toggleSelectDeselectAll() {
         boolean selectAll = selectImagesorVideosAdapter.getSelectedItemCount() < selectImagesorVideosAdapter.getItemCount();

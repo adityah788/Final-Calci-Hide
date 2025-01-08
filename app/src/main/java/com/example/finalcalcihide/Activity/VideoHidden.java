@@ -88,11 +88,10 @@ public class VideoHidden extends AppCompatActivity {
         });
 
         // Initialize ToolbarManager (assuming it's a custom class)
-        toolbarManager = new ToolbarManager(this, customToolbarContainer, imageVideoHideAdapter, videoPaths, this);
+        toolbarManager = new ToolbarManager(this, customToolbarContainer, imageVideoHideAdapter, videoPaths, this,"Videos");
 
         // Setup Toolbar
         toolbarManager.setToolbarMenu(false); // Inflate main_toolbar
-        toolbarManager.setTitle("Videos");    // Set toolbar title
 
         // Setup RecyclerView
         imageRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
@@ -135,7 +134,7 @@ public class VideoHidden extends AppCompatActivity {
                     MINIMUM_DISPLAY_TIME,
                     () -> {
                         // Background task: Move images back to recycle locations
-                        ImgVidFHandle.moveImagesBackToRecycleLocationsWrapper(VideoHidden.this, selectedPaths,null);
+                        ImgVidFHandle.moveImagesBackToRecycleLocationsWrapper(VideoHidden.this, selectedPaths, null);
                         // Update processSuccess based on actual task outcome
                     },
                     (processSuccess, paths) -> stopAnimationAndUpdateUI(processSuccess, paths)
@@ -165,8 +164,6 @@ public class VideoHidden extends AppCompatActivity {
     private void onSelectandDeselect_All(boolean isAnySelected) {
         toolbarManager.setToolbarMenu(isAnySelected);
         setCustomBottomAppBarVisibility(isAnySelected);
-
-            toolbarManager.setTitle("Videos");
 
     }
 
@@ -212,8 +209,6 @@ public class VideoHidden extends AppCompatActivity {
             videoPaths.removeAll(selectedPaths);
             imageVideoHideAdapter.notifyDataSetChanged();
             imageVideoHideAdapter.clearSelection();
-            toolbarManager.setTitle("Videos"); // Reset toolbar title
-
             Toast.makeText(VideoHidden.this, "Images moved back to original locations and deleted from app", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(VideoHidden.this, "Error moving images back", Toast.LENGTH_SHORT).show();

@@ -78,9 +78,9 @@ public class ImageVideoHideAdapter extends RecyclerView.Adapter<ImageVideoHideAd
         holder.imageViewTick.setVisibility(isSelected ? View.VISIBLE : View.GONE);
 
         holder.itemView.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onItemSelected(position);
-            }
+                if (listener != null) {
+                    listener.onItemSelected(position);
+                }
         });
 
         holder.itemView.setOnLongClickListener(v -> {
@@ -171,4 +171,5 @@ public class ImageVideoHideAdapter extends RecyclerView.Adapter<ImageVideoHideAd
         notifyDataSetChanged();
         listener.onSelectionChanged(false);
     }
+
 }

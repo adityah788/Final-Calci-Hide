@@ -5,9 +5,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
+import androidx.annotation.OptIn;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.media3.common.util.Log;
+import androidx.media3.common.util.UnstableApi;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,11 +33,14 @@ public class NoteActivityRecyclerView extends AppCompatActivity {
     private ImageView deleteicon,backbtn;
     private List<Note> notesList;
     private FrameLayout addNoteFab;
+    private RelativeLayout noFileIconLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recyclerview);
+
 
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.FinalPrimaryColor));
 
@@ -43,10 +51,13 @@ public class NoteActivityRecyclerView extends AppCompatActivity {
         backbtn =findViewById(R.id.notes_main_toolbar_back_arrow);
 
         addNoteFab = findViewById(R.id.note_recycler_gallary_fab_container);
+        noFileIconLayout = findViewById(R.id.notes_Rv_no_file_icon);
+
         addNoteFab.setOnClickListener(v -> startActivity(new Intent(this, NotesActivity.class)));
 
         // Get the NoteDao from the database instance
         noteDao = NotesDatabase.getInstance(this).noteDao();
+
 
         // Load notes initially
         loadNotes();
@@ -57,12 +68,7 @@ public class NoteActivityRecyclerView extends AppCompatActivity {
         backbtn.setOnClickListener(v -> finish());
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // Refresh the RecyclerView when the activity is resumed
-        loadNotes();
-    }
+
 
     private void loadNotes() {
         Executors.newSingleThreadExecutor().execute(() -> {
@@ -117,9 +123,68 @@ public class NoteActivityRecyclerView extends AppCompatActivity {
                 // After deletion, refresh the notes list and update the RecyclerView
                 runOnUiThread(() -> {
                     notesList.removeAll(selectedNotes); // Remove selected notes from the list
-                    notesAdapter.notifyDataSetChanged(); // Notify adapter that data has changed
+//                    notesAdapter.notifyDataSetChanged(); // Notify adapter that data has changed
+                    refreshNotes();
+
                 });
             });
+
+            notesAdapter.clearSelection();
+            deleteicon.setVisibility(View.GONE);
+            addNoteFab.setVisibility(View.VISIBLE);
+
+
         }
+    }
+
+    @OptIn(markerClass = UnstableApi.class)
+    private void refreshNotes() {
+        // Run the database query in a background thread
+        Executors.newSingleThreadExecutor().execute(() -> {
+            // Fetch the updated notes from the database
+            List<Note> updatedNotes = noteDao.getAllNotes();  // This should be done off the main thread
+
+            // Log the data being fetched for debugging purposes
+            Log.d("NoteActivity", "Updated Notes fetched: " + updatedNotes.size());
+
+            // Now update the UI with the new data on the main thread
+            runOnUiThread(() -> {
+                if (notesAdapter != null) {
+                    notesList.clear();  // Clear existing list
+                    notesList.addAll(updatedNotes);  // Add updated data
+
+                    // Log the size of the updated list for debugging
+                    Log.d("NoteActivity", "Notes List size after update: " + notesList.size());
+
+                    // Notify the adapter to refresh the RecyclerView
+                    notesAdapter.notifyDataSetChanged();
+
+
+                }
+
+                if (notesList.isEmpty()) {
+                    // If no images are found, make the "No File" layout visible
+                    noFileIconLayout.setVisibility(View.VISIBLE);
+
+                } else {
+                    // If images are available, hide the "No File" layout
+                    noFileIconLayout.setVisibility(View.GONE);
+
+                }
+
+            });
+        });
+    }
+
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshNotes();
+        Toast.makeText(this, "onresume called", Toast.LENGTH_SHORT).show();
+
+
+
     }
 }

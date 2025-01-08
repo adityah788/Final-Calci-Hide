@@ -18,6 +18,7 @@
                     android:layout_height="24dp"
                     android:layout_marginEnd="5dp"
                     android:padding="5dp"
+                    android:background="@drawable/ripple_back"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
                     android:src="@drawable/close" />

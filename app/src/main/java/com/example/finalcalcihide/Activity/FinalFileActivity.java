@@ -12,6 +12,7 @@ import android.os.Environment;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -56,6 +57,8 @@ public class FinalFileActivity extends AppCompatActivity {
     private AnimationManager animationManager;
     private FrameLayout animationContainer;
     private ToolbarManager toolbarManager;
+    private RelativeLayout noFileIconLayout;
+
 
 
     @Override
@@ -82,6 +85,8 @@ public class FinalFileActivity extends AppCompatActivity {
         customBottomAppBarVisible = findViewById(R.id.custom_btm_appbar_Visible);
         customBottomAppBarDelete = findViewById(R.id.custom_btm_appbar_delete);
         filePaths = FileUtils.getFilePaths(this);
+        noFileIconLayout = findViewById(R.id.final_file_no_file_icon);
+
 
         // Initialize Adapter
         finalFileAdapter = new FinalFileAdap(this, filePaths, new FinalFileAdap.OnItemSelectedListener() {
@@ -97,15 +102,16 @@ public class FinalFileActivity extends AppCompatActivity {
         });
 
         // Initialize ToolbarManager
-        toolbarManager = new ToolbarManager(this, customToolbarContainer, finalFileAdapter, filePaths, this);
+        toolbarManager = new ToolbarManager(this, customToolbarContainer, finalFileAdapter, filePaths, this,"Files");
 
-        imageRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        imageRecyclerView.setAdapter(finalFileAdapter);
+
 
         // Initialize Toolbar and Back Press Handling
         toolbarManager.setToolbarMenu(false);
         handleOnBackPressed();
 
+        imageRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        imageRecyclerView.setAdapter(finalFileAdapter);
 
         // Handle Show/Hide Button Click
         customBottomAppBarVisible.setOnClickListener(v -> {
@@ -218,7 +224,6 @@ public class FinalFileActivity extends AppCompatActivity {
     private void onSelectandDeselect_All(boolean isAnySelected) {
         toolbarManager.setToolbarMenu(isAnySelected);
         setCustomBottomAppBarVisibility(isAnySelected);
-        toolbarManager.setTitle("Files");
 
     }
 
@@ -297,6 +302,21 @@ public class FinalFileActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Check if there are any images available
+        if (filePaths.isEmpty()) {
+            // If no images are found, make the "No File" layout visible
+            noFileIconLayout.setVisibility(View.VISIBLE);
+
+        } else {
+            // If images are available, hide the "No File" layout
+            noFileIconLayout.setVisibility(View.GONE);
+
+        }
 
 
+    }
 }

@@ -82,7 +82,7 @@ public class RecycleBin extends AppCompatActivity {
         });
 
         // Initialize ToolbarManager
-        toolbarManager = new ToolbarManager(this, customToolbarContainer, imageVideoHideAdapter, recyclePaths, this);
+        toolbarManager = new ToolbarManager(this, customToolbarContainer, imageVideoHideAdapter, recyclePaths, this,"Recyclebin");
 
 //        toolbarManager.setTitle("Recyclebin");
 

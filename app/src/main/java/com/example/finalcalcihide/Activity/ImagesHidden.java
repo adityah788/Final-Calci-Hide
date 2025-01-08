@@ -103,7 +103,7 @@ public class ImagesHidden extends AppCompatActivity {
         });
 
         // Initialize ToolbarManager (assuming it's a custom class)
-        toolbarManager = new ToolbarManager(this, customToolbarContainer, imageVideoHideAdapter, imagePaths, this);
+        toolbarManager = new ToolbarManager(this, customToolbarContainer, imageVideoHideAdapter, imagePaths, this,"Images");
 
         // Setup RecyclerView
         imageRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));

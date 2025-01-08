@@ -161,7 +161,7 @@ public class SelectVideosfromGallery extends AppCompatActivity {
                         });
                     }).start();
                 } else {
-                    Toast.makeText(SelectVideosfromGallery.this, "No images selected to hide.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SelectVideosfromGallery.this, "No video selected to hide.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
