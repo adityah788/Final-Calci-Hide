@@ -45,7 +45,6 @@ public class Calculator extends AppCompatActivity {
     private Expression expression;
     private static boolean isInstanceActive = false;
 
-
     private int wrongPasswordCount = 0; // Counter for wrong password attempts
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 100;
 

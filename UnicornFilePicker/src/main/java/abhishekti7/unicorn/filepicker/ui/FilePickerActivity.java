@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -16,7 +15,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,7 +29,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 
 import abhishekti7.unicorn.filepicker.R;
 import abhishekti7.unicorn.filepicker.adapters.DirectoryAdapter;
@@ -46,10 +43,10 @@ public class FilePickerActivity extends AppCompatActivity {
     private static final String TAG = "FilePickerActivity";
     private UnicornActivityFilePickerBinding filePickerBinding;
 
-    private File rootDir;
-    private ArrayList<String> selectedFiles;
-    private ArrayList<DirectoryModel> arrDirStack;
-    private ArrayList<DirectoryModel> arrFiles;
+    private File root_dir;
+    private ArrayList<String> selected_files;
+    private ArrayList<DirectoryModel> arr_dir_stack;
+    private ArrayList<DirectoryModel> arr_files;
 
     private DirectoryStackAdapter stackAdapter;
     private DirectoryAdapter directoryAdapter;
@@ -77,19 +74,19 @@ public class FilePickerActivity extends AppCompatActivity {
     private void initConfig() {
         filters = config.getExtensionFilters();
 
+
         setSupportActionBar(filePickerBinding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         if (config.getRootDir() != null) {
-            rootDir = new File(config.getRootDir());
+            root_dir = new File(config.getRootDir());
         } else {
-            rootDir = Environment.getExternalStorageDirectory();
+            root_dir = Environment.getExternalStorageDirectory();
         }
-
-        selectedFiles = new ArrayList<>();
-        arrDirStack = new ArrayList<>();
-        arrFiles = new ArrayList<>();
+        selected_files = new ArrayList<>();
+        arr_dir_stack = new ArrayList<>();
+        arr_files = new ArrayList<>();
 
         setUpDirectoryStackView();
         setUpFilesView();
@@ -97,102 +94,42 @@ public class FilePickerActivity extends AppCompatActivity {
         if (allPermissionsGranted()) {
             fetchDirectory(new DirectoryModel(
                     true,
-                    rootDir.getAbsolutePath(),
-                    rootDir.getName(),
-                    rootDir.lastModified(),
-                    rootDir.listFiles() == null ? 0 : rootDir.listFiles().length
+                    root_dir.getAbsolutePath(),
+                    root_dir.getName(),
+                    root_dir.lastModified(),
+                    root_dir.listFiles() == null ? 0 : root_dir.listFiles().length
             ));
         } else {
             Log.e(TAG, "Storage permissions not granted. You have to implement it before starting the file picker");
             finish();
         }
 
-//        filePickerBinding.fabSelect.setOnClickListener(v -> {
-//            Intent intent = new Intent();
-//            if (config.showOnlyDirectory()) {
-//                selectedFiles.clear();
-//                selectedFiles.add(arrDirStack.get(arrDirStack.size() - 1).getPath());
-//            }
-//            intent.putStringArrayListExtra("filePaths", selectedFiles);
-//            setResult(config.getReqCode(), intent);
-//            setResult(RESULT_OK, intent);
-//            finish();
-//        });
-
-
-        filePickerBinding.fabSelect.setOnClickListener(v -> {
-            final long MINIMUM_DISPLAY_TIME = 2500;  // Animation duration (in milliseconds)
-
-            // Initialize the Lottie animation view
-            LottieAnimationView lottieAnimationView = findViewById(R.id.lottieAnimationView);
-            filePickerBinding.animFrma.setVisibility(View.VISIBLE);
-            // Get reference to the FrameLayout containing the animation
-
-            // Create an overlay view to block interaction with the background
-//            View overlayView = new View(this);
-//            overlayView.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
-//            overlayView.setBackgroundColor(Color.parseColor("#1E1F1F")); // Semi-transparent black color
-            filePickerBinding.appBar.setVisibility(View.GONE);
-            filePickerBinding.fabSelect.setVisibility(View.GONE);
-            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.FinalPrimaryColor));
-//            overlayView.setClickable(true);  // This view will intercept all touches
-
-            // Add the overlay to the root layout
-//            filePickerBinding.getRoot().addView(overlayView);  // Blocks interaction with background views
-
-            // Make sure the animation FrameLayout is visible
-            lottieAnimationView.setVisibility(View.VISIBLE);  // Make sure the Lottie animation view is visible
-            lottieAnimationView.playAnimation();  // Start the animation
-
-            // Perform the work after a delay (to ensure the animation runs for the specified time)
-            new Handler().postDelayed(() -> {
-                // Perform your background work here
-                if (config.showOnlyDirectory()) {
-                    selectedFiles.clear();  // Clear selected files
-                    selectedFiles.add(arrDirStack.get(arrDirStack.size() - 1).getPath());  // Add directory path to selected files
-                }
-
-                // Prepare the intent with updated selected files
-                Intent intent = new Intent();
-                intent.putStringArrayListExtra("filePaths", selectedFiles);  // Add selected files to the intent
-
-                // Set the result codes
-                setResult(config.getReqCode(), intent);
-                setResult(RESULT_OK, intent);
-
-                // Stop the animation and hide the FrameLayout
-                lottieAnimationView.cancelAnimation();  // Stop the animation if it's still playing
-
-                filePickerBinding.appBar.setVisibility(View.VISIBLE);
-
-                // Remove the overlay to allow interaction with the background
-//                filePickerBinding.getRoot().removeView(overlayView);  // Remove the blocking overlay
-                filePickerBinding.animFrma.setVisibility(View.GONE);
-
-                finish();  // Close the activity
-                filePickerBinding.fabSelect.setVisibility(View.VISIBLE);
-            }, MINIMUM_DISPLAY_TIME);  // Minimum display time for the animation
+        filePickerBinding.fabSelect.setOnClickListener((v)->{
+            Intent intent = new Intent();
+            if(config.showOnlyDirectory()){
+                selected_files.clear();
+                selected_files.add(arr_dir_stack.get(arr_dir_stack.size()-1).getPath());
+            }
+            intent.putStringArrayListExtra("filePaths", selected_files);
+            setResult(config.getReqCode(), intent);
+            setResult(RESULT_OK, intent);
+            finish();
         });
-
-
-
-
-
 
         TypedValue typedValue = new TypedValue();
         Resources.Theme theme = getTheme();
         theme.resolveAttribute(R.attr.unicorn_fabColor, typedValue, true);
-        if (typedValue.data != 0) {
+        if(typedValue.data!=0){
             filePickerBinding.fabSelect.setBackgroundTintList(ColorStateList.valueOf(typedValue.data));
-        } else {
+        }else{
             filePickerBinding.fabSelect.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.unicorn_colorAccent)));
         }
-    }
 
+    }
     private void setUpFilesView() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(FilePickerActivity.this);
         filePickerBinding.rvFiles.setLayoutManager(layoutManager);
-        directoryAdapter = new DirectoryAdapter(FilePickerActivity.this, arrFiles, false, new DirectoryAdapter.onFilesClickListener() {
+        directoryAdapter = new DirectoryAdapter(FilePickerActivity.this, arr_files, false, new DirectoryAdapter.onFilesClickListener() {
             @Override
             public void onClicked(DirectoryModel model) {
                 fetchDirectory(model);
@@ -200,22 +137,21 @@ public class FilePickerActivity extends AppCompatActivity {
 
             @Override
             public void onFileSelected(DirectoryModel fileModel) {
-                if (config.isSelectMultiple()) {
-                    if (selectedFiles.contains(fileModel.getPath())) {
-                        selectedFiles.remove(fileModel.getPath());
-                    } else {
-                        selectedFiles.add(fileModel.getPath());
+                if(config.isSelectMultiple()){
+                    if(selected_files.contains(fileModel.getPath())){
+                        selected_files.remove(fileModel.getPath());
+                    }else{
+                        selected_files.add(fileModel.getPath());
                     }
-                } else {
-                    selectedFiles.clear();
-                    selectedFiles.add(fileModel.getPath());
+                }else{
+                    selected_files.clear();
+                    selected_files.add(fileModel.getPath());
                 }
-                directoryAdapter.notifyDataSetChanged();
             }
         });
         filePickerBinding.rvFiles.setAdapter(directoryAdapter);
         directoryAdapter.notifyDataSetChanged();
-        if (config.addItemDivider()) {
+        if(config.addItemDivider()){
             filePickerBinding.rvFiles.addItemDecoration(new UnicornSimpleItemDecoration(FilePickerActivity.this));
         }
     }
@@ -223,10 +159,11 @@ public class FilePickerActivity extends AppCompatActivity {
     private void setUpDirectoryStackView() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(FilePickerActivity.this, RecyclerView.HORIZONTAL, false);
         filePickerBinding.rvDirPath.setLayoutManager(layoutManager);
-        stackAdapter = new DirectoryStackAdapter(FilePickerActivity.this, arrDirStack, model -> {
-            arrDirStack = new ArrayList<>(arrDirStack.subList(0, arrDirStack.indexOf(model) + 1));
+        stackAdapter = new DirectoryStackAdapter(FilePickerActivity.this, arr_dir_stack, model -> {
+            Log.e(TAG, model.toString());
+            arr_dir_stack = new ArrayList<>(arr_dir_stack.subList(0, arr_dir_stack.indexOf(model) + 1));
             setUpDirectoryStackView();
-            fetchDirectory(arrDirStack.remove(arrDirStack.size() - 1));
+            fetchDirectory(arr_dir_stack.remove(arr_dir_stack.size() - 1));
         });
 
         filePickerBinding.rvDirPath.setAdapter(stackAdapter);
@@ -235,13 +172,13 @@ public class FilePickerActivity extends AppCompatActivity {
 
     private void fetchDirectory(DirectoryModel model) {
         filePickerBinding.rlProgress.setVisibility(View.VISIBLE);
-        selectedFiles.clear();
+        selected_files.clear();
 
-        arrFiles.clear();
+        arr_files.clear();
         File dir = new File(model.getPath());
-        File[] filesList = dir.listFiles();
-        if (filesList != null) {
-            for (File file : filesList) {
+        File[] files_list = dir.listFiles();
+        if (files_list != null) {
+            for (File file : files_list) {
                 DirectoryModel directoryModel = new DirectoryModel();
                 directoryModel.setDirectory(file.isDirectory());
                 directoryModel.setName(file.getName());
@@ -252,42 +189,42 @@ public class FilePickerActivity extends AppCompatActivity {
                     if (file.isDirectory()) {
                         if (file.listFiles() != null)
                             directoryModel.setNum_files(file.listFiles().length);
-                        arrFiles.add(directoryModel);
+                        arr_files.add(directoryModel);
                     } else {
-                        if (!config.showOnlyDirectory()) {
-                            if (filters != null && !filters.isEmpty()) {
+                        if(!config.showOnlyDirectory()){
+                            // Filter out files if filters specified
+                            if(filters!=null){
                                 try {
+                                    // Extract the file extension
                                     String fileName = file.getName();
-                                    String extension = fileName.contains(".") ? fileName.substring(fileName.lastIndexOf(".")) : "";
+                                    String extension = fileName.substring(fileName.lastIndexOf("."));
                                     for (String filter : filters) {
                                         if (extension.toLowerCase().contains(filter)) {
-                                            arrFiles.add(directoryModel);
-                                            break;
+                                            arr_files.add(directoryModel);
                                         }
                                     }
                                 } catch (Exception e) {
-                                    Log.e(TAG, "Error filtering file: ", e);
+//                                Log.e(TAG, "Encountered a file without an extension: ", e);
                                 }
-                            } else {
-                                arrFiles.add(directoryModel);
+                            }else{
+                                arr_files.add(directoryModel);
                             }
                         }
                     }
                 }
-            }
-            Collections.sort(arrFiles, new CustomFileComparator());
 
-            arrDirStack.add(model);
-            filePickerBinding.rvDirPath.scrollToPosition(arrDirStack.size() - 1);
+            }
+            Collections.sort(arr_files, new CustomFileComparator());
+
+            arr_dir_stack.add(model);
+            filePickerBinding.rvDirPath.scrollToPosition(arr_dir_stack.size() - 1);
             filePickerBinding.toolbar.setTitle(model.getName());
         }
-
-        if (arrFiles.isEmpty()) {
+        if (arr_files.size() == 0) {
             filePickerBinding.rlNoFiles.setVisibility(View.VISIBLE);
         } else {
             filePickerBinding.rlNoFiles.setVisibility(View.GONE);
         }
-
         filePickerBinding.rlProgress.setVisibility(View.GONE);
         stackAdapter.notifyDataSetChanged();
         directoryAdapter.notifyDataSetChanged();
@@ -313,9 +250,9 @@ public class FilePickerActivity extends AppCompatActivity {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.unicorn_menu_file_picker, menu);
 
-        MenuItem itemSearch = menu.findItem(R.id.action_search);
+        MenuItem item_search = menu.findItem(R.id.action_search);
 
-        SearchView searchView = (SearchView) itemSearch.getActionView();
+        SearchView searchView = (SearchView) item_search.getActionView();
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -348,11 +285,13 @@ public class FilePickerActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (arrDirStack.size() > 1) {
-            arrDirStack.remove(arrDirStack.size() - 1);
-            DirectoryModel model = arrDirStack.get(arrDirStack.size() - 1);
+        if (arr_dir_stack.size() > 1) {
+            // pop off top value and display
+            arr_dir_stack.remove(arr_dir_stack.size() - 1);
+            DirectoryModel model = arr_dir_stack.remove(arr_dir_stack.size() - 1);
             fetchDirectory(model);
         } else {
+            // Nothing left in stack so exit
             Intent intent = new Intent();
             setResult(config.getReqCode(), intent);
             setResult(RESULT_CANCELED, intent);

@@ -84,6 +84,8 @@ public class RecycleBin extends AppCompatActivity {
         // Initialize ToolbarManager
         toolbarManager = new ToolbarManager(this, customToolbarContainer, imageVideoHideAdapter, recyclePaths, this);
 
+//        toolbarManager.setTitle("Recyclebin");
+
         // Setup RecyclerView
         imageRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         int spacing = getResources().getDimensionPixelSize(R.dimen.recycler_item_spacing);
@@ -128,6 +130,7 @@ public class RecycleBin extends AppCompatActivity {
     private void onSelectandDeselect_All(boolean isAnySelected) {
         toolbarManager.setToolbarMenu(isAnySelected);
         setCustomBottomAppBarVisibility(isAnySelected);
+        toolbarManager.setTitle("Recyclebin");
     }
 
     private void setCustomBottomAppBarVisibility(boolean visible) {

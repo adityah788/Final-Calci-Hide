@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
@@ -43,6 +44,8 @@ public class VideoHidden extends AppCompatActivity {
     private FrameLayout animationContainer;
 
     private ToolbarManager toolbarManager;
+    private RelativeLayout noFileIconLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +72,7 @@ public class VideoHidden extends AppCompatActivity {
         customBottomAppBarVisible = findViewById(R.id.custom_btm_appbar_Visible);
         customBottomAppBarDelete = findViewById(R.id.custom_btm_appbar_delete);
         videoPaths = FileUtils.getVideoPaths(this);
+        noFileIconLayout = findViewById(R.id.video_no_file_icon);
 
         // Initialize Adapter
         imageVideoHideAdapter = new ImageVideoHideAdapter(this, videoPaths, new ImageVideoHideAdapter.OnItemSelectedListener() {
@@ -232,5 +236,16 @@ public class VideoHidden extends AppCompatActivity {
         imageVideoHideAdapter.updateImagePaths(updatedVideoPaths);
 
         // Optionally, handle selection states if needed
+
+        // Check if there are any images available
+        if (updatedVideoPaths.isEmpty()) {
+            // If no images are found, make the "No File" layout visible
+            noFileIconLayout.setVisibility(View.VISIBLE);
+
+        } else {
+            // If images are available, hide the "No File" layout
+            noFileIconLayout.setVisibility(View.GONE);
+
+        }
     }
 }
