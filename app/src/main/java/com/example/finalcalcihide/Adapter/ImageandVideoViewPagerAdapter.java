@@ -61,7 +61,6 @@ public class ImageandVideoViewPagerAdapter extends RecyclerView.Adapter<Imageand
             holder.photoView.setVisibility(View.VISIBLE);
             holder.videoContainer.setVisibility(View.GONE);
             holder.playIcon.setVisibility(View.VISIBLE);
-
             Glide.with(context)
                     .load(imageFile)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)

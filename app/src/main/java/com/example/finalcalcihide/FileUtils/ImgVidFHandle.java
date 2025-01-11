@@ -159,6 +159,56 @@ public class ImgVidFHandle {
         return false;
     }
 
+//    private static Uri getMediaContentUri(Context context, File mediaFile) {
+//        String filePath = mediaFile.getAbsolutePath();
+//        Uri contentUri = null;
+//        Cursor cursor;
+//
+//        // Check if the file is an image
+//        cursor = context.getContentResolver().query(
+//                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+//                new String[]{MediaStore.Images.Media._ID},
+//                MediaStore.Images.Media.DATA + "=? ",
+//                new String[]{filePath}, null);
+//
+//        if (cursor != null) {
+//            try {
+//                if (cursor.moveToFirst()) {
+//                    int id = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID));
+//                    contentUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
+//                }
+//            } finally {
+//                cursor.close();
+//            }
+//        }
+//
+//        if (contentUri != null) {
+//            return contentUri;
+//        }
+//
+//        // If the file is not an image, check if it is a video
+//        cursor = context.getContentResolver().query(
+//                MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+//                new String[]{MediaStore.Video.Media._ID},
+//                MediaStore.Video.Media.DATA + "=? ",
+//                new String[]{filePath}, null);
+//
+//        if (cursor != null) {
+//            try {
+//                if (cursor.moveToFirst()) {
+//                    int id = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Video.Media._ID));
+//                    contentUri = ContentUris.withAppendedId(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id);
+//                }
+//            } finally {
+//                cursor.close();
+//            }
+//        }
+//
+//        return contentUri;
+//    }
+
+
+
     private static Uri getMediaContentUri(Context context, File mediaFile) {
         String filePath = mediaFile.getAbsolutePath();
         Uri contentUri = null;
@@ -186,7 +236,7 @@ public class ImgVidFHandle {
             return contentUri;
         }
 
-        // If the file is not an image, check if it is a video
+        // Check if the file is a video
         cursor = context.getContentResolver().query(
                 MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
                 new String[]{MediaStore.Video.Media._ID},
@@ -204,8 +254,33 @@ public class ImgVidFHandle {
             }
         }
 
+        if (contentUri != null) {
+            return contentUri;
+        }
+
+        // Check if the file is a document (e.g., PDF)
+        cursor = context.getContentResolver().query(
+                MediaStore.Files.getContentUri("external"),
+                new String[]{MediaStore.Files.FileColumns._ID},
+                MediaStore.Files.FileColumns.DATA + "=? ",
+                new String[]{filePath}, null);
+
+        if (cursor != null) {
+            try {
+                if (cursor.moveToFirst()) {
+                    int id = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns._ID));
+                    contentUri = ContentUris.withAppendedId(MediaStore.Files.getContentUri("external"), id);
+                }
+            } finally {
+                cursor.close();
+            }
+        }
+
         return contentUri;
     }
+
+
+
 
     protected static boolean moveMediaBackToOriginalLocations(Context context, List<String> selectedPaths) {
         try {
@@ -472,14 +547,13 @@ public class ImgVidFHandle {
 
     public static boolean copyfilesToPrivateStorage(Context context, ArrayList<String> files) {
         try {
+            // Root directory in private storage
             File filesRootDir = new File(context.getFilesDir(), ".dont_delete_me_by_hides/files");
 
             // Ensure the files directory exists
-            if (!filesRootDir.exists()) {
-                if (!filesRootDir.mkdirs()) {
-                    Log.e(TAGG, "Failed to create files root directory");
-                    return false;
-                }
+            if (!filesRootDir.exists() && !filesRootDir.mkdirs()) {
+                Log.e(TAGG, "Failed to create files root directory");
+                return false;
             }
 
             SharedPreferences sharedPreferences = context.getSharedPreferences("file_media_paths", Context.MODE_PRIVATE);
@@ -489,7 +563,6 @@ public class ImgVidFHandle {
                 File mediaFile = new File(file);
 
                 if (mediaFile.exists() && mediaFile.canRead()) {
-                    // Retain the original file name
                     File copiedFile = new File(filesRootDir, mediaFile.getName());
                     String copiedMediaPath = copiedFile.getAbsolutePath();
 
@@ -504,14 +577,13 @@ public class ImgVidFHandle {
                             bufferedOutputStream.write(buffer, 0, bytesRead);
                         }
 
-                        editor.putString(copiedMediaPath, file); // Store the mapping of copied media path to original path
+                        editor.putString(copiedMediaPath, file); // Store the mapping of copied path to original path
                         editor.apply();
 
-                        // Verify that the file was copied successfully
                         if (copiedFile.exists()) {
                             Log.d(TAGG, "Successfully copied file to: " + copiedMediaPath);
 
-                            // Delete the original file from the gallery
+                            // Attempt to delete the original file
                             Uri mediaUri = getMediaContentUri(context, mediaFile);
                             if (mediaUri != null) {
                                 int deletedRows = context.getContentResolver().delete(mediaUri, null, null);
@@ -521,7 +593,7 @@ public class ImgVidFHandle {
                                     Log.e(TAGG, "Failed to delete original file: " + file);
                                 }
                             } else {
-                                Log.e(TAGG, "Failed to get content URI for: " + file);
+                                Log.e(TAGG, "Content URI not found for: " + file + ". Skipping deletion.");
                             }
                         } else {
                             Log.e(TAGG, "Failed to copy file to: " + copiedMediaPath);
@@ -532,18 +604,17 @@ public class ImgVidFHandle {
                         return false;
                     }
                 } else {
-                    Log.e(TAGG, "Fel not found or not readable: " + file);
+                    Log.e(TAGG, "File not found or not readable: " + file);
                     return false;
                 }
             }
 
             return true;
         } catch (Exception e) {
-            Log.e(TAGG, "Unexpected error copying media", e);
+            Log.e(TAGG, "Unexpected error copying files", e);
             return false;
         }
     }
-
 
     protected static boolean moveDataToImagesorVideos(Context context, List<String> selectedPaths) {
         File imagesDir = new File(context.getFilesDir(), ".dont_delete_me_by_hides/images");

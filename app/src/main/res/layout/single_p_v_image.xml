@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/status_bar">
+
+<RelativeLayout
+    android:id="@+id/sinle_p_v_img_vid"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <com.github.chrisbanes.photoview.PhotoView
+        android:id="@+id/p_v_image_ImageView_thoda_dikkat"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:scaleType="fitCenter"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/p_v_viewPage_image_play_icon"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/ic_play_circle_outline_24dp"
+        />
+
+
+    <FrameLayout
+        android:id="@+id/p_v_viewPage_image_video_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        >
+
+        <androidx.media3.ui.PlayerView
+            android:id="@+id/p_v_viewPage_image_viewPagevideo_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:use_controller="true" />
+
+
+    </FrameLayout>
+
+
+
+</RelativeLayout>
+
+
+
+
+    <RelativeLayout
+        android:id="@+id/p_v_image_view_pager_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#80000000">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="38dp"
+            android:padding="5dp">
+
+
+            <!-- Back Arrow -->
+            <ImageView
+                android:id="@+id/p_v_img_viewpager_toolbar_back_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="5dp"
+                android:padding="5dp"
+                android:src="@drawable/flati_arrow_left_24" />
+
+
+            <!-- Menu Icon -->
+            <ImageView
+                android:id="@+id/p_v_img_viewpager_toobar_deleter_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="end"
+                android:layout_marginEnd="5dp"
+                android:padding="5dp"
+                android:src="@drawable/baseline_delete_24" />
+
+            <ImageView
+                android:id="@+id/p_v_img_viewpager_main_toobar_unlock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="end"
+                android:layout_marginEnd="8dp"
+                android:layout_toStartOf="@+id/p_v_img_viewpager_toobar_deleter_icon"
+                android:padding="5dp"
+                android:src="@drawable/unlock_24" />
+
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+
+
+
+</RelativeLayout>

@@ -1,11 +1,8 @@
 package com.example.finalcalcihide.Activity;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,8 +15,6 @@ import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatRatingBar;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -38,7 +33,6 @@ public class Calculator extends AppCompatActivity {
     private boolean lastNumeric = false;
     private boolean stateError = false;
     private boolean lastDot = false;
-    private boolean lastoperator = false;
 
 
     private boolean equalclicked = false;
@@ -73,11 +67,11 @@ public class Calculator extends AppCompatActivity {
 
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.calculator_nav_bar_color));
 
-        passtxt1 = findViewById(R.id.Passtxt1);
-        passtxt2 = findViewById(R.id.Passtxt2);
-        passtxt3 = findViewById(R.id.Passtxt3);
-        passtxt4 = findViewById(R.id.Passtxt4);
-        tvPassDetail = findViewById(R.id.tvPassDetail);
+        passtxt1 = findViewById(R.id.pass_1);
+        passtxt2 = findViewById(R.id.Pass_2);
+        passtxt3 = findViewById(R.id.Pass_3);
+        passtxt4 = findViewById(R.id.Pass_4);
+        tvPassDetail = findViewById(R.id.calcu_setpass_subtilte);
 
 
         isInstanceActive = true;
@@ -108,14 +102,14 @@ public class Calculator extends AppCompatActivity {
 
             Toast.makeText(this, "!isPasswordSet || resetPassword clicked", Toast.LENGTH_SHORT).show();
 
-            binding.calculatorLinearNewPassword.setVisibility(View.VISIBLE);
+            binding.calcuLinearNewPass.setVisibility(View.VISIBLE);
             binding.calculatorRelativeCalculationTxt.setVisibility(View.GONE);
 
         } else {
             // Password already set, prompt to enter password
 //            tvPassDetail.setText("Enter your 4 digit password and press =");
 
-            binding.calculatorLinearNewPassword.setVisibility(View.GONE);
+            binding.calcuLinearNewPass.setVisibility(View.GONE);
             binding.calculatorRelativeCalculationTxt.setVisibility(View.VISIBLE);
 
         }
@@ -163,12 +157,12 @@ public class Calculator extends AppCompatActivity {
             Toast.makeText(this, "All password inputs cleared. Set a password to use the calculator.", Toast.LENGTH_SHORT).show();
         } else {
             // Clear calculator inputs
-            binding.dataTv.setText("");
-            binding.resultTv.setText("");
+            binding.dataDisplay.setText("");
+            binding.resultdisplay.setText("");
             stateError = false;
             lastNumeric = false;
             lastDot = false;
-            binding.resultTv.setVisibility(View.GONE);
+            binding.resultdisplay.setVisibility(View.GONE);
             Log.d("Calculator", "Calculator inputs cleared.");
         }
     }
@@ -186,14 +180,14 @@ public class Calculator extends AppCompatActivity {
         } else {
             // If password is set, treat as regular calculator operation
             if (stateError) {
-                binding.dataTv.setText(((Button) view).getText());
+                binding.dataDisplay.setText(((Button) view).getText());
                 stateError = false;
             } else if (equalclicked) {
                 onAllClearClick(view);
-                binding.dataTv.append(((Button) view).getText());
+                binding.dataDisplay.append(((Button) view).getText());
                 equalclicked = false;
             } else {
-                binding.dataTv.append(((Button) view).getText());
+                binding.dataDisplay.append(((Button) view).getText());
             }
             lastNumeric = true;
             onEqual();
@@ -236,7 +230,7 @@ public class Calculator extends AppCompatActivity {
                         wrongPasswordCount = 0; // Reset counter
 
                         // Show original calculator UI
-                        binding.calculatorLinearNewPassword.setVisibility(View.GONE);
+                        binding.calcuLinearNewPass.setVisibility(View.GONE);
                         binding.calculatorRelativeCalculationTxt.setVisibility(View.VISIBLE);
 
                         startActivity(new Intent(Calculator.this, SecutityQues.class));
@@ -247,7 +241,7 @@ public class Calculator extends AppCompatActivity {
                     }
                 }
                 isInitialPassdone = true;
-                binding.tvPassDetail.setText("Confirm Your 4 digit Password ");
+                binding.calcuSetpassTilte.setText("Confirm Your 4 digit Password ");
                 Toast.makeText(Calculator.this, "Confirm the password", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "Please enter a valid 4-digit password", Toast.LENGTH_SHORT).show();
@@ -260,7 +254,7 @@ public class Calculator extends AppCompatActivity {
 
             // Retrieve the saved password from SharedPreferences
             String savedPassword = sharedPreferences.getString("password", "");
-            String enteredPassword = binding.dataTv.getText().toString();
+            String enteredPassword = binding.dataDisplay.getText().toString();
 
             // Reset password if the user enters '123123'
             if (enteredPassword.equals("123123123")) {
@@ -272,7 +266,7 @@ public class Calculator extends AppCompatActivity {
                 // Reset the UI to ask the user to set a new password
                 isPasswordSet = false;
                 resetPassword = true;
-                binding.calculatorLinearNewPassword.setVisibility(View.VISIBLE);
+                binding.calcuLinearNewPass.setVisibility(View.VISIBLE);
                 binding.calculatorRelativeCalculationTxt.setVisibility(View.GONE);
 
                 Toast.makeText(this, "Password has been reset. Set a new password", Toast.LENGTH_SHORT).show();
@@ -319,12 +313,12 @@ public class Calculator extends AppCompatActivity {
                     Toast.makeText(this, "Selfie capture triggered due to multiple failed attempts", Toast.LENGTH_SHORT).show();
                 }
 
-            } else if (binding.resultTv.getText().length() > 1) {
-                binding.dataTv.setText(binding.resultTv.getText().toString().substring(1));
+            } else if (binding.resultdisplay.getText().length() > 1) {
+                binding.dataDisplay.setText(binding.resultdisplay.getText().toString().substring(1));
             }
 
             equalclicked = true;
-            binding.resultTv.setText("");
+            binding.resultdisplay.setText("");
         }
     }
 
@@ -337,17 +331,15 @@ public class Calculator extends AppCompatActivity {
 
         // Proceed with normal functionality if the password is set
         if (lastNumeric && !stateError) {
-            binding.dataTv.append(((Button) view).getText());
+            binding.dataDisplay.append(((Button) view).getText());
             lastDot = false;
             lastNumeric = false;
-            lastoperator = true;
             onEqual();
         } else {
-            binding.dataTv.setText(binding.dataTv.getText().toString().substring(0, binding.dataTv.getText().toString().length() - 1));
-            binding.dataTv.append(((Button) view).getText());
+            binding.dataDisplay.setText(binding.dataDisplay.getText().toString().substring(0, binding.dataDisplay.getText().toString().length() - 1));
+            binding.dataDisplay.append(((Button) view).getText());
             lastDot = false;
             lastNumeric = false;
-            lastoperator = true;
             onEqual();
         }
     }
@@ -365,9 +357,10 @@ public class Calculator extends AppCompatActivity {
             Toast.makeText(this, "All password inputs cleared. Set a password to use the calculator.", Toast.LENGTH_SHORT).show();
         } else {
 
-            binding.dataTv.setText("");
-            binding.resultTv.setText("");
+            binding.dataDisplay.setText("");
+            binding.resultdisplay.setText("");
             lastNumeric = false;
+            lastDot = false;
         }
     }
 
@@ -382,21 +375,21 @@ public class Calculator extends AppCompatActivity {
             }
             Toast.makeText(this, "Backspace is working... if passwrd is not set", Toast.LENGTH_SHORT).show();
         } else {
-            if (binding.dataTv.getText().length() > 0) {
-                binding.dataTv.setText(binding.dataTv.getText().toString().substring(0, binding.dataTv.getText().toString().length() - 1));
+            if (binding.dataDisplay.getText().length() > 0) {
+                binding.dataDisplay.setText(binding.dataDisplay.getText().toString().substring(0, binding.dataDisplay.getText().toString().length() - 1));
                 try {
-                    if (binding.dataTv.getText().length() > 0) {
-                        char lastChar = binding.dataTv.getText().toString().charAt(binding.dataTv.getText().toString().length() - 1);
+                    if (binding.dataDisplay.getText().length() > 0) {
+                        char lastChar = binding.dataDisplay.getText().toString().charAt(binding.dataDisplay.getText().toString().length() - 1);
                         if (Character.isDigit(lastChar)) {
                             onEqual();
                         }
                     } else {
-                        binding.resultTv.setText("");
-                        binding.resultTv.setVisibility(View.GONE);
+                        binding.resultdisplay.setText("");
+                        binding.resultdisplay.setVisibility(View.GONE);
                     }
                 } catch (Exception e) {
-                    binding.resultTv.setText("");
-                    binding.resultTv.setVisibility(View.GONE);
+                    binding.resultdisplay.setText("");
+                    binding.resultdisplay.setVisibility(View.GONE);
                     Log.e("last char Error", e.toString());
                 }
             }
@@ -408,15 +401,15 @@ public class Calculator extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     private void onEqual() {
         if (lastNumeric && !stateError) {
-            String txt = binding.dataTv.getText().toString();
+            String txt = binding.dataDisplay.getText().toString();
             expression = new ExpressionBuilder(txt).build();
             try {
                 double result = expression.evaluate();
-                binding.resultTv.setVisibility(View.VISIBLE);
-                binding.resultTv.setText("=" + result);
+                binding.resultdisplay.setVisibility(View.VISIBLE);
+                binding.resultdisplay.setText("=" + result);
             } catch (ArithmeticException ex) {
                 Log.e("Evaluate Error", ex.toString());
-                binding.resultTv.setText("Errorrrr");
+                binding.resultdisplay.setText("Errorrrr");
                 stateError = true;
                 lastNumeric = false;
             }
@@ -433,7 +426,7 @@ public class Calculator extends AppCompatActivity {
 
 
         if (!stateError && !lastDot) {
-            binding.dataTv.append(((Button) view).getText());
+            binding.dataDisplay.append(((Button) view).getText());
             lastDot = true;
             lastNumeric = false;
         }
@@ -481,6 +474,13 @@ public class Calculator extends AppCompatActivity {
         // Inflate the custom layout
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.set_pass_ani, null);
+        dialogView.findViewById(R.id.submitRating).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomSheetDialog.dismiss();
+            }
+        });
+
         bottomSheetDialog.setContentView(dialogView);
 
         // Initialize the LottieAnimationView

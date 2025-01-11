@@ -125,7 +125,7 @@ public class SelectImagesorVideos extends AppCompatActivity {
                     lottieHideUnhideAnimation.playAnimation();
 
                     // Minimum display time for the animation
-                    final long MINIMUM_DISPLAY_TIME = 2000; // 2.5 seconds
+                    final long MINIMUM_DISPLAY_TIME = 2500; // 2.5 seconds
                     final long animationStartTime = System.currentTimeMillis();
 
                     // Perform the hide operation in a background thread

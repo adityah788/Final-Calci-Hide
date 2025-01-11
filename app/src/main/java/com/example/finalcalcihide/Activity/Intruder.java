@@ -30,6 +30,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.finalcalcihide.Adapter.IntruderAdap;
+
 import android.Manifest;
 
 import com.example.finalcalcihide.R;
@@ -50,7 +51,7 @@ public class Intruder extends AppCompatActivity {
     private RecyclerView intruderRecyclerView;
     private IntruderAdap intruderAdap;
     private LinearLayout containerCustomBottomAppBar;
-    private ImageView selectandDeselectAll, deleteIcon, settingCount,backarrow;
+    private ImageView selectandDeselectAll, deleteIcon, settingCount, backarrow;
     private boolean isAllSelected = false; // To keep track of selection state
     private AnimationManager animationManager;
     private FrameLayout animationContainer;
@@ -61,6 +62,7 @@ public class Intruder extends AppCompatActivity {
     // Define a constant for your preference name
     private static final String PREFS_NAME = "MyIntruder";
     private static final String KEY_TAKE_SELFIE = "take_selfie";
+    boolean hasDeniedPermission;
 
 
     @Override
@@ -78,7 +80,7 @@ public class Intruder extends AppCompatActivity {
         animationContainer = findViewById(R.id.real_intruder_animation_container);
         switchCompattoggle = findViewById(R.id.activity_intruder_switch);
         settingCount = findViewById(R.id.intruder_main_toobar_setting);
-        backarrow= findViewById(R.id.main_toolbar_back_arrow);
+        backarrow = findViewById(R.id.main_toolbar_back_arrow);
         intruderPaths = FileUtils.getIntruderPaths(this);
 
 
@@ -176,7 +178,7 @@ public class Intruder extends AppCompatActivity {
                 // Check and request camera permission
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                     // If the user has denied multiple times, show a different message
-                    boolean hasDeniedPermission = sharedPreferences.getBoolean("hasDeniedPermission", false);
+                    hasDeniedPermission = sharedPreferences.getBoolean("hasDeniedPermissionn", false);
                     if (hasDeniedPermission && (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA))) {
                         showcamerapermissionDialog(true); // Show dialog with a different message
                     } else {
@@ -206,16 +208,21 @@ public class Intruder extends AppCompatActivity {
                 Toast.makeText(this, "Camera permission granted", Toast.LENGTH_SHORT).show();
             } else {
                 // Permission denied
-                boolean hasDeniedPermission = sharedPreferences.getBoolean("hasDeniedPermission", false);
+                boolean hasDeniedPermission = sharedPreferences.getBoolean("hasDeniedPermissionn", false);
                 if (!hasDeniedPermission) {
                     // First denial, just set the flag
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putBoolean("hasDeniedPermission", true);
+                    editor.putBoolean("hasDeniedPermissionn", true);
                     editor.apply();
                 }
 
                 // Update switch to OFF if permission is denied
                 switchCompattoggle.setChecked(false);
+
+                // Save the denial in SharedPreferences
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("isCameraPermissionDenied", true);
+                editor.apply();
 
                 Toast.makeText(this, "Camera permission denied", Toast.LENGTH_SHORT).show();
             }
@@ -456,4 +463,17 @@ public class Intruder extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            // If the user has denied multiple times, show a different message
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("hasDeniedPermission", true);
+            editor.apply();
+            switchCompattoggle.setChecked(false);
+        }
+
+    }
 }

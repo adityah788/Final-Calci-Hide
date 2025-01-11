@@ -16,14 +16,14 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:id="@+id/calculator_linear_new_password"
+            android:id="@+id/calcu_linear_new_passs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tvPassTitle"
+                android:id="@+id/calcu_setpass_tilte"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -45,7 +45,7 @@
             <!--            Todo:  when user one time enter the password in (calculator_linear_password_feild)  set text confirm 4 digit password and press = in tvPassDetail-->
 
             <TextView
-                android:id="@+id/tvPassDetail"
+                android:id="@+id/calcu_setpass_subtilte"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -62,7 +62,7 @@
                 android:textSize="15sp" />
 
             <LinearLayout
-                android:id="@+id/calculator_linear_password_feild"
+                android:id="@+id/calcu_linea_take_pass_displ"
                 android:layout_width="210dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -80,7 +80,7 @@
                     android:orientation="vertical">
 
                     <EditText
-                        android:id="@+id/Passtxt1"
+                        android:id="@+id/pass_1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -109,7 +109,7 @@
                     android:orientation="vertical">
 
                     <EditText
-                        android:id="@+id/Passtxt2"
+                        android:id="@+id/Pass_2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -138,7 +138,7 @@
                     android:orientation="vertical">
 
                     <EditText
-                        android:id="@+id/Passtxt3"
+                        android:id="@+id/Pass_3"
                         android:layout_width="49dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -167,7 +167,7 @@
                     android:orientation="vertical">
 
                     <EditText
-                        android:id="@+id/Passtxt4"
+                        android:id="@+id/Pass_4"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -189,7 +189,7 @@
             </LinearLayout>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/btResetPassword"
+                android:id="@+id/reset_password_crdview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -234,10 +234,10 @@
             android:layout_height="match_parent">
 
             <EditText
-                android:id="@+id/dataTv"
+                android:id="@+id/data_display"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_above="@+id/scrollET2"
+                android:layout_above="@+id/scroll_2"
                 android:layout_marginLeft="16dp"
                 android:layout_marginEnd="16dp"
                 android:background="@null"
@@ -249,7 +249,7 @@
                 android:textSize="60sp" />
 
             <ScrollView
-                android:id="@+id/scrollET2"
+                android:id="@+id/scroll_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"

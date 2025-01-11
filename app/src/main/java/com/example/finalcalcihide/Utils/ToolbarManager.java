@@ -12,9 +12,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.PopupMenu;
 
+import com.example.finalcalcihide.Activity.RecycleBin;
 import com.example.finalcalcihide.Adapter.FinalFileAdap;
 import com.example.finalcalcihide.Adapter.ImageVideoHideAdapter;
 import com.example.finalcalcihide.Adapter.IntruderAdap;
+import com.example.finalcalcihide.Adapter.RecyclebinAdapter;
 import com.example.finalcalcihide.R;
 
 import java.io.File;
@@ -27,6 +29,7 @@ public class ToolbarManager {
     private ImageVideoHideAdapter imageVideoAdapter;
     private IntruderAdap intruderAdapter;
     private FinalFileAdap finalFileAdap;
+    private RecyclebinAdapter recyclebinAdapter;
     Context context;
     private ArrayList<String> imagePaths;
     Activity activity;
@@ -34,7 +37,7 @@ public class ToolbarManager {
 
     // Constructor accepting either ImageVideoHideAdapter or IntruderAdap
     public ToolbarManager(Context context, LinearLayout customToolbarContainer,
-                          Object adapter, ArrayList<String> imagePaths, Activity activity,String title) {
+                          Object adapter, ArrayList<String> imagePaths, Activity activity, String title) {
         this.customToolbarContainer = customToolbarContainer;
         this.inflater = LayoutInflater.from(context);
         this.context = context;
@@ -49,6 +52,8 @@ public class ToolbarManager {
             this.intruderAdapter = (IntruderAdap) adapter;
         } else if (adapter instanceof FinalFileAdap) {
             this.finalFileAdap = (FinalFileAdap) adapter;
+        } else if (adapter instanceof RecyclebinAdapter) {
+            this.recyclebinAdapter = (RecyclebinAdapter) adapter;
         }
     }
 
@@ -195,6 +200,8 @@ public class ToolbarManager {
             intruderAdapter.clearSelection();
         } else if (finalFileAdap != null) {
             finalFileAdap.clearSelection();
+        } else if (recyclebinAdapter != null) {
+            recyclebinAdapter.clearSelection();
         }
 
     }
@@ -205,6 +212,10 @@ public class ToolbarManager {
             return imageVideoAdapter.getSelectedItemCount();
         } else if (intruderAdapter != null) {
             return intruderAdapter.getSelectedItemCount();
+        } else if (finalFileAdap != null) {
+            return finalFileAdap.getSelectedItemCount();
+        } else if (recyclebinAdapter != null) {
+            return recyclebinAdapter.getSelectedItemCount();
         }
         return 0;
     }
@@ -215,6 +226,10 @@ public class ToolbarManager {
             return imageVideoAdapter.getItemCount();
         } else if (intruderAdapter != null) {
             return intruderAdapter.getItemCount();
+        } else if (finalFileAdap != null) {
+            return finalFileAdap.getItemCount();
+        } else if (recyclebinAdapter != null) {
+            return recyclebinAdapter.getItemCount();
         }
         return 0;
     }
@@ -225,6 +240,10 @@ public class ToolbarManager {
             imageVideoAdapter.selectAll(selectAll);
         } else if (intruderAdapter != null) {
             intruderAdapter.selectAll(selectAll);
+        } else if (finalFileAdap != null) {
+            finalFileAdap.selectAll(selectAll);
+        } else if (recyclebinAdapter != null) {
+            recyclebinAdapter.selectAll(selectAll);
         }
     }
 
@@ -234,6 +253,10 @@ public class ToolbarManager {
             imageVideoAdapter.notifyDataSetChanged();
         } else if (intruderAdapter != null) {
             intruderAdapter.notifyDataSetChanged();
+        } else if (finalFileAdap != null) {
+            finalFileAdap.notifyDataSetChanged();
+        } else if (recyclebinAdapter != null) {
+            recyclebinAdapter.notifyDataSetChanged();
         }
     }
 }

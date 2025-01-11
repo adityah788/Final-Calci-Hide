@@ -11,9 +11,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.example.finalcalcihide.MainActivity;
 import com.example.finalcalcihide.R;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class SecutityQues extends AppCompatActivity {
 
@@ -22,23 +26,23 @@ public class SecutityQues extends AppCompatActivity {
     private Button submitAnswer;
     private SharedPreferences sharedPreferences;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_secutity_ques);
+
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.FinalPrimaryColor));
+
 
         // Initialize views
         securityQuestionSpinner = findViewById(R.id.security_question_spinner);
         securityAnswer = findViewById(R.id.security_answer);
         submitAnswer = findViewById(R.id.submit_answer);
 
-
         sharedPreferences = getSharedPreferences("CalculatorPrefss", MODE_PRIVATE);
 
-
         // Define the security questions, including a placeholder
-        String[] securityQuestions = {
+        List<String> securityQuestions = Arrays.asList(
                 "Select a question", // Placeholder hint
                 "What is your favorite color?",
                 "What was the name of your first pet?",
@@ -50,26 +54,14 @@ public class SecutityQues extends AppCompatActivity {
                 "What is your dream job?",
                 "What is your favorite movie?",
                 "What is your favorite sport?"
-        };
+        );
 
-        // Create an ArrayAdapter using the custom layout
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, securityQuestions) {
-            @Override
-            public View getDropDownView(int position, View convertView, android.view.ViewGroup parent) {
-                View view = super.getDropDownView(position, convertView, parent);
-                TextView textView = (TextView) view;
-
-                // Change text color for the placeholder
-                    textView.setTextColor(getResources().getColor(android.R.color.black)); // White color for hint
-
-                return view;
-            }
-        };
-
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Adapter to display the security questions in the spinner
+        ArrayAdapter<String> madapter =  new ArrayAdapter<>(this, R.layout.spiner_tv, securityQuestions);
+        madapter.setDropDownViewResource(R.layout.spiner_tv);
 
         // Set the adapter to the Spinner
-        securityQuestionSpinner.setAdapter(adapter);
+        securityQuestionSpinner.setAdapter(madapter);
 
         // Set up the submit button listener
         submitAnswer.setOnClickListener(new View.OnClickListener() {

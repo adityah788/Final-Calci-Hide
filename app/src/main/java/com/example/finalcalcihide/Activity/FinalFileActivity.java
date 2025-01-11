@@ -157,7 +157,6 @@ public class FinalFileActivity extends AppCompatActivity {
 
 
 
-
         // Handle Delete Button Click
         customBottomAppBarDelete.setOnClickListener(v -> {
             List<String> selectedPaths = finalFileAdapter.getSelectedImagePaths();
@@ -186,20 +185,46 @@ public class FinalFileActivity extends AppCompatActivity {
             if (data != null) {
                 ArrayList<String> files = data.getStringArrayListExtra("filePaths");
 
-                boolean success = ImgVidFHandle.copyfilesToPrivateStorage(getApplicationContext(), files);
+                // Only proceed with the animation if there are files
+                if (files != null && !files.isEmpty()) {
+                    // Initiate the animation process before copying files
+                    final long MINIMUM_DISPLAY_TIME = 2500; // in milliseconds
 
-                if (success) {
-                    filePaths.clear();
-                    filePaths.addAll(FileUtils.getFilePaths(this));
+                    animationManager.handleAnimationProcess(
+                            AnimationManager.AnimationType.HIDE_UNHIDE,  // Trigger hide animation
+                            files,
+                            MINIMUM_DISPLAY_TIME,
+                            () -> {
+                                // Perform file copy after animation begins
+                                boolean success = ImgVidFHandle.copyfilesToPrivateStorage(getApplicationContext(), files);
 
-                    runOnUiThread(() -> finalFileAdapter.notifyDataSetChanged());
-                    Toast.makeText(getApplicationContext(), "Files copied to private storage", Toast.LENGTH_SHORT).show();
+                                if (success) {
+                                    filePaths.clear();
+                                    filePaths.addAll(FileUtils.getFilePaths(this));
+
+                                    // Update UI after successful copy
+                                    runOnUiThread(() -> {
+                                        Toast.makeText(getApplicationContext(), "Files copied to private storage", Toast.LENGTH_SHORT).show();
+                                        refreshRecyclerView();  // Refresh RecyclerView after file copy
+                                    });
+                                } else {
+                                    runOnUiThread(() -> {
+                                        Toast.makeText(getApplicationContext(), "Error copying files", Toast.LENGTH_SHORT).show();
+                                    });
+                                }
+
+                                // Log file paths for debugging
+                                for (String file : files) {
+                                    Log.e(TAG, file);
+                                }
+                            },
+                            (processSuccess, paths) -> stopAnimationAndUpdateUI(processSuccess, paths)
+                    );
                 } else {
-                    Toast.makeText(getApplicationContext(), "Error copying files", Toast.LENGTH_SHORT).show();
-                }
-
-                for (String file : files) {
-                    Log.e(TAG, file);
+                    // Optionally, handle the case when there are no files (if necessary)
+                    runOnUiThread(() -> {
+                        Toast.makeText(getApplicationContext(), "No files selected", Toast.LENGTH_SHORT).show();
+                    });
                 }
             }
         }
@@ -265,8 +290,9 @@ public class FinalFileActivity extends AppCompatActivity {
     private void stopAnimationAndUpdateUI(boolean processSuccess, List<String> selectedPaths) {
         if (processSuccess) {
             filePaths.removeAll(selectedPaths);
-            finalFileAdapter.notifyDataSetChanged();
-            finalFileAdapter.clearSelection();
+//            finalFileAdapter.notifyDataSetChanged();
+            refreshRecyclerView();
+//            finalFileAdapter.clearSelection();
             Toast.makeText(FinalFileActivity.this, "Images moved back to original locations and deleted from app", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(FinalFileActivity.this, "Error moving images back", Toast.LENGTH_SHORT).show();
@@ -306,8 +332,15 @@ public class FinalFileActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        ArrayList<String> updatedVideoPaths = FileUtils.getFilePaths(this);
+
+        // Update the adapter's data
+        finalFileAdapter.updatefilePaths(updatedVideoPaths);
+
+        // Optionally, handle selection states if needed
+
         // Check if there are any images available
-        if (filePaths.isEmpty()) {
+        if (updatedVideoPaths.isEmpty()) {
             // If no images are found, make the "No File" layout visible
             noFileIconLayout.setVisibility(View.VISIBLE);
 
@@ -318,5 +351,32 @@ public class FinalFileActivity extends AppCompatActivity {
         }
 
 
+
     }
+
+    private void refreshRecyclerView() {
+        ArrayList<String> updatedVideoPaths = FileUtils.getFilePaths(this);
+
+        // Update the adapter's data
+        finalFileAdapter.updatefilePaths(updatedVideoPaths);
+
+        // Optionally, handle selection states if needed
+
+        // Check if there are any images available
+        if (updatedVideoPaths.isEmpty()) {
+            // If no images are found, make the "No File" layout visible
+            noFileIconLayout.setVisibility(View.VISIBLE);
+
+        } else {
+            // If images are available, hide the "No File" layout
+            noFileIconLayout.setVisibility(View.GONE);
+
+        }
+    }
+
+
+
+
+
+
 }

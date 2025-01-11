@@ -16,54 +16,44 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:id="@+id/calculator_linear_new_password"
+            android:id="@+id/calcuLinearNewPass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tvPassTitle"
+                android:id="@+id/calcu_setpass_tilte"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="8dp"
-                android:background="#00000000"
-                android:editable="false"
                 android:gravity="center"
-                android:inputType="none"
-                android:lines="1"
                 android:paddingLeft="24dp"
                 android:paddingRight="24dp"
                 android:text="Create New Password"
                 android:textColor="@color/white"
-                android:textIsSelectable="true"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
             <!--            Todo:  when user one time enter the password in (calculator_linear_password_feild)  set text confirm 4 digit password and press = in tvPassDetail-->
 
             <TextView
-                android:id="@+id/tvPassDetail"
+                android:id="@+id/calcu_setpass_subtilte"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:background="#00000000"
-                android:editable="false"
                 android:gravity="center"
-                android:inputType="none"
-                android:maxLines="2"
                 android:paddingLeft="24dp"
                 android:paddingRight="24dp"
                 android:text="Enter a 4 digit password and press = "
                 android:textColor="@color/white"
-                android:textIsSelectable="true"
-                android:textSize="15sp" />
+                android:textSize="16sp" />
 
             <LinearLayout
-                android:id="@+id/calculator_linear_password_feild"
-                android:layout_width="210dp"
+                android:id="@+id/calcu_linea_take_pass_displ"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
@@ -74,27 +64,24 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:layout_weight="1"
+                    android:layout_gravity="center"
                     android:gravity="center"
                     android:orientation="vertical">
 
                     <EditText
-                        android:id="@+id/Passtxt1"
+                        android:id="@+id/pass_1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:background="#00000000"
-                        android:editable="false"
-                        android:gravity="center"
                         android:inputType="numberPassword"
+                        android:layout_gravity="center"
+                        android:gravity="center"
                         android:textColor="@color/limeclr"
                         android:textColorHint="@color/limeclr"
-                        android:textIsSelectable="true"
-                        android:textSize="30sp" />
+                        android:textSize="29sp" />
 
                     <View
-                        android:layout_width="24dp"
+                        android:layout_width="23dp"
                         android:layout_height="2dp"
                         android:layout_gravity="center"
                         android:background="@color/limeclr" />
@@ -103,27 +90,24 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:layout_weight="1"
+                    android:layout_gravity="center"
                     android:gravity="center"
                     android:orientation="vertical">
 
                     <EditText
-                        android:id="@+id/Passtxt2"
+                        android:id="@+id/Pass_2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:background="#00000000"
-                        android:editable="false"
-                        android:gravity="center"
                         android:inputType="numberPassword"
+                        android:layout_gravity="center"
+                        android:gravity="center"
                         android:textColor="@color/limeclr"
                         android:textColorHint="@color/limeclr"
-                        android:textIsSelectable="true"
-                        android:textSize="30sp" />
+                        android:textSize="29sp" />
 
                     <View
-                        android:layout_width="24dp"
+                        android:layout_width="23dp"
                         android:layout_height="2dp"
                         android:layout_gravity="center"
                         android:background="@color/limeclr" />
@@ -132,27 +116,24 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:layout_weight="1"
+                    android:layout_gravity="center"
                     android:gravity="center"
                     android:orientation="vertical">
 
                     <EditText
-                        android:id="@+id/Passtxt3"
+                        android:id="@+id/Pass_3"
                         android:layout_width="49dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:background="#00000000"
-                        android:editable="false"
                         android:gravity="center"
                         android:inputType="numberPassword"
                         android:textColor="@color/limeclr"
                         android:textColorHint="@color/limeclr"
-                        android:textIsSelectable="true"
                         android:textSize="30sp" />
 
                     <View
-                        android:layout_width="24dp"
+                        android:layout_width="23dp"
                         android:layout_height="2dp"
                         android:layout_gravity="center"
                         android:background="@color/limeclr" />
@@ -161,27 +142,24 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:layout_weight="1"
+                    android:layout_gravity="center"
                     android:gravity="center"
                     android:orientation="vertical">
 
                     <EditText
-                        android:id="@+id/Passtxt4"
+                        android:id="@+id/Pass_4"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:background="#00000000"
-                        android:editable="false"
                         android:gravity="center"
                         android:inputType="numberPassword"
                         android:textColor="@color/limeclr"
                         android:textColorHint="@color/limeclr"
-                        android:textIsSelectable="true"
-                        android:textSize="30sp" />
+                        android:textSize="29sp" />
 
                     <View
-                        android:layout_width="24dp"
+                        android:layout_width="23dp"
                         android:layout_height="2dp"
                         android:layout_gravity="center"
                         android:background="@color/limeclr" />
@@ -189,11 +167,11 @@
             </LinearLayout>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/btResetPassword"
+                android:id="@+id/reset_password_crdview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="48dp"
+                android:layout_marginTop="45dp"
                 android:foreground="?attr/selectableItemBackground"
                 android:onClick="onClick"
                 app:cardBackgroundColor="@color/white"
@@ -203,22 +181,22 @@
                     android:id="@+id/calcu_reload_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:minWidth="64dp"
                     android:background="@drawable/one_for_all_transperent_ripple_btn"
+                    android:minWidth="64dp"
                     android:orientation="horizontal"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="4dp">
+                    android:paddingStart="8dp"
+                    android:paddingEnd="4dp">
 
                     <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:padding="8dp"
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
+                        android:padding="7dp"
                         android:src="@drawable/reload" />
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_marginRight="16dp"
+                        android:layout_height="38dp"
+                        android:layout_marginEnd="16dp"
                         android:gravity="center"
                         android:text="Reset"
                         android:textAllCaps="true"
@@ -235,14 +213,13 @@
             android:layout_height="match_parent">
 
             <EditText
-                android:id="@+id/dataTv"
+                android:id="@+id/data_display"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_above="@+id/scrollET2"
-                android:layout_marginLeft="16dp"
+                android:layout_above="@+id/scroll_2"
+                android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:background="@null"
-                android:editable="false"
                 android:gravity="end"
                 android:textAlignment="textEnd"
                 android:textColor="@color/white"
@@ -250,21 +227,21 @@
                 android:textSize="60sp" />
 
             <ScrollView
-                android:id="@+id/scrollET2"
+                android:id="@+id/scroll_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp">
 
                 <EditText
-                    android:id="@+id/resultTv"
+                    android:id="@+id/resultdisplay"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="20dp"
                     android:background="@null"
                     android:maxEms="1"
-                    android:maxLines="@integer/material_motion_duration_long_1"
+                    android:maxLines="20"
                     android:textAlignment="textEnd"
                     android:textColor="@color/white"
                     android:textColorHint="@color/white"
@@ -334,7 +311,6 @@
         app:layout_constraintGuide_end="10dp" />
 
 
-
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_all_clear"
         style="@style/operatorbtn"
@@ -385,7 +361,6 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btn_point"
         app:layout_constraintTop_toTopOf="@+id/guideline2" />
-
 
 
     <!-- Fourth Row -->
@@ -455,7 +430,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btn_4"
         app:layout_constraintTop_toTopOf="@+id/guideline4" />
-    
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_6"
         style="@style/digitBtn"

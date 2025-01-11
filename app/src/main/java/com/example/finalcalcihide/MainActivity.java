@@ -21,17 +21,14 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import com.example.finalcalcihide.Activity.FileShow;
 import com.example.finalcalcihide.Activity.FinalFileActivity;
 import com.example.finalcalcihide.Activity.ImagesHidden;
 import com.example.finalcalcihide.Activity.Intruder;
 import com.example.finalcalcihide.Activity.NoteActivityRecyclerView;
-import com.example.finalcalcihide.Activity.NotesActivity;
 import com.example.finalcalcihide.Activity.RecycleBin;
 import com.example.finalcalcihide.Activity.Setting;
 import com.example.finalcalcihide.Activity.VideoHidden;
 import com.example.finalcalcihide.Activity.Web_Browser;
-import com.example.finalcalcihide.Utils.FileUtils;
 
 import java.io.File;
 

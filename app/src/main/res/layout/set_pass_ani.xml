@@ -17,7 +17,7 @@
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/ani_hide_unhide"
             android:layout_width="wrap_content"
-            android:layout_height="400dp"
+            android:layout_height="380dp"
             android:layout_gravity="center"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/calci_lottie_ani"
@@ -31,20 +31,22 @@
         android:gravity="center"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"        android:text="Set password and press = "
+        android:layout_marginBottom="10dp"
+        android:text="Set password and press = "
         android:textColor="@color/white"
-        android:textSize="28sp"/>
+        android:textSize="18sp"/>
 
-    <Button
+    <TextView
         android:id="@+id/submitRating"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Submit"
-        android:textSize="20sp"
-        android:background="@drawable/rounded_button"
-        android:textColor="@color/limeclr"
+        android:background="@drawable/ripple_for_btn"
+        android:padding="10dp"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:text="OK"
+        android:textColor="@color/white"
+        android:layout_marginBottom="15dp"
         android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        android:textStyle="bold"/>
+        android:layout_marginEnd="10dp"/>
 </LinearLayout>

@@ -15,7 +15,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.finalcalcihide.Adapter.ImageVideoHideAdapter;
+import com.example.finalcalcihide.Adapter.RecyclebinAdapter;
 import com.example.finalcalcihide.FileUtils.ImgVidFHandle;
 import com.example.finalcalcihide.GridSpacingItemDecoration;
 import com.example.finalcalcihide.R;
@@ -24,12 +24,13 @@ import com.example.finalcalcihide.ViewPager.ImageandVideoViewPager;
 import com.example.finalcalcihide.Utils.FileUtils;
 import com.example.finalcalcihide.PermissionHandler;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RecycleBin extends AppCompatActivity {
     private ArrayList<String> recyclePaths = new ArrayList<>();
-    private ImageVideoHideAdapter imageVideoHideAdapter;
+    private RecyclebinAdapter recyclebinAdapter;
     private RecyclerView imageRecyclerView;
     private LinearLayout customBottomAppBarDelete;
     private LinearLayout customToolbarContainer;
@@ -69,7 +70,7 @@ public class RecycleBin extends AppCompatActivity {
         recyclePaths = FileUtils.getRecyclePaths(this);
 
         // Initialize Adapter
-        imageVideoHideAdapter = new ImageVideoHideAdapter(this, recyclePaths, new ImageVideoHideAdapter.OnItemSelectedListener() {
+        recyclebinAdapter = new RecyclebinAdapter(this, recyclePaths, new RecyclebinAdapter.OnItemSelectedListener() {
             @Override
             public void onItemSelected(int position) {
                 handleItemClick(position);
@@ -82,7 +83,11 @@ public class RecycleBin extends AppCompatActivity {
         });
 
         // Initialize ToolbarManager
-        toolbarManager = new ToolbarManager(this, customToolbarContainer, imageVideoHideAdapter, recyclePaths, this,"Recyclebin");
+        toolbarManager = new ToolbarManager(this, customToolbarContainer, recyclebinAdapter, recyclePaths, this,"Recyclebin");
+
+        // Initialize Toolbar and Back Press Handling
+        toolbarManager.setToolbarMenu(false);
+
 
 //        toolbarManager.setTitle("Recyclebin");
 
@@ -90,47 +95,58 @@ public class RecycleBin extends AppCompatActivity {
         imageRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         int spacing = getResources().getDimensionPixelSize(R.dimen.recycler_item_spacing);
         imageRecyclerView.addItemDecoration(new GridSpacingItemDecoration(3, spacing));
-        imageRecyclerView.setAdapter(imageVideoHideAdapter);
+        imageRecyclerView.setAdapter(recyclebinAdapter);
 
-        // Initialize Toolbar and Back Press Handling
-        toolbarManager.setToolbarMenu(false);
+
         handleOnBackPressed();
 
         // Handle Show/Hide Button Click
         customBottomAppBarVisible.setOnClickListener(v -> {
-            List<String> selectedPaths = imageVideoHideAdapter.getSelectedImagePaths();
+            List<String> selectedPaths = recyclebinAdapter.getSelectedImagePaths();
             ImgVidFHandle.restoredatatoImageorVideo(RecycleBin.this, selectedPaths);
             recyclePaths.removeAll(selectedPaths);
-            imageVideoHideAdapter.notifyDataSetChanged();
-            imageVideoHideAdapter.clearSelection();
+            recyclebinAdapter.notifyDataSetChanged();
+            recyclebinAdapter.clearSelection();
         });
 
         // Handle Delete Button Click
         customBottomAppBarDelete.setOnClickListener(v -> {
-            List<String> selectedPaths = imageVideoHideAdapter.getSelectedImagePaths();
+            List<String> selectedPaths = recyclebinAdapter.getSelectedImagePaths();
             ImgVidFHandle.deteleDataPermanentWrapper(RecycleBin.this, selectedPaths);
             recyclePaths.removeAll(selectedPaths);
-            imageVideoHideAdapter.notifyDataSetChanged();
-            imageVideoHideAdapter.clearSelection();
+            recyclebinAdapter.notifyDataSetChanged();
+            recyclebinAdapter.clearSelection();
         });
 
     }
 
     private void handleItemClick(int position) {
-        if (imageVideoHideAdapter.isSelectedAny()) {
-            imageVideoHideAdapter.toggleSelection(position);
+        if (recyclebinAdapter.isSelectedAny()) {
+            recyclebinAdapter.toggleSelection(position);
         } else {
-            Intent intent = new Intent(this, ImageandVideoViewPager.class);
-            intent.putStringArrayListExtra("imagePaths", recyclePaths);
-            intent.putExtra("position", position);
-            startActivity(intent);
+            Intent intent = new Intent(this, SinglePV.class);
+            String currentPath = recyclePaths.get(position); // Get the current path
+            if (recyclebinAdapter.isVideoFile(new File(currentPath))) {
+
+                intent.putExtra("videopath", currentPath); // Pass only the current path
+                startActivity(intent);
+
+            } else if (recyclebinAdapter.isImageFile(new File(currentPath))) {
+                intent.putExtra("imagePath", currentPath); // Pass only the current path
+                startActivity(intent);
+
+
+            }
+
+//            intent.putStringArrayListExtra("imagePath", recyclePaths);
+//            intent.putExtra("position", position);
+//            startActivity(intent);
         }
     }
 
     private void onSelectandDeselect_All(boolean isAnySelected) {
         toolbarManager.setToolbarMenu(isAnySelected);
         setCustomBottomAppBarVisibility(isAnySelected);
-        toolbarManager.setTitle("Recyclebin");
     }
 
     private void setCustomBottomAppBarVisibility(boolean visible) {
@@ -155,8 +171,8 @@ public class RecycleBin extends AppCompatActivity {
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                if (imageVideoHideAdapter.isSelectedAny()) {
-                    imageVideoHideAdapter.clearSelection();
+                if (recyclebinAdapter.isSelectedAny()) {
+                    recyclebinAdapter.clearSelection();
                     onSelectandDeselect_All(false);
                 } else {
                     finish();
@@ -174,6 +190,6 @@ public class RecycleBin extends AppCompatActivity {
 
     private void refreshImageList() {
         ArrayList<String> updatedVideoPaths = FileUtils.getRecyclePaths(this);
-        imageVideoHideAdapter.updateImagePaths(updatedVideoPaths);
+        recyclebinAdapter.updateImagePaths(updatedVideoPaths);
     }
 }

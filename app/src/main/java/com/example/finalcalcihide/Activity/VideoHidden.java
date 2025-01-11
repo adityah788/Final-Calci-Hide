@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -209,6 +208,7 @@ public class VideoHidden extends AppCompatActivity {
             videoPaths.removeAll(selectedPaths);
             imageVideoHideAdapter.notifyDataSetChanged();
             imageVideoHideAdapter.clearSelection();
+            refresvideoList();
             Toast.makeText(VideoHidden.this, "Images moved back to original locations and deleted from app", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(VideoHidden.this, "Error moving images back", Toast.LENGTH_SHORT).show();
@@ -218,12 +218,11 @@ public class VideoHidden extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        refreshImageList();
-
+        refresvideoList();
         Toast.makeText(this, "onResume called", Toast.LENGTH_SHORT).show();
     }
 
-    private void refreshImageList() {
+    private void refresvideoList() {
         // Reload video paths
         ArrayList<String> updatedVideoPaths = FileUtils.getVideoPaths(this);
 

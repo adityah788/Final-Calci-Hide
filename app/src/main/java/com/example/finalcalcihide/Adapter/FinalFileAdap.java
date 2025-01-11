@@ -72,9 +72,9 @@ class   FinalFileAdap extends RecyclerView.Adapter<FinalFileAdap.ViewHolder> {
 
         // Set image based on file type
         if (isAudio) {
-            holder.imageViewimage.setImageResource(R.drawable.baseline_audiotrack_24);
+            holder.imageViewimage.setImageResource(R.drawable.audio_file);
         } else if (isDocument) {
-            holder.imageViewimage.setImageResource(R.drawable.baseline_insert_drive_file_24);
+            holder.imageViewimage.setImageResource(R.drawable.pdf_fla);
         } else if (isImage || isVideo) {
             Glide.with(context).load(file).into(holder.imageViewimage);
         } else {
@@ -231,6 +231,16 @@ class   FinalFileAdap extends RecyclerView.Adapter<FinalFileAdap.ViewHolder> {
 //                containertick = itemView.findViewById(R.id.container_file_tick);
 
         }
+    }
+
+
+    public void updatefilePaths(ArrayList<String> newImagePaths) {
+        filePaths.clear();
+        filePaths.addAll(newImagePaths);
+        // Clear selections as the data has changed
+        hashSetselectedItems.clear();
+        notifyDataSetChanged();
+        listener.onSelectionChanged(false);
     }
 
 }
