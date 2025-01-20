@@ -38,8 +38,8 @@ public class ImgVidFHandle {
 
     protected static boolean copyMediaToPrivateStorage(Context context, ArrayList<String> mediaPaths) {
         try {
-            File imageRootDir = new File(context.getFilesDir(), ".dont_delete_me_by_hides/images");
-            File videoRootDir = new File(context.getFilesDir(), ".dont_delete_me_by_hides/videos");
+            File imageRootDir = new File(context.getExternalFilesDir(null), ".dont_delete_me_by_hides/images");
+            File videoRootDir = new File(context.getExternalFilesDir(null), ".dont_delete_me_by_hides/videos");
 
             // Ensure image directory exists
             if (!imageRootDir.exists()) {
@@ -474,7 +474,7 @@ public class ImgVidFHandle {
 
 
     protected static boolean moveMediaToNewLocation(Context context, List<String> selectedPaths, @Nullable String sourceMarker) {
-        File imageRootDir = new File(context.getFilesDir(), ".dont_delete_me_by_hides/recycle");
+        File imageRootDir = new File(context.getExternalFilesDir(null), ".dont_delete_me_by_hides/recycle");
 
         // Ensure the target directory exists
         if (!imageRootDir.exists() && !imageRootDir.mkdirs()) {
@@ -548,7 +548,7 @@ public class ImgVidFHandle {
     public static boolean copyfilesToPrivateStorage(Context context, ArrayList<String> files) {
         try {
             // Root directory in private storage
-            File filesRootDir = new File(context.getFilesDir(), ".dont_delete_me_by_hides/files");
+            File filesRootDir = new File(context.getExternalFilesDir(null), ".dont_delete_me_by_hides/files");
 
             // Ensure the files directory exists
             if (!filesRootDir.exists() && !filesRootDir.mkdirs()) {
@@ -617,9 +617,9 @@ public class ImgVidFHandle {
     }
 
     protected static boolean moveDataToImagesorVideos(Context context, List<String> selectedPaths) {
-        File imagesDir = new File(context.getFilesDir(), ".dont_delete_me_by_hides/images");
-        File videosDir = new File(context.getFilesDir(), ".dont_delete_me_by_hides/videos");
-        File filesDir = new File(context.getFilesDir(), ".dont_delete_me_by_hides/files");
+        File imagesDir = new File(context.getExternalFilesDir(null), ".dont_delete_me_by_hides/images");
+        File videosDir = new File(context.getExternalFilesDir(null), ".dont_delete_me_by_hides/videos");
+        File filesDir = new File(context.getExternalFilesDir(null), ".dont_delete_me_by_hides/files");
 
 
 

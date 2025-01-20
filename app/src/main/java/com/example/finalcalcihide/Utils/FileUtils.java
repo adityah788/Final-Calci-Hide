@@ -4,7 +4,9 @@ import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
 import android.content.Context;
 
+import androidx.annotation.OptIn;
 import androidx.media3.common.util.Log;
+import androidx.media3.common.util.UnstableApi;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -16,7 +18,7 @@ public class FileUtils {
     // Example of an internal utility method
     private static ArrayList<String> loadFilePaths(Context context, String directoryName) {
         ArrayList<String> arrayList = new ArrayList<>();
-        File storageDir = new File(context.getFilesDir(), directoryName);
+        File storageDir = new File(context.getExternalFilesDir(null), directoryName);
 
         if (storageDir.exists()) {
             File[] files = storageDir.listFiles();
@@ -45,6 +47,7 @@ public class FileUtils {
      *
      * @param paths The list of file paths to delete.
      */
+    @OptIn(markerClass = UnstableApi.class)
     public static void deleteFiles(List<String> paths) {
         for (String path : paths) {
             File file = new File(path);

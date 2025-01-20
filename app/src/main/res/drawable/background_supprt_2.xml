@@ -9,7 +9,7 @@
     <gradient
         android:startColor="@color/SecondPrimaryColor"
         android:endColor="@color/TertiaryPrimarycolor"
-        android:angle="40"/>
+        android:angle="270"/>
 
     <corners android:radius="20dp"/>
 

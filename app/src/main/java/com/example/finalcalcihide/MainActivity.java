@@ -3,10 +3,12 @@ package com.example.finalcalcihide;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,6 +21,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.finalcalcihide.Activity.FinalFileActivity;
@@ -34,10 +37,15 @@ import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
 
-    RelativeLayout relativeLayoutImage, relativeLayoutIntruder, relativeLayoutVideos, relativeLayoutRecycleBin, relativeLayoutFile, relativeLayoutNotes,relativeLayoutBrowser;
+    RelativeLayout relativeLayoutImage, relativeLayoutIntruder, relativeLayoutVideos, relativeLayoutRecycleBin, relativeLayoutFile, relativeLayoutNotes, relativeLayoutBrowser;
 
     ImageView btnSetting;
     LinearLayout linearLayoutlongwebBrowser;
+
+
+    private static final int REQUEST_CODE_STORAGE = 100; // Permission request code for storage
+    private static final int REQUEST_CODE_CREATE_FILE = 101; // Request code for creating files via SAF
+
 
     // SharedPreferences constants
     private static final String PREFS_NAME = "IntruderSelfiePrefs";
@@ -74,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
         relativeLayoutBrowser = findViewById(R.id.new_main_web_browser);
         linearLayoutlongwebBrowser = findViewById(R.id.new_main_web_browser_long);
 
-
         // Check if a new selfie has been added
         SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         boolean isNewSelfie = sharedPreferences.getBoolean(KEY_NEW_SELFIE, false);
@@ -91,28 +98,46 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-
         relativeLayoutImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (isManageExternalStoragePermissionGranted()){
+                if (isManageExternalStoragePermissionGranted()) {
                     startActivity(new Intent(MainActivity.this, ImagesHidden.class));
-                }else {
-                    showdeleteiconDialog();
+                } else if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.R) {
+                    // If permissions are not granted, request them
+
+
+//                    ActivityCompat.requestPermissions(MainActivity.this,
+//                            new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE,
+//                                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
+//                            REQUEST_CODE_STORAGE);
+//                    Log.d("MainAcitivity", "Permission wala show hua hoga");
+
+
+                    showdeleteiconDialog("Permission Required ","To function properly, we need storage permission to encrypt your files securely.");
+
+                } else {
+                    showdeleteiconDialog("Permission Required ","To function properly, we need All Files Access permission to encrypt your files securely." );
                 }
-
-
             }
         });
 
         relativeLayoutVideos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isManageExternalStoragePermissionGranted()){
+                if (isManageExternalStoragePermissionGranted()) {
                     startActivity(new Intent(MainActivity.this, VideoHidden.class));
-                }else {
-                    showdeleteiconDialog();
+                } else if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.R) {
+                    // If permissions are not granted, request them
+
+
+                    ActivityCompat.requestPermissions(MainActivity.this,
+                            new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            1);
+                } else {
+                    showdeleteiconDialog("Permission Required ","To function properly, we require All Files Access permission to encrypt your files securely." );
                 }
 
             }
@@ -218,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
-    private void showdeleteiconDialog() {
+    private void showdeleteiconDialog(String Poptitle, String subtitle) {
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.custom_alert_for_all, null);
 
@@ -232,16 +257,16 @@ public class MainActivity extends AppCompatActivity {
 
 
         AlertDialog dialog = builder.create();
-        title.setText("Permission Required ");
-        body.setText("To function properly, we require All Files Access permission to encrypt your files securely.");
+        title.setText(Poptitle);
+        body.setText(subtitle);
         dialog.show();
 
         cancelTextView.setOnClickListener(v -> dialog.dismiss());
 
         confirmTextView.setOnClickListener(v -> {
 
-                requestManageExternalStoragePermission();
-                dialog.dismiss();
+            requestManageExternalStoragePermission();
+            dialog.dismiss();
 
         });
 
@@ -252,17 +277,40 @@ public class MainActivity extends AppCompatActivity {
     private boolean isManageExternalStoragePermissionGranted() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
             return Environment.isExternalStorageManager();
-        } else {
+        } else if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.R) {
+
+            // For below Android 11, check if read and write permissions are granted
+            boolean readPermission = ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+            boolean writePermission = ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+
+            Log.e("Main Acitivity", String.valueOf(readPermission));
+            Log.e("Main Acitivity", String.valueOf(writePermission));
+
+            return readPermission && writePermission;
+
             // For devices below API 30, assume permission is granted or implement other logic
-            return true; // Adjust as needed for your app's logic
         }
+        return false;
     }
 
     private void requestManageExternalStoragePermission() {
-        Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setData(Uri.parse("package:" + getPackageName()));
-        requestPermissionLauncher.launch(intent);
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+            Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setData(Uri.parse("package:" + getPackageName()));
+            requestPermissionLauncher.launch(intent);
+        }
+
+        else{
+            ActivityCompat.requestPermissions(MainActivity.this,
+                    new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                            android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    REQUEST_CODE_STORAGE);
+            Log.d("MainAcitivity", "Permission wala show hua hoga");
+        }
+
+
     }
 }
 
