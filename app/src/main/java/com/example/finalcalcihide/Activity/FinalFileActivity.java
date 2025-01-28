@@ -27,14 +27,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import com.example.finalcalcihide.Adapter.FileShowAdap;
 import com.example.finalcalcihide.Adapter.FinalFileAdap;
 import com.example.finalcalcihide.FileUtils.ImgVidFHandle;
 import com.example.finalcalcihide.R;
 import com.example.finalcalcihide.Utils.AnimationManager;
 import com.example.finalcalcihide.Utils.FileUtils;
 import com.example.finalcalcihide.Utils.ToolbarManager;
-import com.example.finalcalcihide.ViewPager.ImageandVideoViewPager;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -322,7 +320,7 @@ public class FinalFileActivity extends AppCompatActivity {
         } else if (isDocument) {
             Uri docUri = ImgVidFHandle.getFileUri(this, file);
             Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(docUri, "application/*");
+            intent.setDataAndType(docUri, "application/pdf"); // Set MIME type to PDF
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             startActivity(intent);
         }

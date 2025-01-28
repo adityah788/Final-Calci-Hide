@@ -94,7 +94,7 @@ public class Calculator extends AppCompatActivity {
 
         if (!isPasswordSet || resetPassword) {
             // No password set, prompt user to create one
-            tvPassDetail.setText("Enter a 4 digit password and press =");
+            tvPassDetail.setText("Enter a 4 digit password and press = ");
 
             showRatingBottomSheet();
 
@@ -303,8 +303,11 @@ public class Calculator extends AppCompatActivity {
                 Toast.makeText(this, "You MF Fraudster", Toast.LENGTH_SHORT).show();
                 wrongPasswordCount++;
 
+
+                SharedPreferences sharedPreferences2 = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+
                 // Get the value of "selected_number" from SharedPreferences (default to 3 if not set)
-                int selectedNumber = sharedPreferences.getInt("selected_number", 3); // Default to 3 if not set
+                int selectedNumber = sharedPreferences2.getInt("selected_number", 3); // Default to 3 if not set
 
                 // Check if wrongPasswordCount exceeds or equals selected_number
                 if (wrongPasswordCount >= selectedNumber) {

@@ -159,55 +159,6 @@ public class ImgVidFHandle {
         return false;
     }
 
-//    private static Uri getMediaContentUri(Context context, File mediaFile) {
-//        String filePath = mediaFile.getAbsolutePath();
-//        Uri contentUri = null;
-//        Cursor cursor;
-//
-//        // Check if the file is an image
-//        cursor = context.getContentResolver().query(
-//                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-//                new String[]{MediaStore.Images.Media._ID},
-//                MediaStore.Images.Media.DATA + "=? ",
-//                new String[]{filePath}, null);
-//
-//        if (cursor != null) {
-//            try {
-//                if (cursor.moveToFirst()) {
-//                    int id = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID));
-//                    contentUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
-//                }
-//            } finally {
-//                cursor.close();
-//            }
-//        }
-//
-//        if (contentUri != null) {
-//            return contentUri;
-//        }
-//
-//        // If the file is not an image, check if it is a video
-//        cursor = context.getContentResolver().query(
-//                MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
-//                new String[]{MediaStore.Video.Media._ID},
-//                MediaStore.Video.Media.DATA + "=? ",
-//                new String[]{filePath}, null);
-//
-//        if (cursor != null) {
-//            try {
-//                if (cursor.moveToFirst()) {
-//                    int id = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Video.Media._ID));
-//                    contentUri = ContentUris.withAppendedId(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id);
-//                }
-//            } finally {
-//                cursor.close();
-//            }
-//        }
-//
-//        return contentUri;
-//    }
-
-
 
     private static Uri getMediaContentUri(Context context, File mediaFile) {
         String filePath = mediaFile.getAbsolutePath();
@@ -416,61 +367,6 @@ public class ImgVidFHandle {
         }
     }
 
-
-
-//    protected static boolean moveMediaToNewLocation(Context context, List<String> selectedPaths) {
-//        File imageRootDir = new File(context.getFilesDir(), ".dont_delete_me_by_hides/recycle");
-//
-//        // Ensure the target directory exists
-//        if (!imageRootDir.exists() && !imageRootDir.mkdirs()) {
-//            Log.e(TAGG, "Failed to create directory: " + imageRootDir.getAbsolutePath());
-//            return false;
-//        }
-//
-//        try {
-//            for (String sourcePath : selectedPaths) {
-//                File sourceFile = new File(sourcePath);
-//                if (sourceFile.exists() && sourceFile.canRead()) {
-//                    // Generate a unique identifier for the file
-//                    String uniqueFileName = System.currentTimeMillis() + "_" + sourceFile.getName();
-//                    File targetFile = new File(imageRootDir, uniqueFileName);
-//
-//                    try (FileInputStream inputStream = new FileInputStream(sourceFile);
-//                         BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
-//                         FileOutputStream outputStream = new FileOutputStream(targetFile);
-//                         BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream)) {
-//
-//                        // Copy the file contents to the new location
-//                        byte[] buffer = new byte[1024];
-//                        int bytesRead;
-//                        while ((bytesRead = bufferedInputStream.read(buffer)) != -1) {
-//                            bufferedOutputStream.write(buffer, 0, bytesRead);
-//                        }
-//
-//                        // Delete the source file after copying successfully
-//                        if (sourceFile.delete()) {
-//                            Log.d(TAGG, "Source file deleted successfully: " + sourcePath);
-//                        } else {
-//                            Log.e(TAGG, "Failed to delete source file: " + sourcePath);
-//                            return false;
-//                        }
-//
-//                    } catch (IOException e) {
-//                        Log.e(TAGG, "Error copying file: " + sourcePath, e);
-//                        return false;
-//                    }
-//                } else {
-//                    Log.e(TAGG, "Source media file not found or not readable: " + sourcePath);
-//                    return false;
-//                }
-//            }
-//
-//            return true;
-//        } catch (Exception e) {
-//            Log.e(TAGG, "Unexpected error moving media", e);
-//            return false;
-//        }
-//    }
 
 
     protected static boolean moveMediaToNewLocation(Context context, List<String> selectedPaths, @Nullable String sourceMarker) {

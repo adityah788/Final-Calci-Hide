@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,7 +21,6 @@ import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -36,10 +34,8 @@ import android.Manifest;
 import com.example.finalcalcihide.R;
 import com.example.finalcalcihide.Utils.AnimationManager;
 import com.example.finalcalcihide.Utils.FileUtils;
-import com.example.finalcalcihide.Utils.IntruderUtils;
 import com.example.finalcalcihide.ViewPager.ImageandVideoViewPager;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,6 +59,8 @@ public class Intruder extends AppCompatActivity {
     private static final String PREFS_NAME = "MyIntruder";
     private static final String KEY_TAKE_SELFIE = "take_selfie";
     boolean hasDeniedPermission;
+
+    private String intrudercount = "selected_number";
 
 
     @Override
@@ -318,7 +316,7 @@ public class Intruder extends AppCompatActivity {
 
         // Retrieve the saved value from SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-        int savedValue = sharedPreferences.getInt("selected_number", 3); // Default to 1 if no value is found
+        int savedValue = sharedPreferences.getInt(intrudercount, 3); // Default to 1 if no value is found
 
         // Set the saved value or default to 1 if not present
         numberPicker.setValue(savedValue);
@@ -458,8 +456,14 @@ public class Intruder extends AppCompatActivity {
         // Save the selected count in SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("selected_number", count);
+        editor.putInt(intrudercount, count);
         editor.apply();
+
+        int savedValue = sharedPreferences.getInt(intrudercount, 3); // Default to 1 if no value is found
+
+        Log.d("IntruderActivity intruder count putted", String.valueOf(count));
+
+        Log.d("IntruderActivity intruder count saved", String.valueOf(savedValue));
     }
 
 

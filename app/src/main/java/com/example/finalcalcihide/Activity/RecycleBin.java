@@ -22,7 +22,6 @@ import com.example.finalcalcihide.R;
 import com.example.finalcalcihide.Utils.ToolbarManager;
 import com.example.finalcalcihide.ViewPager.ImageandVideoViewPager;
 import com.example.finalcalcihide.Utils.FileUtils;
-import com.example.finalcalcihide.PermissionHandler;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -48,9 +47,6 @@ public class RecycleBin extends AppCompatActivity {
 //        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.FinalPrimaryColor));
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.FinalPrimaryColor));
 
-
-        // Request necessary permissions
-        PermissionHandler.requestPermissions(RecycleBin.this);
 
         // Initialize UI components
         imageRecyclerView = findViewById(R.id.recycle_image_gallery_recycler);

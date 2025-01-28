@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:background="@drawable/rating_dialog_background"
+    android:padding="16dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/custom_alert_intruder_close"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:padding="5dp"
+            android:layout_gravity="center_vertical"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/ripple_back"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/close" />
+
+
+    </RelativeLayout>
+
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/custom_alert_Title_intruder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif-medium"
+            android:text="Intruder Caught"
+            android:textColor="@color/white"
+            android:textSize="25sp" />
+
+
+
+
+
+
+    <ImageView
+        android:id="@+id/custom_alert_intruder_image"
+        android:layout_width="match_parent"
+        android:layout_height="380dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="10dp"/>
+
+
+
+
+    <!-- Subtitle -->
+    <TextView
+        android:id="@+id/custom_alert_body_intruder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
+        android:text="Someone tried to Access your personal data"
+        android:textColor="@color/limeclr"
+        android:textSize="20sp" />
+
+
+
+
+    <!-- Number Picker -->
+
+
+    <!-- Buttons Layout -->
+        <!-- Cancel Button -->
+
+        <TextView
+            android:id="@+id/txv_confirm_alert_dialog_intruder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ripple_for_btn"
+            android:text="See Intruder"
+            android:gravity="center"
+            android:layout_margin="5dp"
+            android:textSize="20sp"
+            android:padding="10dp"
+            android:textColor="@color/white" />
+
+
+
+</LinearLayout>

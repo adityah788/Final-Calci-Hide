@@ -4,35 +4,27 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
-import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatRatingBar;
 import androidx.core.content.ContextCompat;
 
-import com.airbnb.lottie.LottieAnimationView;
-import com.airbnb.lottie.LottieDrawable;
 import com.example.finalcalcihide.R;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
-import java.util.Objects;
-
 public class Setting extends AppCompatActivity {
 
-    TextView txtV_change_pass, txtV_security_ques, share_with_frnd, rate_the_app;
+    TextView txtV_change_pass, txtV_security_ques, share_with_frnd, rate_the_app,about;
     ImageView backarrow;
 
     @Override
@@ -43,11 +35,12 @@ public class Setting extends AppCompatActivity {
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.FinalPrimaryColor));
 
 
-        txtV_change_pass = findViewById(R.id.tvChangePass);
-        txtV_security_ques = findViewById(R.id.tvChangeSecureQuestion);
-        share_with_frnd = findViewById(R.id.tvShare);
-        rate_the_app = findViewById(R.id.tvRate);
+        txtV_change_pass = findViewById(R.id.settingChangePass);
+        txtV_security_ques = findViewById(R.id.settinggChangeSecureQuestion);
+        share_with_frnd = findViewById(R.id.settingShare);
+        rate_the_app = findViewById(R.id.settingRate);
         backarrow = findViewById(R.id.setting_main_toolbar_back_arrow);
+        about = findViewById(R.id.settingabout);
 
         txtV_change_pass.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,6 +83,13 @@ public class Setting extends AppCompatActivity {
             }
         });
 
+
+        about.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Setting.this,AboutActivity.class));
+            }
+        });
 
     }
 

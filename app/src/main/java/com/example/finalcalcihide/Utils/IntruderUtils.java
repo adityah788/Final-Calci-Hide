@@ -80,7 +80,7 @@ public class IntruderUtils {
         }
 
         // Proceed to capture selfie now that camera is ready
-        File directory = new File(context.getFilesDir(), ".dont_delete_me_by_hides/intruderSelfie");
+        File directory = new File(context.getExternalFilesDir(null), ".dont_delete_me_by_hides/intruderSelfie");
         if (!directory.exists()) {
             boolean dirsCreated = directory.mkdirs();
             if (dirsCreated) {

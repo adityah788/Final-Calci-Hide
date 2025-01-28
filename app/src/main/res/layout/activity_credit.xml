@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/primary_background">
+
+
+
+    <RelativeLayout
+        android:id="@+id/credit_status_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:padding="5dp">
+
+
+        <!-- Back Arrow -->
+        <ImageView
+            android:id="@+id/credit_main_toolbar_back_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:padding="5dp"
+            android:src="@drawable/flati_arrow_left_24" />
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/credit_main_toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="14dp"
+            android:layout_toEndOf="@+id/credit_main_toolbar_back_arrow"
+            android:padding="5dp"
+            android:text="Credits and Attribution"
+            android:textColor="#fff"
+            android:textSize="20sp" />
+
+
+    </RelativeLayout>
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/credit_status_bar"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/tvCredits"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:lineSpacingExtra="4dp"/>
+
+</ScrollView>
+
+
+</RelativeLayout>

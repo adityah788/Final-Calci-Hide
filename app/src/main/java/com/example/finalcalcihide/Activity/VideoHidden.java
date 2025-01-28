@@ -24,7 +24,6 @@ import com.example.finalcalcihide.Utils.ToolbarManager;
 import com.example.finalcalcihide.ViewPager.ImageandVideoViewPager;
 import com.example.finalcalcihide.Utils.AnimationManager;
 import com.example.finalcalcihide.Utils.FileUtils;
-import com.example.finalcalcihide.PermissionHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,8 +59,6 @@ public class VideoHidden extends AppCompatActivity {
         animationContainer = findViewById(R.id.video_animation_container);
         animationManager = new AnimationManager(this, animationContainer);
 
-        // Request necessary permissions
-        PermissionHandler.requestPermissions(VideoHidden.this);
 
         // Initialize UI components
         imageRecyclerView = findViewById(R.id.video_image_gallery_recycler);

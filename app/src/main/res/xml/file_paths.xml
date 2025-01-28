@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <paths>
     <!-- Example: allow access to app's private files -->
-    <files-path name="my_files" path="." />
+<!--    <files-path name="my_files" path="." />-->
+    <external-files-path name="my_files" path=".dont_delete_me_by_hides/files" />
+
 </paths>

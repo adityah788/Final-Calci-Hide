@@ -28,6 +28,8 @@ public class AnimationManager {
     private LottieAnimationView lottieDeleteAnimation;
     private View customLayout;
 
+
+
     public AnimationManager(Context context, FrameLayout animationContainer) {
         this.context = context;
         this.animationContainer = animationContainer;
