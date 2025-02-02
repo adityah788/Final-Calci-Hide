@@ -24,7 +24,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 public class Setting extends AppCompatActivity {
 
-    TextView txtV_change_pass, txtV_security_ques, share_with_frnd, rate_the_app,about;
+    TextView txtV_change_pass, txtV_security_ques, share_with_frnd, rate_the_app,about,privacy_policy;
     ImageView backarrow;
 
     @Override
@@ -41,6 +41,7 @@ public class Setting extends AppCompatActivity {
         rate_the_app = findViewById(R.id.settingRate);
         backarrow = findViewById(R.id.setting_main_toolbar_back_arrow);
         about = findViewById(R.id.settingabout);
+        privacy_policy = findViewById(R.id.settingPolicy);
 
         txtV_change_pass.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,6 +91,21 @@ public class Setting extends AppCompatActivity {
                 startActivity(new Intent(Setting.this,AboutActivity.class));
             }
         });
+
+        privacy_policy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Define the URL you want to open
+                String url = "https://sites.google.com/view/calculator-lock-hide-videos/home";
+
+                // Create an Intent to open the URL in a web browser
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+
+                // Start the activity to open the link
+                startActivity(browserIntent);
+            }
+        });
+
 
     }
 

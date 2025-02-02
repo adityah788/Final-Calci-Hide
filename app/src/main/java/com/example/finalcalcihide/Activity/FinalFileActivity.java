@@ -67,8 +67,8 @@ public class FinalFileActivity extends AppCompatActivity {
 
 
         // Set navigation bar color to black
-        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.navigation_bar_color));
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.FinalPrimaryColor));
+
 
 
         // Initialize animation container
@@ -189,7 +189,7 @@ public class FinalFileActivity extends AppCompatActivity {
                     final long MINIMUM_DISPLAY_TIME = 2500; // in milliseconds
 
                     animationManager.handleAnimationProcess(
-                            AnimationManager.AnimationType.HIDE_UNHIDE,  // Trigger hide animation
+                            AnimationManager.AnimationType.HIDE_UNHIDEE,  // Trigger hide animation
                             files,
                             MINIMUM_DISPLAY_TIME,
                             () -> {

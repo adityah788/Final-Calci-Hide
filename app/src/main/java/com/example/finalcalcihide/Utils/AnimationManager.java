@@ -115,6 +115,9 @@ public class AnimationManager {
             case DELETE:
                 playDeleteAnimation();
                 break;
+            case HIDE_UNHIDEE:
+                playHideUnhideAnimation(false); // You can parameterize reverse if needed
+                break;
             // Add more cases here for additional animations
             default:
                 throw new IllegalArgumentException("Unsupported Animation Type");
@@ -156,7 +159,9 @@ public class AnimationManager {
      */
     public enum AnimationType {
         HIDE_UNHIDE,
-        DELETE
+        DELETE,
+        HIDE_UNHIDEE
+
         // Add more animation types here as needed
     }
 }

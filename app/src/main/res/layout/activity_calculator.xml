@@ -64,8 +64,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_gravity="center"
+                    android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical">
 
@@ -73,25 +73,21 @@
                         android:id="@+id/pass_1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="numberPassword"
                         android:layout_gravity="center"
                         android:gravity="center"
+                        android:inputType="numberPassword"
                         android:textColor="@color/limeclr"
                         android:textColorHint="@color/limeclr"
                         android:textSize="29sp" />
 
-                    <View
-                        android:layout_width="23dp"
-                        android:layout_height="2dp"
-                        android:layout_gravity="center"
-                        android:background="@color/limeclr" />
+
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_gravity="center"
+                    android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical">
 
@@ -99,25 +95,21 @@
                         android:id="@+id/Pass_2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="numberPassword"
                         android:layout_gravity="center"
                         android:gravity="center"
+                        android:inputType="numberPassword"
                         android:textColor="@color/limeclr"
                         android:textColorHint="@color/limeclr"
                         android:textSize="29sp" />
 
-                    <View
-                        android:layout_width="23dp"
-                        android:layout_height="2dp"
-                        android:layout_gravity="center"
-                        android:background="@color/limeclr" />
+
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_gravity="center"
+                    android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical">
 
@@ -132,18 +124,14 @@
                         android:textColorHint="@color/limeclr"
                         android:textSize="30sp" />
 
-                    <View
-                        android:layout_width="23dp"
-                        android:layout_height="2dp"
-                        android:layout_gravity="center"
-                        android:background="@color/limeclr" />
+
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_gravity="center"
+                    android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical">
 
@@ -158,11 +146,6 @@
                         android:textColorHint="@color/limeclr"
                         android:textSize="29sp" />
 
-                    <View
-                        android:layout_width="23dp"
-                        android:layout_height="2dp"
-                        android:layout_gravity="center"
-                        android:background="@color/limeclr" />
                 </LinearLayout>
             </LinearLayout>
 

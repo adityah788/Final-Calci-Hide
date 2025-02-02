@@ -11,8 +11,11 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.OptIn;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.media3.common.util.Log;
+import androidx.media3.common.util.UnstableApi;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -50,7 +53,6 @@ public class ImagesHidden extends AppCompatActivity {
         setContentView(R.layout.activity_images_hidden);
 
         // Set navigation bar color to black
-        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.navigation_bar_color));
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.FinalPrimaryColor));
 
 
@@ -220,9 +222,14 @@ public class ImagesHidden extends AppCompatActivity {
             Toast.makeText(this, "onResume called", Toast.LENGTH_SHORT).show();
         }
 
-        private void refreshImageList () {
+    @OptIn(markerClass = UnstableApi.class)
+    private void refreshImageList () {
             // Reload image paths
             ArrayList<String> updatedImagePaths = FileUtils.getImagePaths(this);
+
+            Log.d("ImagesHidden", "Updated Image Paths: " + updatedImagePaths);
+        Toast.makeText(this, "Updated Image Paths: "+ updatedImagePaths, Toast.LENGTH_SHORT).show();
+
 
             // Update the adapter's data
             imageVideoHideAdapter.updateImagePaths(updatedImagePaths);

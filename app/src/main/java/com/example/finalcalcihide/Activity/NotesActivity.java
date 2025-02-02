@@ -114,30 +114,31 @@ public class NotesActivity extends AppCompatActivity {
             return;  // Don't save the note if title or content is empty
         }
 
+        // Always update the date when saving
         String date = new SimpleDateFormat("dd MMMM yyyy | HH:mm a", Locale.getDefault()).format(new Date());
 
         if (note == null) {
             // Create a new note if it doesn't exist
             note = new Note();
-            note.date = date;
         }
 
+        // Set the note details
         note.title = title;
         note.content = content;
+        note.date = date;  // Update the date every time
 
         // Save the note directly without checking for duplicates
         Executors.newSingleThreadExecutor().execute(() -> {
+            // Insert a new note if it's a new note (noteId == -1)
             if (noteId == -1) {
-                // Insert a new note if it's a new note
                 noteDao.insert(note);
             } else {
                 // Update the existing note if editing
                 noteDao.update(note);
             }
-
         });
-        finish(); // Close the current activity
 
+        finish(); // Close the current activity
     }
 
 

@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -13,6 +17,7 @@
     <application
         android:name=".Activity.YourApplication"
         android:allowBackup="true"
+        android:configChanges="orientation|keyboardHidden|screenSize"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -20,72 +25,92 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.FinalCalciHide"
-        tools:targetApi="31">
+        android:theme="@style/Base.Theme.FinalCalciHide"
+        tools:targetApi="35">
         <activity
             android:name=".Activity.CreditActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activity.AboutActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activity.Web_Browser"
             android:exported="false" />
         <activity
             android:name=".Activity.SelectVideosfromGallery"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activity.NoteActivityRecyclerView"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activity.FinalFileActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.status_bar_clr"
             android:exported="false" />
         <activity
             android:name=".Activity.SecutityQues"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activity.Setting"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activity.RecycleBin"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activity.VideoHidden"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activity.Intruder"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activity.NotesActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
-            android:name=".Activity.Calculator"
+            android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activity.SelectVideos"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activity.SelectImagesorVideos"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.status_bar_clr" />
         <activity
             android:name=".Activity.ImageVideoBucket"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.status_bar_clr" />
         <activity
             android:name=".Activity.SinglePV"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.status_bar_clr" />
         <activity
             android:name=".ViewPager.ImageandVideoViewPager"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.FullScreen" />
         <activity
             android:name=".Activity.ImagesHidden"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.status_bar_clr" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Activity.Calculator"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

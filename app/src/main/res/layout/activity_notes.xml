@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/flati_arrow_left_24"
         android:contentDescription="Back"
+        android:padding="5dp"
         android:background="@drawable/ripple_back"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="16dp"
@@ -21,9 +22,10 @@
 
     <ImageView
         android:id="@+id/doneButton"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:src="@drawable/check"
+        android:padding="5dp"
         android:background="@drawable/ripple_back"
         android:contentDescription="Back"
         android:layout_alignParentEnd="true"
@@ -69,7 +71,7 @@
         android:layout_below="@id/timestampTextView"
         android:layout_marginTop="10dp"
         android:inputType="textMultiLine"
-        android:minLines="5"/>
+        android:minLines="3"/>
 
 
 </RelativeLayout>

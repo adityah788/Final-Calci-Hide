@@ -52,14 +52,26 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"/>
 
+    <TextView
+        android:id="@+id/showtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Calculator Lock"
+        android:textSize="28sp"
+        android:textColor="#fff"
+        android:layout_below="@id/about_app_logo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"/>
+
+
 
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
-        android:layout_marginTop="40dp"
-        android:layout_below="@+id/about_app_logo"
+        android:layout_marginTop="35dp"
+        android:layout_below="@+id/showtitle"
         android:layout_marginRight="12dp"
         app:cardBackgroundColor="@color/TertiaryPrimarycolor"
         app:cardCornerRadius="20dp">
@@ -71,7 +83,7 @@
 
 
             <TextView
-                android:id="@+id/settingRate"
+                android:id="@+id/about_privacy_policy"
                 style="@style/settingItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

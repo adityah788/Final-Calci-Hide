@@ -6,6 +6,8 @@ import android.text.method.LinkMovementMethod;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
 import com.example.finalcalcihide.R;
 
 public class CreditActivity extends AppCompatActivity {
@@ -14,6 +16,9 @@ public class CreditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_credit);
+
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.FinalPrimaryColor));
+
 
         // Handle back arrow click
         ImageView backArrow = findViewById(R.id.credit_main_toolbar_back_arrow);
@@ -41,7 +46,11 @@ public class CreditActivity extends AppCompatActivity {
                         + "<p>This icon is made by <a href=\"https://www.flaticon.com/authors/freepik\">Freepik</a> from <a href=\"https://www.flaticon.com\">www.flaticon.com</a></p>"
 
                         // Freepik attribution
-                        + "<p>Image by <a href=\"https://www.freepik.com\">Juicy Fish</a> from <a href=\"https://www.freepik.com\">www.freepik.com</a></p>";
+                        + "<p>Image by <a href=\"https://www.freepik.com\">Juicy Fish</a> from <a href=\"https://www.freepik.com\">www.freepik.com</a></p>"
+
+
+        // Add Lottie animation credit here
+        + "<p>Animation by Aditya from <a href=\"https://lottiefiles.com\">www.lottiefiles.com</a></p>";
 
         tvCredits.setText(Html.fromHtml(creditsHtml, Html.FROM_HTML_MODE_LEGACY));
         tvCredits.setMovementMethod(LinkMovementMethod.getInstance());
