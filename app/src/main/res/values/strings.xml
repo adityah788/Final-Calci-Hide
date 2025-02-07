@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Calculator Lock - Hide Videos</string>
+    <string name="app_name">Calculator</string>
 
     <string name="item_count">%1$d / %2$d </string>
     <dimen name="recycler_item_spacing">5dp</dimen>

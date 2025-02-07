@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.finalcalcihide"
+    namespace = "com.demo.finalcalcihide"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.finalcalcihide"
+        applicationId = "com.demo.finalcalcihide"
         minSdk = 26
         targetSdk = 35
         versionCode = 1
