@@ -71,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.FinalPrimaryColor));
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.FinalPrimaryColor));
+
 
         relativeLayoutImage = findViewById(R.id.main_Images);
         relativeLayoutIntruder = findViewById(R.id.r_intruder);

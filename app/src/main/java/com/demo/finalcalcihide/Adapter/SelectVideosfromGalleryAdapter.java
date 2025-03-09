@@ -93,6 +93,16 @@ public class SelectVideosfromGalleryAdapter extends RecyclerView.Adapter<SelectV
         return videos.size();
     }
 
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
+    }
+
+    @Override
+    public void setHasStableIds(boolean hasStableIds) {
+        super.setHasStableIds(hasStableIds);
+    }
+
     // Method to get video duration using MediaMetadataRetriever
     private String getVideoDuration(String videoUri) {
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();

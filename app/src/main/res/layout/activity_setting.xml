@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/primary_background"
-    tools:context=".Activity.Setting">
+    tools:context=".Activity.Setting"
+    android:theme="@style/Theme.UI_for_all_activity">
 
     <RelativeLayout
         android:id="@+id/setting_status_bar"

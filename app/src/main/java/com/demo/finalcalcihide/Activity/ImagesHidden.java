@@ -54,6 +54,8 @@ public class ImagesHidden extends AppCompatActivity {
 
         // Set navigation bar color to black
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.FinalPrimaryColor));
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.FinalPrimaryColor));
+
 
 
         // Initialize animation container

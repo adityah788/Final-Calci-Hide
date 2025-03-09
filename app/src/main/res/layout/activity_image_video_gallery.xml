@@ -2,7 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/primary_background">
+    android:background="@drawable/primary_background"
+    android:theme="@style/Theme.UI_for_all_activity"
+    >
 
     <include layout="@layout/main_toolbar"
         android:id="@+id/image_video_gallery_main_toolbar"/>

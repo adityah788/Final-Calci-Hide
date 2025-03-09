@@ -33,6 +33,8 @@ public class Setting extends AppCompatActivity {
         setContentView(R.layout.activity_setting);
 
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.FinalPrimaryColor));
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.FinalPrimaryColor));
+
 
 
         txtV_change_pass = findViewById(R.id.settingChangePass);

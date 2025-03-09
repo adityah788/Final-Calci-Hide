@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/status_bar">
+    android:background="@color/status_bar"
+    android:theme="@style/Theme.status_bar_clr">
 
 <RelativeLayout
     android:id="@+id/sinle_p_v_img_vid"

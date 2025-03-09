@@ -80,24 +80,17 @@
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
-            android:name=".Activity.SelectVideos"
-            android:screenOrientation="portrait"
-            android:exported="false" />
-        <activity
             android:name=".Activity.SelectImagesorVideos"
             android:exported="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.status_bar_clr" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activity.ImageVideoBucket"
             android:exported="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.status_bar_clr" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activity.SinglePV"
             android:exported="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.status_bar_clr" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ViewPager.ImageandVideoViewPager"
             android:exported="false"

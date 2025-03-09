@@ -44,7 +44,10 @@
 
 
     <color name="calciDisplay">#3c3c3c</color>
+<!--    <color name="calculator_nav_bar_color">#3c3c3c</color>-->
     <color name="calculator_nav_bar_color">#3c3c3c</color>
+    <color name="calculator_btm_nav_bar">#1E1F1F</color>
+    <color name="calculator_common_btn">#282830</color>
     <color name="Mainstatusbar">#191A1A</color>
 
 

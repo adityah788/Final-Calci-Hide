@@ -45,6 +45,8 @@ public class RecycleBin extends AppCompatActivity {
         // Set navigation bar color to black
 //        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.FinalPrimaryColor));
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.FinalPrimaryColor));
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.FinalPrimaryColor));
+
 
 
         // Initialize UI components

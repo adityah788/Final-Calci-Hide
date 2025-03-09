@@ -29,6 +29,8 @@ public class AboutActivity extends AppCompatActivity {
 
 
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.FinalPrimaryColor));
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.FinalPrimaryColor));
+
 
 
 

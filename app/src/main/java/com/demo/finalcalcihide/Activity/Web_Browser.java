@@ -45,6 +45,8 @@ public class Web_Browser extends AppCompatActivity {
 
         // Set the status bar color
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.FinalPrimaryColor));
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.FinalPrimaryColor));
+
 
         // Initialize views
         urlInput = findViewById(R.id.web_editext);

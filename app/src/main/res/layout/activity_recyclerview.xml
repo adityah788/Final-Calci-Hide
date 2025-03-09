@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/primary_background"
-    android:theme="@style/Theme.status_bar_clr"
+    android:theme="@style/Theme.UI_for_all_activity"
     tools:context=".Activity.NoteActivityRecyclerView">
 
     <LinearLayout

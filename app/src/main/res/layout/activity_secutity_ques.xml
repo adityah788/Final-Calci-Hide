@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="@drawable/primary_background">
+    android:background="@drawable/primary_background"
+    android:theme="@style/Theme.UI_for_all_activity">
 
     <RelativeLayout
         android:layout_width="match_parent"

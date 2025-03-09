@@ -62,6 +62,8 @@ public class ImageVideoBucket extends AppCompatActivity implements BucketAdapter
 
 
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.FinalPrimaryColor));
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.FinalPrimaryColor));
+
 
 
         // Initialize UI components

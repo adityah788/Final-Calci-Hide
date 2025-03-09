@@ -4,74 +4,85 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/primary_background"
-    android:padding="16dp">
+    android:theme="@style/Theme.UI_for_all_activity">
 
     <!-- Back Button -->
-    <ImageView
-        android:id="@+id/notes_backButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/flati_arrow_left_24"
-        android:contentDescription="Back"
-        android:padding="5dp"
-        android:background="@drawable/ripple_back"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="16dp"
-        app:tint="#ffffff" />
-
-
-    <ImageView
-        android:id="@+id/doneButton"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:src="@drawable/check"
-        android:padding="5dp"
-        android:background="@drawable/ripple_back"
-        android:contentDescription="Back"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="16dp"
-        app:tint="#ffffff" />
-
-    <!-- Title EditText -->
-    <EditText
-        android:id="@+id/titleEditText"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Title"
-        android:textSize="24sp"
-        android:textColor="#ffffff"
-        android:textColorHint="#808080"
-        android:background="@null"
-        android:layout_below="@id/notes_backButton"
-        android:layout_marginTop="8dp"
-        android:inputType="textCapWords|text" />
+        android:layout_height="match_parent"
+        android:padding="16dp">
 
 
-    <!-- Timestamp TextView -->
-    <TextView
-        android:id="@+id/timestampTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="27 October 8:16 AM | 0 characters"
-        android:textSize="14sp"
-        android:textColor="#808080"
-        android:layout_below="@id/titleEditText"
-        android:layout_marginTop="4dp"
-        android:layout_alignParentStart="true"/>
 
-    <!-- EditText for Notes -->
-    <EditText
-        android:id="@+id/notesEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Start typing"
-        android:textColorHint="#808080"
-        android:textColor="#ffffff"
-        android:background="@null"
-        android:layout_below="@id/timestampTextView"
-        android:layout_marginTop="10dp"
-        android:inputType="textMultiLine"
-        android:minLines="3"/>
+        <ImageView
+            android:id="@+id/notes_backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/flati_arrow_left_24"
+            android:contentDescription="Back"
+            android:padding="5dp"
+            android:background="@drawable/ripple_back"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="16dp"
+            app:tint="#ffffff" />
+
+
+        <ImageView
+            android:id="@+id/doneButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/check"
+            android:padding="5dp"
+            android:background="@drawable/ripple_back"
+            android:contentDescription="Back"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="16dp"
+            app:tint="#ffffff" />
+
+        <!-- Title EditText -->
+        <EditText
+            android:id="@+id/titleEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Title"
+            android:textSize="24sp"
+            android:textColor="#ffffff"
+            android:textColorHint="#808080"
+            android:background="@null"
+            android:layout_below="@id/notes_backButton"
+            android:layout_marginTop="8dp"
+            android:inputType="textCapWords|text" />
+
+
+        <!-- Timestamp TextView -->
+        <TextView
+            android:id="@+id/timestampTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="27 October 8:16 AM | 0 characters"
+            android:textSize="14sp"
+            android:textColor="#808080"
+            android:layout_below="@id/titleEditText"
+            android:layout_marginTop="4dp"
+            android:layout_alignParentStart="true"/>
+
+        <!-- EditText for Notes -->
+        <EditText
+            android:id="@+id/notesEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Start typing"
+            android:textColorHint="#808080"
+            android:textColor="#ffffff"
+            android:background="@null"
+            android:layout_below="@id/timestampTextView"
+            android:layout_marginTop="10dp"
+            android:inputType="textMultiLine"
+            android:minLines="3"/>
+
+
+
+    </RelativeLayout>
 
 
 </RelativeLayout>

@@ -3,6 +3,7 @@ package com.demo.finalcalcihide.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -31,6 +32,8 @@ public class SecutityQues extends AppCompatActivity {
         setContentView(R.layout.activity_secutity_ques);
 
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.FinalPrimaryColor));
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.FinalPrimaryColor));
+
 
 
         // Initialize views
@@ -81,7 +84,7 @@ public class SecutityQues extends AppCompatActivity {
                     editor.apply(); // or editor.commit(); if you need synchronous saving
 
                     // Show a confirmation message
-                    Toast.makeText(SecutityQues.this, "Security question and answer saved!", Toast.LENGTH_SHORT).show();
+                    Log.d("Security Question" , "Security question and answer saved!");
 
                     startActivity(new Intent(SecutityQues.this, MainActivity.class));
                     finish();

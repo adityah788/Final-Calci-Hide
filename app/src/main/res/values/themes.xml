@@ -16,6 +16,7 @@
 
         <!--        <item name="android:windowTranslucentStatus">true</item>-->
         <item name="android:windowFullscreen">false</item>
+        <item name = "android:navigationBarColor">@color/navigation_bar_color</item>
 
         <item name="android:fitsSystemWindows">false</item>
         <item name="android:windowBackground">@color/status_bar</item>
@@ -29,8 +30,26 @@
 
     </style>
 
-    <style name="Theme.FullScreen" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.FullScreen" parent="Base.Theme.FinalCalciHide">
 
+
+    </style>
+
+
+    <style name="Theme.UI_for_all_activity" parent="Base.Theme.FinalCalciHide">
+
+        <!--        <item name="android:windowTranslucentStatus">true</item>-->
+        <item name="android:windowFullscreen">true</item>
+        <item name = "android:navigationBarColor">@color/navigation_bar_color</item>
+
+        <item name="android:fitsSystemWindows">true</item>
+        <item name="android:windowBackground">@color/status_bar</item>
+        <item name="android:statusBarColor">@color/status_bar</item>
+        <item name="android:windowLightStatusBar">false</item> <!-- For light icons -->
+
+
+        <!--        <item name="android:colorPrimary">@color/status_bar</item>-->
+        <item name="colorPrimaryDark">@color/status_bar</item>
 
     </style>
 

@@ -40,7 +40,6 @@ public class Calculator extends AppCompatActivity {
     private static boolean isInstanceActive = false;
 
     private int wrongPasswordCount = 0; // Counter for wrong password attempts
-    private static final int CAMERA_PERMISSION_REQUEST_CODE = 100;
 
     private SharedPreferences sharedPreferences, sharedPreferencesintru;
     private boolean isPasswordSet;
@@ -57,6 +56,8 @@ public class Calculator extends AppCompatActivity {
     boolean resetPassword;
     Intent intent;
 
+    private String Tag = "Calculator Activity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +67,9 @@ public class Calculator extends AppCompatActivity {
 
 
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.calculator_nav_bar_color));
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.calculator_common_btn));
+
+
 
         passtxt1 = findViewById(R.id.pass_1);
         passtxt2 = findViewById(R.id.Pass_2);
@@ -100,7 +104,6 @@ public class Calculator extends AppCompatActivity {
 
             Log.d("Reset Password", "!isPasswordSet || resetPassword clicked");
 
-            Toast.makeText(this, "!isPasswordSet || resetPassword clicked", Toast.LENGTH_SHORT).show();
 
             binding.calcuLinearNewPass.setVisibility(View.VISIBLE);
             binding.calculatorRelativeCalculationTxt.setVisibility(View.GONE);
@@ -154,7 +157,6 @@ public class Calculator extends AppCompatActivity {
             // Update the password fields to reflect the cleared password
             updatePasswordFields(inputPassword.toString());
 
-            Toast.makeText(this, "All password inputs cleared. Set a password to use the calculator.", Toast.LENGTH_SHORT).show();
         } else {
             // Clear calculator inputs
             binding.dataDisplay.setText("");
@@ -288,7 +290,9 @@ public class Calculator extends AppCompatActivity {
 
             // If password is correct, proceed with normal logic
             if (enteredPassword.equals(savedPassword)) {
-                Toast.makeText(this, "Password is correct", Toast.LENGTH_SHORT).show();
+
+                // Password is correct
+
                 wrongPasswordCount = 0; // Reset counter
 
                 // Proceed with correct password logic
@@ -300,7 +304,7 @@ public class Calculator extends AppCompatActivity {
                 }
             } else if (enteredPassword.length() == 4 && !enteredPassword.equals(savedPassword) && isTakeSelfieEnabled) {
                 // Handle incorrect password
-                Toast.makeText(this, "You MF Fraudster", Toast.LENGTH_SHORT).show();
+
                 wrongPasswordCount++;
 
 
@@ -313,7 +317,9 @@ public class Calculator extends AppCompatActivity {
                 if (wrongPasswordCount >= selectedNumber) {
                     // Trigger selfie capture after the specified number of failed attempts
                     IntruderUtils.setupAndCaptureSelfie(this);
-                    Toast.makeText(this, "Selfie capture triggered due to multiple failed attempts", Toast.LENGTH_SHORT).show();
+
+                    Log.d(Tag,"Selfie capture triggered due to multiple failed attempts");
+
                 }
 
             } else if (binding.resultdisplay.getText().length() > 1) {
@@ -357,7 +363,6 @@ public class Calculator extends AppCompatActivity {
             // Update the password fields to reflect the cleared password
             updatePasswordFields(inputPassword.toString());
 
-            Toast.makeText(this, "All password inputs cleared. Set a password to use the calculator.", Toast.LENGTH_SHORT).show();
         } else {
 
             binding.dataDisplay.setText("");
@@ -376,7 +381,6 @@ public class Calculator extends AppCompatActivity {
                 inputPassword.deleteCharAt(inputPassword.length() - 1);
                 updatePasswordFields(inputPassword.toString()); // Update the password fields
             }
-            Toast.makeText(this, "Backspace is working... if passwrd is not set", Toast.LENGTH_SHORT).show();
         } else {
             if (binding.dataDisplay.getText().length() > 0) {
                 binding.dataDisplay.setText(binding.dataDisplay.getText().toString().substring(0, binding.dataDisplay.getText().toString().length() - 1));
@@ -412,8 +416,8 @@ public class Calculator extends AppCompatActivity {
                 binding.resultdisplay.setText("=" + result);
             } catch (ArithmeticException ex) {
                 Log.e("Evaluate Error", ex.toString());
-                binding.resultdisplay.setText("Errorrrr");
-                stateError = true;
+                binding.resultdisplay.setText("Error");
+//                stateError = true;
                 lastNumeric = false;
             }
         }

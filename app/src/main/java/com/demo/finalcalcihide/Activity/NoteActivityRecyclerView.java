@@ -43,6 +43,8 @@ public class NoteActivityRecyclerView extends AppCompatActivity {
 
 
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.FinalPrimaryColor));
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.FinalPrimaryColor));
+
 
 
         noteRecyclerView = findViewById(R.id.note_selfie_gallery_recycler);

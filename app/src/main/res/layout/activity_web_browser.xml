@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/primary_background"
-    tools:context=".Activity.Web_Browser">
+    tools:context=".Activity.Web_Browser"
+    android:theme="@style/Theme.UI_for_all_activity">
 
     <RelativeLayout
         android:id="@+id/input_Fields"

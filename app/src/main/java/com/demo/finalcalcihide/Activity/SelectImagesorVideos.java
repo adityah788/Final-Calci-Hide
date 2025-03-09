@@ -56,6 +56,8 @@ public class SelectImagesorVideos extends AppCompatActivity {
 
         // Set navigation bar color to black
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.FinalPrimaryColor));
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.FinalPrimaryColor));
+
 
 
         // Inflate the custom layout containing the Lottie animations

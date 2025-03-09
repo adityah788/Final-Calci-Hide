@@ -3,6 +3,7 @@ package com.demo.finalcalcihide.Activity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -38,6 +39,8 @@ public class NotesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notes);
 
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.FinalPrimaryColor));
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, R.color.FinalPrimaryColor));
+
 
 
         titleEditText = findViewById(R.id.titleEditText);
@@ -92,7 +95,7 @@ public class NotesActivity extends AppCompatActivity {
                 // If title or content is not empty, save the note before going back
 //                if (!title.isEmpty() || !content.isEmpty()) {
                 saveAndReturn();  // Save the note before finishing the activity
-                Toast.makeText(NotesActivity.this, "Notes save kr diya", Toast.LENGTH_SHORT).show();
+                Log.d("Notes Activity" ,"Notes save kr diya" );
 //                } else {
 //                    // Otherwise, go back as usual
                 finish();
