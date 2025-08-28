@@ -167,12 +167,9 @@ public class SelectVideosfromGallery extends AppCompatActivity {
     }
 
 
+    // Update the getSelectedImagePaths method to use the adapter's optimized method
     private List<String> getSelectedImagePaths() {
-        List<String> selectedPaths = new ArrayList<>();
-        for (int position : selectImagesorVideosAdapter.getSelectedItems()) {
-            selectedPaths.add(mediaList.get(position));
-        }
-        return selectedPaths;
+        return selectImagesorVideosAdapter.getSelectedImagePaths();
     }
 
     private void setupRecyclerView() {
@@ -255,6 +252,12 @@ public class SelectVideosfromGallery extends AppCompatActivity {
 
     private void toggleSelectDeselectAll() {
         boolean selectAll = selectImagesorVideosAdapter.getSelectedItemCount() < selectImagesorVideosAdapter.getItemCount();
+
+        // If selecting all and there are more videos to load, load them first
+        if (selectAll && !selectImagesorVideosAdapter.hasMoreData) {
+            selectImagesorVideosAdapter.loadAllVideos();
+        }
+
         selectImagesorVideosAdapter.selectAll(selectAll);
         updateSelectDeselectAllIcon(selectAll);
         updateItemCountText();
@@ -353,6 +356,15 @@ public class SelectVideosfromGallery extends AppCompatActivity {
         }
 
         return videoList;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Clean up adapter resources
+        if (selectImagesorVideosAdapter != null) {
+            selectImagesorVideosAdapter.cleanup();
+        }
     }
 
 
