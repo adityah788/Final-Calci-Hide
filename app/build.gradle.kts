@@ -59,6 +59,9 @@ dependencies {
     implementation ("androidx.camera:camera-lifecycle:1.3.4")
     implementation ("androidx.camera:camera-view:1.3.4")
 
+    implementation ("androidx.paging:paging-runtime:3.3.2")
+
+
 
     implementation("io.github.ShawnLin013:number-picker:2.4.13")
 

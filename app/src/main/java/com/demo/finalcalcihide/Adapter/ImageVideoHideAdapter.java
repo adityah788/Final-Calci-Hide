@@ -3,6 +3,7 @@ package com.demo.finalcalcihide.Adapter;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +58,7 @@ public class ImageVideoHideAdapter extends RecyclerView.Adapter<ImageVideoHideAd
 
         Glide.with(context)
                 .load(file)
+                .placeholder(new ColorDrawable(ContextCompat.getColor(context, R.color.status_bar)))
                 .into(holder.imageView);
 
         if (isVideoFile(file)) {

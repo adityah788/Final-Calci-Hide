@@ -167,21 +167,30 @@ public class DirectoryAdapter extends RecyclerView.Adapter<DirectoryAdapter.View
     }
 
     private void changeFileIcon(ViewHolder holder, String fileName) {
-       try{
-           String extension = fileName.substring(fileName.lastIndexOf("."));
-           if(extension.toLowerCase().contains("pdf")){
-               holder.item_icon.setImageResource(R.drawable.unicorn_ic_pdf);
-           }else if(
-                   extension.toLowerCase().contains("png") ||
-                           extension.toLowerCase().contains("jpg") ||
-                           extension.toLowerCase().contains("jpeg")){
-               holder.item_icon.setImageResource(R.drawable.unicorn_ic_images);
-           }
-       }catch (Exception e){
-           holder.item_icon.setImageResource(R.drawable.unicorn_ic_file);
-//           e.printStackTrace();
-       }
+        try {
+            String name = fileName.toLowerCase();
+
+            if (name.endsWith(".pdf")) {
+                holder.item_icon.setImageResource(R.drawable.pdffile);
+
+            } else if (name.endsWith(".png") || name.endsWith(".jpg") || name.endsWith(".jpeg")) {
+                holder.item_icon.setImageResource(R.drawable.folderimage); // use image icon, not folder
+
+            } else if (name.endsWith(".mp4") || name.endsWith(".mkv") ||
+                    name.endsWith(".avi") || name.endsWith(".mov") ||
+                    name.endsWith(".flv") || name.endsWith(".wmv")) {
+                holder.item_icon.setImageResource(R.drawable.videofile);
+
+            }
+
+        } catch (Exception e) {
+            holder.item_icon.setImageResource(R.drawable.folderexpectionn);
+        }
     }
+
+
+
+
 
     /**
      * resets the value of selected so that UI gets updated

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +33,7 @@ public class NotesActivity extends AppCompatActivity {
     private Note note;
     private int noteId = -1;
     private ImageView backbtn;
+    private ScrollView scrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,9 @@ public class NotesActivity extends AppCompatActivity {
         timestampTextView = findViewById(R.id.timestampTextView);
         ImageView doneButton = findViewById(R.id.doneButton);
         ImageView backButton = findViewById(R.id.notes_backButton);
+        scrollView  = findViewById(R.id.notesScrollView);
+
+        scrollView.setVerticalScrollBarEnabled(false);
 
         noteDao = NotesDatabase.getInstance(this).noteDao();
 

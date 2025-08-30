@@ -143,6 +143,14 @@ public class Intruder extends AppCompatActivity {
         switchCompattoggle.setChecked(isTakeSelfieEnabled);
 
 
+
+        // For thumb (the circle)
+        switchCompattoggle.getThumbDrawable().setTint(ContextCompat.getColor(this, abhishekti7.unicorn.filepicker.R.color.unicorn_white));
+
+        // For track (the line behind the thumb)
+        switchCompattoggle.getTrackDrawable().setTint(ContextCompat.getColor(this, R.color.dark_grey));
+
+
         containerCustomBottomAppBar.setOnClickListener(v -> {
 
             List<String> selectedPaths = intruderAdap.getSelectedImagePaths();
@@ -205,7 +213,8 @@ public class Intruder extends AppCompatActivity {
         if (requestCode == CAMERA_PERMISSION_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission granted
-                Toast.makeText(this, "Camera permission granted", Toast.LENGTH_SHORT).show();
+                Log.d("Intruder" , "Camera permission granted");
+//                Toast.makeText(this, "Camera permission granted", Toast.LENGTH_SHORT).show();
             } else {
                 // Permission denied
                 boolean hasDeniedPermission = sharedPreferences.getBoolean("hasDeniedPermissionn", false);
@@ -291,9 +300,9 @@ public class Intruder extends AppCompatActivity {
             intruderAdap.notifyDataSetChanged();
             intruderAdap.clearSelection();
 
-            Toast.makeText(Intruder.this, "Images moved back to original locations and deleted from app", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(Intruder.this, "Images moved back to original locations and deleted from app", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(Intruder.this, "Error moving images back", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(Intruder.this, "Error moving images back", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -389,7 +398,7 @@ public class Intruder extends AppCompatActivity {
                         public void onProcessComplete(boolean success, List<String> selectedPaths) {
                             if (success) {
                                 intruderAdap.notifyDataSetChanged();
-                                Toast.makeText(Intruder.this, "All items deleted successfully.", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(Intruder.this, "All items deleted successfully.", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(Intruder.this, "Failed to delete items.", Toast.LENGTH_SHORT).show();
                             }

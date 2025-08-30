@@ -181,6 +181,8 @@ public class SelectVideosfromGallery extends AppCompatActivity {
         recyclerView.setAdapter(selectImagesorVideosAdapter);
     }
 
+
+
     private void handleItemClick(int position) {
 //        if (selectImagesorVideosAdapter.isSelectedAny()) {
         selectImagesorVideosAdapter.toggleSelection(position);
@@ -192,7 +194,7 @@ public class SelectVideosfromGallery extends AppCompatActivity {
 //        }
     }
 
-    private void onSelectandDeselect_All(boolean isAnySelected) {
+    private void onSelectandDeselect_All(boolean isAnySelected)  {
         setToolbarMenu(isAnySelected);
     }
 
@@ -290,9 +292,9 @@ public class SelectVideosfromGallery extends AppCompatActivity {
 
         // Handle success or failure of the process
         if (result) {
-            Toast.makeText(SelectVideosfromGallery.this,
-                    parent.equals("Images") ? "Images hidden successfully!" : "Videos hidden successfully!",
-                    Toast.LENGTH_SHORT).show();
+//            Toast.makeText(SelectVideosfromGallery.this,
+//                    parent.equals("Images") ? "Images hidden successfully!" : "Videos hidden successfully!",
+//                    Toast.LENGTH_SHORT).show();
 
             // Redirect based on whether it's Images or Videos
             Intent intent;

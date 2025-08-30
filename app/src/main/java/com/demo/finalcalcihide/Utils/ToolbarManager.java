@@ -16,6 +16,7 @@ import com.demo.finalcalcihide.Adapter.FinalFileAdap;
 import com.demo.finalcalcihide.Adapter.ImageVideoHideAdapter;
 import com.demo.finalcalcihide.Adapter.IntruderAdap;
 import com.demo.finalcalcihide.Adapter.RecyclebinAdapter;
+import com.demo.finalcalcihide.Adapter.VideoHiddenAdapter;
 import com.demo.finalcalcihide.R;
 
 import java.io.File;
@@ -29,6 +30,7 @@ public class ToolbarManager {
     private IntruderAdap intruderAdapter;
     private FinalFileAdap finalFileAdap;
     private RecyclebinAdapter recyclebinAdapter;
+    private VideoHiddenAdapter videoHiddenAdapter;
     Context context;
     private ArrayList<String> imagePaths;
     Activity activity;
@@ -53,6 +55,8 @@ public class ToolbarManager {
             this.finalFileAdap = (FinalFileAdap) adapter;
         } else if (adapter instanceof RecyclebinAdapter) {
             this.recyclebinAdapter = (RecyclebinAdapter) adapter;
+        } else if (adapter instanceof VideoHiddenAdapter) {
+            this.videoHiddenAdapter = (VideoHiddenAdapter) adapter;
         }
     }
 
@@ -201,7 +205,10 @@ public class ToolbarManager {
             finalFileAdap.clearSelection();
         } else if (recyclebinAdapter != null) {
             recyclebinAdapter.clearSelection();
+        }else if (videoHiddenAdapter != null) {
+            videoHiddenAdapter.clearSelection();
         }
+
 
     }
 
@@ -215,6 +222,8 @@ public class ToolbarManager {
             return finalFileAdap.getSelectedItemCount();
         } else if (recyclebinAdapter != null) {
             return recyclebinAdapter.getSelectedItemCount();
+        }else if (videoHiddenAdapter != null) {
+            return videoHiddenAdapter.getSelectedItemCount();
         }
         return 0;
     }
@@ -229,6 +238,8 @@ public class ToolbarManager {
             return finalFileAdap.getItemCount();
         } else if (recyclebinAdapter != null) {
             return recyclebinAdapter.getItemCount();
+        }else if (videoHiddenAdapter != null) {
+            return videoHiddenAdapter.getItemCount();
         }
         return 0;
     }
@@ -243,6 +254,8 @@ public class ToolbarManager {
             finalFileAdap.selectAll(selectAll);
         } else if (recyclebinAdapter != null) {
             recyclebinAdapter.selectAll(selectAll);
+        }else if (videoHiddenAdapter != null) {
+            videoHiddenAdapter.selectAll(selectAll);
         }
     }
 
@@ -256,6 +269,8 @@ public class ToolbarManager {
             finalFileAdap.notifyDataSetChanged();
         } else if (recyclebinAdapter != null) {
             recyclebinAdapter.notifyDataSetChanged();
+        }else if (videoHiddenAdapter != null) {
+            videoHiddenAdapter.notifyDataSetChanged();
         }
     }
 }

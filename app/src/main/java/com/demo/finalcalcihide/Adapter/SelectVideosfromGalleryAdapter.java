@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Handler;
@@ -41,7 +42,7 @@ public class SelectVideosfromGalleryAdapter extends RecyclerView.Adapter<SelectV
     private List<VideoModel> videos;
 
     // For pagination
-    private static final int PAGE_SIZE = 20;
+    private static final int PAGE_SIZE = 35;
     private List<VideoModel> allVideos = new ArrayList<>();
     private List<VideoModel> displayedVideos = new ArrayList<>();
     private boolean isLoading = false;
@@ -95,7 +96,7 @@ public class SelectVideosfromGalleryAdapter extends RecyclerView.Adapter<SelectV
                 .load(video.getUri())
                 .resize(300, 300)
                 .centerCrop()
-                .placeholder(R.drawable.reel)
+                .placeholder(new ColorDrawable(ContextCompat.getColor(context, R.color.status_bar)))
                 .error(R.drawable.baseline_cancel_24)
                 .into(holder.imageView, new Callback() {
                     @Override
@@ -229,6 +230,9 @@ public class SelectVideosfromGalleryAdapter extends RecyclerView.Adapter<SelectV
         pathCache.put(uri, resultPath);
         return resultPath;
     }
+
+
+
 
     public void toggleSelection(int position) {
         if (hashSetselectedItems.contains(position)) {

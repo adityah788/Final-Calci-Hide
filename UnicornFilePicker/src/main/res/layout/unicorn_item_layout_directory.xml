@@ -8,14 +8,15 @@
 
     <ImageView
         android:id="@+id/item_icon"
-        app:tint="?attr/unicorn.file.iconTint"
         android:layout_width="50dp"
         android:layout_height="30dp"
         android:layout_marginHorizontal="10dp"
         android:layout_marginVertical="10dp"
         android:layout_centerVertical="true"
         android:layout_alignParentStart="true"
-        android:src="@drawable/unicorn_ic_folder"/>
+        android:src="@drawable/folderfile"
+        app:tint="@null" />
+
 
     <RelativeLayout
         android:id="@+id/rl_folder_details"

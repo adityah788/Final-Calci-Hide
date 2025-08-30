@@ -208,7 +208,10 @@ public class FinalFileActivity extends AppCompatActivity {
                                     });
                                 } else {
                                     runOnUiThread(() -> {
-                                        Toast.makeText(getApplicationContext(), "Error copying files", Toast.LENGTH_SHORT).show();
+
+                                        Log.e("FinalFileActivity" ,"Error copying files" );
+
+//                                        Toast.makeText(getApplicationContext(), "Error copying files", Toast.LENGTH_SHORT).show();
                                     });
                                 }
 
@@ -286,6 +289,7 @@ public class FinalFileActivity extends AppCompatActivity {
         getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
+    @OptIn(markerClass = UnstableApi.class)
     private void stopAnimationAndUpdateUI(boolean processSuccess, List<String> selectedPaths) {
         if (processSuccess) {
             filePaths.removeAll(selectedPaths);
@@ -294,7 +298,8 @@ public class FinalFileActivity extends AppCompatActivity {
 //            finalFileAdapter.clearSelection();
 //            Toast.makeText(FinalFileActivity.this, "Images moved back to original locations and deleted from app", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(FinalFileActivity.this, "Error moving images back", Toast.LENGTH_SHORT).show();
+            Log.e("FinalFileActivity" ,"Error moving images back" );
+//            Toast.makeText(FinalFileActivity.this, "Error moving images back", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/unicorn.background"
+    android:fitsSystemWindows="true"
     tools:context=".ui.FilePickerActivity">
 
     <com.google.android.material.appbar.AppBarLayout

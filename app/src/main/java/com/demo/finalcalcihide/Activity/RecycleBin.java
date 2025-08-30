@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +37,8 @@ public class RecycleBin extends AppCompatActivity {
     private LinearLayout customBottomAppBarVisible;
     TextView restoretxt;
     private ToolbarManager toolbarManager;
+    private RelativeLayout noFileIconLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,8 @@ public class RecycleBin extends AppCompatActivity {
         customBottomAppBarVisible = findViewById(R.id.custom_btm_appbar_Visible);
         customBottomAppBarDelete = findViewById(R.id.custom_btm_appbar_delete);
         restoretxt = findViewById(R.id.custom_btm_appbar_ori_txtV); // Ensure this ID is correct
+        noFileIconLayout = findViewById(R.id.recycle_no_file_icon);
+
 
         // Check if restoretxt is not null
         if (restoretxt != null) {
@@ -104,6 +109,8 @@ public class RecycleBin extends AppCompatActivity {
             recyclePaths.removeAll(selectedPaths);
             recyclebinAdapter.notifyDataSetChanged();
             recyclebinAdapter.clearSelection();
+            refreshImageList();
+
         });
 
         // Handle Delete Button Click
@@ -113,6 +120,8 @@ public class RecycleBin extends AppCompatActivity {
             recyclePaths.removeAll(selectedPaths);
             recyclebinAdapter.notifyDataSetChanged();
             recyclebinAdapter.clearSelection();
+            refreshImageList();
+
         });
 
     }
@@ -188,5 +197,12 @@ public class RecycleBin extends AppCompatActivity {
     private void refreshImageList() {
         ArrayList<String> updatedVideoPaths = FileUtils.getRecyclePaths(this);
         recyclebinAdapter.updateImagePaths(updatedVideoPaths);
+
+        if (updatedVideoPaths.isEmpty()) {
+            noFileIconLayout.setVisibility(View.VISIBLE);
+        } else {
+            noFileIconLayout.setVisibility(View.GONE);
+        }
+
     }
 }

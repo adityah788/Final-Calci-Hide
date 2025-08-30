@@ -39,6 +39,7 @@
             android:layout_toStartOf="@+id/file_tickMarkImageView"
             android:fontFamily="sans-serif"
             android:text="4893755874595.jpg"
+            android:singleLine="true"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
